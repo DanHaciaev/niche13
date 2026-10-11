@@ -1,0 +1,233 @@
+{
+  "meta": {
+    "siteName": "Niche",
+    "defaultTitle": "Niche — niche apparel in small runs",
+    "defaultDescription": "Niche is an independent clothing label. Limited collections, one-of-one pieces, and custom orders: your own print or embroidery."
+  },
+  "nav": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "limited": "Limited",
+    "custom": "Custom",
+    "about": "About",
+    "contacts": "Contact",
+    "cart": "Cart",
+    "menu": "Menu",
+    "close": "Close",
+    "menuLinks": {
+      "brand": "Brand",
+      "collections": "Collections",
+      "customize": "Customize your Niche",
+      "orderRequest": "Order request form",
+      "contacts": "Contacts"
+    }
+  },
+  "footer": {
+    "description": "An independent clothing label. Small runs, one-of-one pieces, custom orders.",
+    "heading": "Find your piece. Make it yours.",
+    "paragraph1": "Explore our designs or bring your own idea to life.",
+    "paragraph2": "Make it personal, make it yours.",
+    "shop": "Shop",
+    "information": "Information",
+    "contacts": "Contact",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "delivery": "Payment & Delivery",
+    "about": "Brand",
+    "rights": "All rights reserved.",
+    "language": "Language",
+    "links": {
+      "customize": "Customize your Niche",
+      "collections": "Explore our collections",
+      "orderRequest": "Submit an order request",
+      "brand": "Brand",
+      "email": "Email",
+      "instagram": "Instagram",
+      "contactUs": "Contact us"
+    }
+  },
+  "common": {
+    "addToCart": "Add to cart",
+    "requestCustom": "Start a custom order",
+    "viewProduct": "View",
+    "viewAll": "View all",
+    "readMore": "Read more",
+    "price": "Price",
+    "priceOnRequest": "Price on request",
+    "continue": "Continue",
+    "back": "Back",
+    "loading": "Loading…",
+    "comingSoon": "Coming soon"
+  },
+  "badges": {
+    "sale": "Sale",
+    "limited": "Limited run",
+    "limitedCount": "{count} of {total} left",
+    "oneOfOne": "One of one",
+    "new": "New",
+    "soldOut": "Sold out"
+  },
+  "home": {
+    "intro": "is a clothing brand focused on unique embroidered pieces that combine contemporary style with craftsmanship and individuality.",
+    "news": "News",
+    "hero": {
+      "eyebrow": "Niche",
+      "title": "Clothing no one else will have",
+      "subtitle": "Small runs, custom prints, and one-of-one pieces.",
+      "cta": "View catalog"
+    },
+    "marquee": [
+      "Small runs",
+      "One of one",
+      "Your own design",
+      "Handmade"
+    ],
+    "oneOfOne": {
+      "eyebrow": "One of one",
+      "title": "A piece that won't come again",
+      "cta": "View piece"
+    },
+    "limited": {
+      "eyebrow": "Limited collection",
+      "title": "Limited run",
+      "cta": "View collection"
+    },
+    "featured": {
+      "title": "Featured",
+      "cta": "Full catalog"
+    },
+    "custom": {
+      "eyebrow": "Custom",
+      "title": "Your own print or embroidery",
+      "subtitle": "Send an image or describe your idea — we'll bring it to life on the piece.",
+      "cta": "Start a custom order"
+    },
+    "story": {
+      "eyebrow": "About",
+      "title": "The Niche story",
+      "cta": "Learn more"
+    }
+  },
+  "pages": {
+    "about": {
+      "title": "About",
+      "intro": "[TO FILL IN: company story]"
+    },
+    "contacts": {
+      "title": "Contact",
+      "intro": "[TO FILL IN: contact details]"
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy",
+      "intro": "[TO FILL IN: privacy policy]"
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "intro": "[TO FILL IN: terms of service]"
+    },
+    "delivery": {
+      "title": "Payment & Delivery",
+      "intro": "[TO FILL IN: payment and delivery terms]"
+    }
+  },
+  "collections": {
+    "title": "Collections",
+    "eyebrow": "Collection",
+    "feelings": "Niche Feelings",
+    "designer": "Designer",
+    "sanderSeason": "2021 Autumn/Fall",
+    "illustrations": "Illustrations",
+    "customize": "Customize your Niche",
+    "detail": {
+      "titlePrefix": "Collection",
+      "description": "Discover our collection of embroidered pieces, where timeless essentials meet thoughtful craftsmanship. Each piece brings together simplicity, individuality, and attention to detail. Find the piece that speaks to you.",
+      "filters": "Filters",
+      "price": "400 MDL",
+      "discountPrice": "200 MDL",
+      "orderRequest": "Order request",
+      "exploreLine1": "Explore the collection,",
+      "exploreLine2": "choose your favourites, and make them yours.",
+      "findPiece": "Find your piece",
+      "form": {
+        "fullName": "Full name",
+        "fullNamePlaceholder": "Enter your name",
+        "email": "Email address",
+        "emailPlaceholder": "Enter your email",
+        "phone": "Phone number",
+        "phonePlaceholder": "Enter your phone number",
+        "country": "Country",
+        "countryPlaceholder": "Enter your country",
+        "codes": "Product codes",
+        "codesPlaceholder": "Enter the product numbers of the pieces you'd like to order.\nExample: 001, 004, 012",
+        "sizeQty": "Size & quantity",
+        "sizeQtyPlaceholder": "Please specify the size and quantity for each selected piece.\nExample: 001 – Size M, Quantity 1.  004 – Size L, Quantity 2.",
+        "colour": "Colour preferences",
+        "colourPlaceholder": "Specify your preferred colour for each piece, if applicable.",
+        "additional": "Additional requests (optional)",
+        "additionalPlaceholder": "Is there anything else you'd like us to know?",
+        "submit": "Submit your request",
+        "submitHelper": "We'll get in touch to confirm availability, pricing, and delivery details."
+      }
+    }
+  },
+  "catalog": {
+    "title": "Catalog",
+    "empty": "Products are coming soon.",
+    "filters": {
+      "all": "All",
+      "sale": "On sale",
+      "limited": "Limited",
+      "sort": "Sort"
+    }
+  },
+  "product": {
+    "size": "Size",
+    "quantity": "Quantity",
+    "description": "Description",
+    "notFound": "Product not found"
+  },
+  "custom": {
+    "title": "Custom order",
+    "intro": "Tell us what you want — a print, embroidery, or just an idea. We'll sort out the rest together.",
+    "types": {
+      "print": "Custom print",
+      "embroidery": "Embroidery",
+      "consultation": "Not sure yet, need advice"
+    },
+    "uploadLabel": "Upload an image",
+    "descriptionLabel": "Describe your idea",
+    "addToCart": "Add to cart",
+    "fileTypeError": "Please choose an image file.",
+    "fileSizeError": "File is too large (max 8 MB)."
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "emptyCta": "Go to catalog",
+    "item": "Item",
+    "remove": "Remove",
+    "checkout": "Checkout",
+    "continueShopping": "Continue shopping"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "No online payment — we'll contact you to confirm the order and arrange payment and delivery.",
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "contactMethod": "Preferred contact method",
+    "contactMethods": {
+      "phone": "Phone call",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram",
+      "email": "Email"
+    },
+    "comment": "Order comment",
+    "submit": "Submit order",
+    "error": "Something went wrong. Please try again or reach out to us directly.",
+    "success": {
+      "title": "Order sent",
+      "subtitle": "We'll be in touch shortly to confirm."
+    }
+  }
+}
