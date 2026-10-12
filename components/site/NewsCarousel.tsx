@@ -45,7 +45,7 @@ export function NewsCarousel({ images, label }: { images: string[]; label: strin
   }, [visible]);
 
   return (
-    <div ref={containerRef} role="region" aria-label={label} className="overflow-hidden">
+    <div ref={containerRef} role="region" aria-label={label} className="overflow-hidden mb-15">
       <div style={{ paddingBlock: PAD, height: `calc(${ACTIVE_W_CSS} / ${RATIO} + ${PAD * 2}px)` }}>
         <Swiper
           onSwiper={(s) => {

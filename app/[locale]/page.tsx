@@ -46,18 +46,20 @@ export default async function HomePage({
       />
 
       {/* Hero */}
-      <section className="grid gap-12 px-5 pb-24 pt-10 sm:px-8 sm:pb-32 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-12 lg:pt-16">
-        <p className="mx-auto max-w-md text-center text-base leading-relaxed text-ink-soft lg:mx-0 lg:max-w-sm lg:text-right lg:text-[18px]">
+      <section className="grid gap-12 px-5 pb-24 pt-10 sm:px-8 sm:pb-32 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-10 lg:px-12 lg:pt-16">
+        <div className="mx-auto flex max-w-md min-w-0 items-center text-right justify-center lg:mx-0 lg:ml-auto lg:max-w-3xl lg:justify-end">
           <Image
             src="/logo.png"
             alt="Niche"
-            width={148}
+            width={193}
             height={84}
             priority
-            className="mr-2 inline-block h-8 w-auto -translate-y-0.5 align-middle sm:h-9"
+            className="h-21 w-auto shrink-0 -translate-y-12"
           />
-          {t("intro")}
-        </p>
+          <p className="text-right text-base leading-relaxed text-ink-soft lg:text-[21px]">
+            {t("intro")}
+          </p>
+        </div>
 
         <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-5">
           <div className="relative aspect-265/355 overflow-hidden">
@@ -87,7 +89,7 @@ export default async function HomePage({
       <div className="px-5 py-10 sm:px-8 lg:px-12">
         <div className="flex items-center gap-6">
           <span className="label-tag shrink-0 text-ink">{t("news")}</span>
-          <span className="h-px flex-1 bg-line" />
+          <span className="h-px flex-1 bg-black/40" />
         </div>
       </div>
 

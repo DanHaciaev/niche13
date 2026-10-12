@@ -96,7 +96,7 @@ export default function NavDrawer({
                     <Link
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      className="text-xl font-semibold uppercase tracking-widest text-ink transition-colors hover:text-ink-soft sm:text-2xl"
+                      className="text-[22px]  uppercase tracking-widest text-ink transition-colors hover:text-ink-soft"
                     >
                       {link.label}
                     </Link>
