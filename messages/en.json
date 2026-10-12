@@ -65,7 +65,8 @@
     "limitedCount": "{count} of {total} left",
     "oneOfOne": "One of one",
     "new": "New",
-    "soldOut": "Sold out"
+    "soldOut": "Sold out",
+    "outOfStock": "Out of stock"
   },
   "home": {
     "intro": "is a clothing brand focused on unique embroidered pieces that combine contemporary style with craftsmanship and individuality.",
@@ -137,6 +138,9 @@
     "designer": "Designer",
     "sanderSeason": "2021 Autumn/Fall",
     "illustrations": "Illustrations",
+    "oneOfOne": "One-of-one collection",
+    "customizeLine1": "Customize",
+    "customizeLine2": "your Niche",
     "customize": "Customize your Niche",
     "detail": {
       "titlePrefix": "Collection",

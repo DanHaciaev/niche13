@@ -1,10 +1,12 @@
-import { Placeholder } from "./Placeholder";
+import Image from "next/image";
 
 export interface Product {
   code: string;
   price: string;
   discountPrice?: string;
   saleLabel?: string;
+  outOfStock?: boolean;
+  outOfStockLabel?: string;
 }
 
 export function ProductGrid({ products }: { products: Product[] }) {
@@ -13,10 +15,23 @@ export function ProductGrid({ products }: { products: Product[] }) {
       {products.map((product) => (
         <div key={product.code} className="flex flex-col">
           <div className="relative">
-            <Placeholder label="product.jpg" className="aspect-3/4 w-full" />
+            <div className="relative aspect-3/4 w-full overflow-hidden">
+              <Image
+                src="/clothes.jpg"
+                alt={`NICHE / ${product.code}`}
+                fill
+                sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
+                className="object-cover"
+              />
+            </div>
             {product.discountPrice && (
               <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center bg-[#981C1C] text-center text-[22px]! text-white">
                 {product.saleLabel}
+              </span>
+            )}
+            {product.outOfStock && (
+              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center bg-ink-soft text-center text-[11px]! text-white">
+                {product.outOfStockLabel}
               </span>
             )}
           </div>

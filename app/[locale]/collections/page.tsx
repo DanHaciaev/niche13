@@ -32,12 +32,15 @@ export default async function CollectionsPage({
       reverse: c.reverse,
       feature: c.feature,
       placeholderLabel: c.placeholderLabel,
+      image: c.image,
     })),
     {
       href: "/custom",
-      title: t("customize"),
+      eyebrow: t("customizeLine1"),
+      title: t("customizeLine2"),
       reverse: true,
       placeholderLabel: "custom.jpg",
+      image: "/collection9.jpg",
     },
   ];
 

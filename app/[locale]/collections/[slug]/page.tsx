@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Placeholder } from "@/components/site/Placeholder";
 import { ProductGrid, type Product } from "@/components/site/ProductGrid";
 import { OrderRequestForm } from "@/components/site/OrderRequestForm";
 import { getCollections } from "@/lib/collections-data";
@@ -34,6 +34,14 @@ export default async function CollectionDetailPage({
 
   const products: Product[] = Array.from({ length: 8 }, (_, i) => {
     const code = String(i + 1).padStart(3, "0");
+    if (i === 2) {
+      return {
+        code,
+        price: t("detail.price"),
+        outOfStock: true,
+        outOfStockLabel: tBadges("outOfStock"),
+      };
+    }
     if (i === 3) {
       return {
         code,
@@ -47,20 +55,28 @@ export default async function CollectionDetailPage({
 
   return (
     <>
-      <section className="flex flex-col-reverse items-center gap-10 px-5 pb-28 pt-10 sm:flex-row sm:items-center sm:gap-10 sm:px-8 sm:pb-20 sm:pt-16 lg:gap-16 lg:px-12 lg:pt-20">
-        <div className="w-full text-left sm:w-[40%] lg:w-[36%]">
-          <h1 className="label-tag text-ink">
-            {t("detail.titlePrefix")} {collection.title}
-          </h1>
-          <p className="mt-4 text-center text-sm leading-relaxed text-ink-soft">
-            {t("detail.description")}
-          </p>
+      <section className="flex flex-col-reverse items-center  gap-10 px-5 pb-28 pt-10 sm:flex-row sm:items-center sm:gap-10 sm:px-8 sm:pb-20 sm:pt-16 lg:gap-16 lg:px-12 lg:pt-20">
+        <div className="flex w-full flex-1 justify-center sm:justify-center">
+          <div className="max-w-sm text-left">
+            <h1 className="label-tag text-ink">
+              {t("detail.titlePrefix")} {collection.title}
+            </h1>
+            <p className="mt-4 text-center text-sm leading-relaxed text-ink-soft">
+              {t("detail.description")}
+            </p>
+          </div>
         </div>
 
-        <Placeholder
-          label={collection.placeholderLabel}
-          className="ml-auto aspect-3/4 w-[62%] sm:ml-0 sm:w-[60%] lg:w-[64%]"
-        />
+        <div className="relative aspect-3/4 w-[45%] shrink-0 overflow-hidden sm:w-[38%] lg:w-[32%]">
+          <Image
+            src="/collection1.png"
+            alt={collection.title}
+            fill
+            sizes="(min-width: 1024px) 32vw, (min-width: 640px) 38vw, 45vw"
+            priority
+            className="object-cover"
+          />
+        </div>
       </section>
 
       <div className="flex items-center gap-4 px-5 pb-12 sm:px-8 lg:px-12">

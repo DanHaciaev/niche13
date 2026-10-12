@@ -46,41 +46,43 @@ export default async function HomePage({
       />
 
       {/* Hero */}
-      <section className="grid gap-12 px-5 pb-24 pt-10 sm:px-8 sm:pb-32 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-10 lg:px-12 lg:pt-16">
-        <div className="mx-auto flex max-w-md min-w-0 items-center text-right justify-center lg:mx-0 lg:ml-auto lg:max-w-3xl lg:justify-end">
-          <Image
-            src="/logo.png"
-            alt="Niche"
-            width={193}
-            height={84}
-            priority
-            className="h-21 w-auto shrink-0 -translate-y-12"
-          />
-          <p className="text-right text-base leading-relaxed text-ink-soft lg:text-[21px]">
-            {t("intro")}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-5">
-          <div className="relative aspect-265/355 overflow-hidden">
+      <section className="flex min-h-screen items-center px-5 pb-24 pt-10 sm:px-8 sm:pb-32 lg:px-12 lg:pt-16">
+        <div className="grid w-full gap-12 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-10">
+          <div className="mx-auto flex flex-col max-w-md min-w-0 text-right justify-end items-end lg:mx-0 lg:ml-auto lg:max-w-lg lg:justify-end">
             <Image
-              src="/top1.jpg"
-              alt="Niche — original illustration"
-              fill
-              sizes="(min-width: 1024px) 25vw, 45vw"
+              src="/logo.png"
+              alt="Niche"
+              width={193}
+              height={84}
               priority
-              className="object-cover"
+              className="h-21 w-auto shrink-0"
             />
+            <p className="text-right text-base leading-relaxed text-ink-soft lg:text-[21px]">
+              {t("intro")}
+            </p>
           </div>
-          <div className="relative aspect-265/355 overflow-hidden">
-            <Image
-              src="/top2.jpg"
-              alt="Niche — lookbook"
-              fill
-              sizes="(min-width: 1024px) 25vw, 45vw"
-              priority
-              className="object-cover"
-            />
+
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-5">
+            <div className="relative aspect-265/355 overflow-hidden">
+              <Image
+                src="/top1.jpg"
+                alt="Niche — original illustration"
+                fill
+                sizes="(min-width: 1024px) 25vw, 45vw"
+                priority
+                className="object-cover"
+              />
+            </div>
+            <div className="relative aspect-265/355 overflow-hidden">
+              <Image
+                src="/top2.jpg"
+                alt="Niche — lookbook"
+                fill
+                sizes="(min-width: 1024px) 25vw, 45vw"
+                priority
+                className="object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>

@@ -13,7 +13,7 @@ export default async function Footer() {
   }[] = [
       { href: "/custom", label: t("links.customize"), pos: "lg:col-start-4 lg:row-start-1" },
       { href: "https://instagram.com", label: t("links.instagram"), external: true, pos: "lg:col-start-3 lg:row-start-2" },
-      { href: "/catalog", label: t("links.collections"), pos: "lg:col-start-2 lg:row-start-3" },
+      { href: "/collections", label: t("links.collections"), pos: "lg:col-start-2 lg:row-start-3" },
       { href: "/about", label: t("links.brand"), pos: "lg:col-start-4 lg:row-start-3" },
       { href: "/checkout", label: t("links.orderRequest"), pos: "lg:col-start-1 lg:row-start-4" },
       { href: "/contacts", label: t("links.contactUs"), pos: "lg:col-start-2 lg:row-start-4" },

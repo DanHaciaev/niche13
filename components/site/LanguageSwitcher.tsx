@@ -39,7 +39,7 @@ export default function LanguageSwitcher() {
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        className="label-tag flex h-9 w-12 items-center justify-center border border-line text-ink transition-colors duration-300 hover:border-ink"
+        className="label-tag flex h-9 w-12 items-center justify-center text-ink transition-colors duration-300"
       >
         {locale.toUpperCase()}
       </button>

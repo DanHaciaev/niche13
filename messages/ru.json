@@ -65,7 +65,8 @@
     "limitedCount": "Осталось {count} из {total}",
     "oneOfOne": "Один экземпляр",
     "new": "Новинка",
-    "soldOut": "Продано"
+    "soldOut": "Продано",
+    "outOfStock": "Нет в наличии"
   },
   "home": {
     "intro": "— бренд одежды с уникальными вышитыми вещами, где современный стиль сочетается с мастерством и индивидуальностью.",
@@ -137,6 +138,9 @@
     "designer": "Дизайнер",
     "sanderSeason": "2021 осень/зима",
     "illustrations": "Иллюстрации",
+    "oneOfOne": "One-of-one collection",
+    "customizeLine1": "Создать",
+    "customizeLine2": "свой Niche",
     "customize": "Создать свой Niche",
     "detail": {
       "titlePrefix": "Коллекция",
