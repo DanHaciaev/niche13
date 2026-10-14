@@ -23,8 +23,7 @@
   --color-line: var(--color-line);
   --color-line-strong: var(--color-line-strong);
 
-  --font-nats: var(--font-nats);
-  --font-fallback: var(--font-fallback);
+  --font-montserrat: var(--font-montserrat);
 
   --tracking-wide-xl: 0.18em;
   --tracking-wide-lg: 0.12em;
@@ -47,7 +46,7 @@
   body {
     background: var(--color-cream);
     color: var(--color-ink);
-    font-family: var(--font-nats), var(--font-fallback), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -57,7 +56,7 @@
   h2,
   h3,
   h4 {
-    font-family: var(--font-nats), var(--font-fallback), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
     font-weight: 500;
     letter-spacing: -0.01em;
   }
@@ -94,7 +93,7 @@
   }
 
   .label-tag {
-    font-family: var(--font-nats), var(--font-fallback), sans-serif;
+    font-family: var(--font-montserrat), sans-serif;
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide-lg);
     font-size: 16px;

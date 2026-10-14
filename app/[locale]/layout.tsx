@@ -3,9 +3,10 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { nats, fallback } from "@/lib/fonts";
+import { montserrat } from "@/lib/fonts";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
+import { FooterGate } from "@/components/site/FooterGate";
 import { DarkRouteProvider } from "@/components/site/DarkRouteContext";
 import "../globals.css";
 
@@ -54,14 +55,16 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${nats.variable} ${fallback.variable} h-full`}
+      className={`${montserrat.variable} h-full`}
     >
       <body className="flex min-h-full flex-col bg-white text-ink antialiased">
         <NextIntlClientProvider>
           <DarkRouteProvider>
             <Header />
             <main className="flex-1">{children}</main>
-            <Footer />
+            <FooterGate>
+              <Footer />
+            </FooterGate>
           </DarkRouteProvider>
         </NextIntlClientProvider>
       </body>

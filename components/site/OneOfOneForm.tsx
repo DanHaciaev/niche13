@@ -15,13 +15,13 @@ function TextField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-[11px]! md:text-xs! lg:text-sm!" style={{ color: ACCENT }}>
+      <span className="label-tag text-[13px]! md:text-base!" style={{ color: ACCENT }}>
         {label}
       </span>
       <input
         type={type}
         placeholder={placeholder}
-        className="border-b border-ink/30 bg-transparent pb-2 text-sm text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
+        className="border-b border-ink/30 bg-transparent pb-2 text-[12px]! md:text-[14px]! lg:text-base! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
       />
     </label>
   );
@@ -29,8 +29,8 @@ function TextField({
 
 export function OneOfOneForm({ t, heading }: { t: FormT; heading: string }) {
   return (
-    <div className="relative mx-12 mb-20 bg-[#cfcecb] px-5 pb-12 pt-20 md:px-8 md:pb-16 md:pt-24 lg:px-12 lg:pb-20 lg:pt-28">
-      <h2 className="absolute -top-7 md:-top-18 left-0 text-[40px] font-medium uppercase text-ink md:text-[96px]">
+    <div className="relative mx-5 mb-20 bg-[#cfcecb] px-5 pb-12 pt-12 md:mx-12 md:px-8 md:pb-16 md:pt-24 lg:px-12 lg:pb-10 lg:pt-20">
+      <h2 className="absolute -top-3.5 left-0 text-[20px] md:text-[44px] md:-top-8 font-medium uppercase text-ink xl:-top-14 xl:text-[76px]">
         {heading}
       </h2>
 
@@ -42,20 +42,20 @@ export function OneOfOneForm({ t, heading }: { t: FormT; heading: string }) {
           <TextField label={t("country")} placeholder={t("countryPlaceholder")} />
         </div>
 
-        <div className="flex flex-col gap-8 [grid-area:B]">
+        <div className="flex flex-col gap-8 md:gap-15 [grid-area:B]">
           <label className="flex flex-col gap-3">
-            <span className="label-tag text-[11px]! md:text-xs! lg:text-sm!" style={{ color: ACCENT }}>
+            <span className="label-tag text-[13px]! md:text-base!" style={{ color: ACCENT }}>
               {t("nicheNumbers")}*
             </span>
             <textarea
-              rows={3}
+              rows={2}
               placeholder={t("nicheNumbersPlaceholder")}
-              className="resize-none border-b border-ink/30 bg-transparent pb-3 text-xs leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+              className="resize-none border-b border-ink/30 bg-transparent pb-3 text-[12px]! md:text-[14px]! lg:text-base! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
             />
           </label>
 
           <label className="flex flex-col gap-3">
-            <span className="label-tag text-[11px]! md:text-xs! lg:text-sm!" style={{ color: ACCENT }}>
+            <span className="label-tag text-[13px]! md:text-base!" style={{ color: ACCENT }}>
               {t("additional")}
             </span>
             <textarea
@@ -73,7 +73,7 @@ export function OneOfOneForm({ t, heading }: { t: FormT; heading: string }) {
             >
               {t("submit")}
             </button>
-            <p className="text-center text-xs text-ink-faint md:text-right">{t("submitHelper")}</p>
+            <p className="text-center text-[12px]! md:text-[13px]! text-ink-faint md:text-right">{t("submitHelper")}</p>
           </div>
         </div>
 

@@ -46,7 +46,7 @@ export default async function CollectionsPage({
 
   return (
     <>
-      <div className="flex min-h-screen items-center justify-center px-5">
+      <div className="flex min-h-[calc(100vh-80px)] items-center justify-center px-5">
         <Image
           src="/logo.png"
           alt="Niche"

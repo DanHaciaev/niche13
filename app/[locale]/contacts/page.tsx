@@ -61,7 +61,7 @@ export default async function ContactsPage({
   ];
 
   return (
-    <div className="pb-28 pt-10 md:pt-14 lg:pt-20">
+    <div className="pb-20 pt-10 md:pt-14 lg:pt-20">
       <h1 className="px-5 text-[40px] font-medium uppercase text-ink md:px-8 lg:px-12 lg:text-[48px]">
         {t("title")}
       </h1>

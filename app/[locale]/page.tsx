@@ -48,7 +48,7 @@ export default async function HomePage({
       {/* Hero */}
       <section className="flex min-h-screen items-center px-5 pb-24 pt-10 md:px-8 md:pb-32 lg:px-12 lg:pt-16">
         <div className="grid w-full gap-12 md:flex md:flex-col-reverse md:items-end md:gap-3 lg:grid lg:gap-10 lg:grid-cols-[1fr_1.3fr] lg:items-center">
-          <div className="mx-auto flex flex-col items-center gap-4 max-w-md min-w-0 text-right justify-end md:flex-col md:items-end md:gap-5 md:mx-auto md:max-w-lg md:justify-end lg:gap-0 lg:mx-0 lg:ml-auto">
+          <div className="mx-auto flex flex-col font-medium items-center gap-4 max-w-md min-w-0 text-right justify-end md:flex-col md:items-end md:gap-5 md:mx-auto md:max-w-140 md:justify-end lg:gap-0 lg:mx-0 lg:ml-auto">
             <Image
               src="/logo.png"
               alt="Niche"
@@ -57,7 +57,7 @@ export default async function HomePage({
               priority
               className="h-16 md:h-21 w-auto self-start shrink-0 md:self-start lg:self-auto"
             />
-            <p className="text-right text-base leading-relaxed text-ink-soft lg:text-[21px]">
+            <p className="text-right text-[12px]! tracking-[-2%] leading-relaxed text-ink-soft md:text-base! lg:text-[18px]">
               {t("intro")}
             </p>
           </div>

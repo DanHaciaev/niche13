@@ -28,12 +28,14 @@ export default async function CustomPage({
     <>
       <section className="flex flex-col-reverse items-end gap-3 px-5 pb-28 pt-10 md:px-8 md:flex-row md:items-center md:gap-10 md:pb-20 md:pt-16 lg:gap-16 lg:px-12 lg:pt-20">
         <div className="flex w-full flex-1 justify-center">
-          <div className="text-left md:max-w-97">
-            <h1 className="label-tag text-ink lg:text-[22px]!">{t("heroTitle")}</h1>
-            <p className="mt-2 text-right text-sm leading-relaxed text-ink-soft md:mt-2">
-              {renderBreaks(t("heroDescription"))}
-            </p>
-          </div>
+          <div className="text-left md:max-w-170">
+              <h1 className="label-tag text-ink text-[14px]! md:text-[20px]! lg:text-[24px]!">
+                {t("heroTitle")}
+              </h1>
+              <p className="mt-2 text-right font-medium text-[13px] md:text-base lg:text-[18px] leading-relaxed text-ink-soft md:mt-2">
+                {renderBreaks(t("heroDescription"))}
+              </p>
+            </div>
         </div>
 
         <div className="relative aspect-3/4 w-[55%] shrink-0 overflow-hidden md:w-[38%] lg:w-[32%]">
@@ -48,12 +50,12 @@ export default async function CustomPage({
         </div>
       </section>
 
-      <div className="flex items-center gap-4 px-5 pb-10 md:px-8 lg:px-12">
-        <span className="label-tag text-ink">{t("orderRequest")}</span>
+      <div className="flex items-center gap-4 px-5 md:px-8 lg:px-12">
+        <span className="label-tag text-ink text-base! md:text-[20px]! lg:text-[24px]!">{t("orderRequest")}</span>
         <span className="h-px flex-1 bg-black/40" aria-hidden />
       </div>
 
-      <p className="px-5 pt-16 pb-32 text-right ml-auto text-[13px] max-w-95 leading-relaxed text-ink-faint md:px-8 md:text-[20px] md:max-w-150 md:text-right lg:px-12 lg:max-w-210 lg:text-[24px]">
+      <p className="px-5 py-12 text-right text-base leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-[20px] md:text-right lg:px-12 lg:py-34 lg:text-[24px] ml-auto max-w-295">
         {t("orderRequestText")}
       </p>
 

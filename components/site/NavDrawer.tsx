@@ -104,7 +104,7 @@ export default function NavDrawer({
                     <Link
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      className={`text-[22px]  uppercase tracking-widest transition-colors ${
+                      className={`text-base font-medium uppercase tracking-widest transition-colors ${
                         isDark ? "text-white hover:text-white/70" : "text-ink hover:text-ink-soft"
                       }`}
                     >

@@ -34,7 +34,7 @@ export default async function ProductPage({
     const tIllustrationProduct = await getTranslations("collections.illustrationsPage.product");
 
     return (
-      <div className="px-5 pb-24 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
+      <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-7 lg:gap-16">
           <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[36%]">
             <Image
@@ -81,7 +81,7 @@ export default async function ProductPage({
     const descriptionLines = tOneOfOneProduct("descriptionText").split("\n");
 
     return (
-      <div className="px-5 pb-24 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
+      <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
         <div className="flex flex-col gap-10 md:flex-row md:gap-7 lg:gap-16">
           <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[36%]">
             <Image
@@ -126,7 +126,7 @@ export default async function ProductPage({
   }
 
   return (
-    <div className="px-5 pb-24 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
+    <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
       <div className="flex flex-col items-center gap-10 md:items-start md:flex-row md:gap-7 lg:gap-16">
         <div className="relative aspect-392/525 w-full shrink-0 overflow-hidden md:w-[42%] lg:w-[36%]">
           <Image
@@ -145,6 +145,9 @@ export default async function ProductPage({
           </span>
           <p className="label-tag mt-1 text-[12px]! text-ink-faint md:text-base! lg:text-[20px]!">
             NICHE/{productCode}
+          </p>
+          <p className="label-tag mt-1 text-[12px]! text-ink-faint md:text-base! lg:text-[20px]!">
+            {(parseInt(productCode, 10) - 1) % 2 === 0 ? t("detail.male") : t("detail.female")}
           </p>
 
           <h1 className="label-tag mt-10 lg:mt-20 text-ink">{tProduct("title")}</h1>
@@ -195,7 +198,7 @@ export default async function ProductPage({
           <div className="mt-15 flex items-center gap-6">
             <button
               type="button"
-              className="label-tag bg-ink px-8 py-4 text-[13px]! text-cream transition-colors hover:bg-ink-soft md:text-base! lg:text-[20px]!"
+              className="label-tag bg-ink px-4 py-2 md:px-8 md:py-4 text-[13px]! text-cream transition-colors hover:bg-ink-soft md:text-base! lg:text-[20px]!"
             >
               {tProduct("addToOrderRequest")}
             </button>

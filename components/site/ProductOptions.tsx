@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 
-const SIZES = ["S", "M", "L", "XL", "XXL"];
+const SIZES = ["S", "M", "L", "XL", "2XL", "3XL"];
 const COLORS = ["#17150f", "#ffffff", "#f5c518"];
 
 export function SizeOptions() {
-  const [selected, setSelected] = useState("XXL");
+  const [selected, setSelected] = useState("2XL");
   return (
     <div className="flex gap-4">
       {SIZES.map((size) => (

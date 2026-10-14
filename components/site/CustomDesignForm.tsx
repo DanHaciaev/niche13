@@ -14,13 +14,13 @@ function TextField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-[11px]! text-ink md:text-xs! lg:text-sm!">
+      <span className="label-tag text-[13px]! text-ink md:text-base!">
         {label}
       </span>
       <input
         type={type}
         placeholder={placeholder}
-        className="border-b border-ink/30 bg-transparent pb-2 text-sm text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
+        className="border-b border-ink/30 bg-transparent pb-2 text-[12px]! md:text-[14px]! lg:text-base! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
       />
     </label>
   );
@@ -37,13 +37,13 @@ function TextareaField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-[11px]! text-ink md:text-xs! lg:text-sm! ml-auto md:ml-0">
+      <span className="label-tag  text-ink text-[13px]! lg:text-base! ml-auto md:ml-0">
         {label}
       </span>
       <textarea
         rows={rows}
         placeholder={placeholder}
-        className="resize-none border-b border-ink/30 bg-transparent pb-3 text-xs leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+        className="resize-none border-b border-ink/30 bg-transparent pb-3 text-[12px]! md:text-[14px]! lg:text-base! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
       />
     </label>
   );
@@ -51,8 +51,8 @@ function TextareaField({
 
 export function CustomDesignForm({ t, heading }: { t: FormT; heading: string }) {
   return (
-    <div className="relative mx-12 mb-20 bg-[#cfcecb] px-5 pb-12 pt-20 md:px-8 md:pb-16 md:pt-24 lg:px-12 lg:pb-20 lg:pt-28">
-      <h2 className="absolute -top-7   left-0 text-[40px] md:text-[64px] md:-top-12 font-medium uppercase text-ink xl:-top-18 xl:text-[96px]">
+    <div className="relative mx-5 mb-20 bg-[#cfcecb] px-5 pb-12 pt-12 md:mx-12 md:px-8 md:pb-16 md:pt-24 lg:px-12 lg:pb-10 lg:pt-20">
+      <h2 className="absolute -top-3.5 left-0 text-[20px] md:text-[44px] md:-top-8 font-medium uppercase text-ink xl:-top-14 xl:text-[76px]">
         {heading}
       </h2>
 
@@ -65,10 +65,10 @@ export function CustomDesignForm({ t, heading }: { t: FormT; heading: string }) 
         </div>
 
         <div className="flex flex-col gap-8 md:gap-15 [grid-area:B]">
-          <TextareaField label={t("garmentSelection")} placeholder={t("garmentSelectionPlaceholder")} rows={3} />
+          <TextareaField label={t("garmentSelection")} placeholder={t("garmentSelectionPlaceholder")} rows={1} />
           <div>
             <div className="flex flex-row-reverse items-center justify-between md:flex-row">
-              <span className="label-tag text-[11px]! text-ink md:text-xs! lg:text-sm!">
+              <span className="label-tag text-[13px]! text-ink md:text-base!">
                 {t("sizeColour")}
               </span>
               <Link
@@ -79,15 +79,15 @@ export function CustomDesignForm({ t, heading }: { t: FormT; heading: string }) 
               </Link>
             </div>
             <textarea
-              rows={3}
+              rows={1}
               placeholder={t("sizeColourPlaceholder")}
-              className="mt-3 w-full resize-none border-b border-ink/30 bg-transparent pb-3 text-xs leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+              className="mt-3 w-full resize-none border-b border-ink/30 bg-transparent pb-3 text-[12px]! md:text-[14px]! lg:text-base! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
             />
           </div>
-          <TextareaField label={t("quantity")} placeholder={t("quantityPlaceholder")} />
+          <TextareaField label={t("quantity")} placeholder={t("quantityPlaceholder")} rows={1} />
 
           <label className="flex flex-col gap-3">
-            <span className="label-tag text-[11px]! text-ink md:text-xs! lg:text-sm!">
+            <span className="label-tag text-[13px]! text-ink md:text-base!">
               {t("uploadDesign")}*
             </span>
             <span className="text-xs leading-relaxed text-ink-faint">{t("uploadDesignHelper")}</span>
@@ -110,7 +110,7 @@ export function CustomDesignForm({ t, heading }: { t: FormT; heading: string }) 
         </div>
 
         <label className="flex flex-col gap-3 [grid-area:C]">
-          <span className="label-tag text-[11px]! text-ink md:text-xs! lg:text-sm!">
+          <span className="label-tag text-[13px]! text-ink md:text-base!">
             {t("additional")}
           </span>
           <textarea
@@ -126,7 +126,7 @@ export function CustomDesignForm({ t, heading }: { t: FormT; heading: string }) 
           >
             {t("submit")}
           </button>
-          <p className="text-center text-xs text-ink-faint">{t("submitHelper")}</p>
+          <p className="text-center text-[12px]! md:text-[13px]! text-ink-faint">{t("submitHelper")}</p>
         </div>
 
         <div className="flex items-end justify-center md:justify-start [grid-area:E]">

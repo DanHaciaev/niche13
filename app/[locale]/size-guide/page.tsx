@@ -16,7 +16,8 @@ const SIZES = [
   { size: "M", chest: 50, length: 69, shoulder: 47, sleeve: 21 },
   { size: "L", chest: 54, length: 72, shoulder: 50, sleeve: 22 },
   { size: "XL", chest: 58, length: 75, shoulder: 53, sleeve: 23 },
-  { size: "XXL", chest: 62, length: 78, shoulder: 56, sleeve: 24 },
+  { size: "2XL", chest: 62, length: 78, shoulder: 56, sleeve: 24 },
+  { size: "3XL", chest: 66, length: 81, shoulder: 59, sleeve: 25 },
 ];
 
 export default async function SizeGuidePage({

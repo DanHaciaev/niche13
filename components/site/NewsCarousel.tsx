@@ -45,7 +45,24 @@ export function NewsCarousel({ images, label }: { images: string[]; label: strin
   }, [visible]);
 
   return (
-    <div ref={containerRef} role="region" aria-label={label} className="overflow-hidden mb-15">
+    <div ref={containerRef} role="region" aria-label={label} className="relative overflow-hidden mb-15">
+      <button
+        type="button"
+        aria-label="Previous"
+        onClick={() => swiperRef.current?.slidePrev()}
+        className="absolute left-2 top-1/2 z-10 h-10 w-10 -translate-y-1/2 sm:left-4 sm:h-12 sm:w-12"
+      >
+        <Image src="/arrow.png" alt="" fill className="object-contain" />
+      </button>
+      <button
+        type="button"
+        aria-label="Next"
+        onClick={() => swiperRef.current?.slideNext()}
+        className="absolute right-2 top-1/2 z-10 h-10 w-10 -translate-y-1/2 sm:right-4 sm:h-12 sm:w-12"
+      >
+        <Image src="/arrow.png" alt="" fill className="rotate-180 object-contain" />
+      </button>
+
       <div style={{ paddingBlock: PAD, height: `calc(${ACTIVE_W_CSS} / ${RATIO} + ${PAD * 2}px)` }}>
         <Swiper
           onSwiper={(s) => {

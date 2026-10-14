@@ -87,7 +87,7 @@ export function CollectionsList({ rows }: { rows: CollectionRow[] }) {
               )}
               <span className="label-tag mt-1 text-ink">{row.title}</span>
               {row.sub && (
-                <span className="label-tag mt-1 text-ink-faint">{row.sub}</span>
+                <span className="label-tag mt-1 text-ink-faint text-[11px]! md:text-base!">{row.sub}</span>
               )}
             </div>
           </Link>

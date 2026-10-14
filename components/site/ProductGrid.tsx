@@ -4,10 +4,14 @@ import { Link } from "@/i18n/navigation";
 export interface Product {
   code: string;
   price: string;
+  priceValue?: number;
   discountPrice?: string;
+  discountPriceValue?: number;
   saleLabel?: string;
   outOfStock?: boolean;
   outOfStockLabel?: string;
+  gender?: "male" | "female";
+  genderLabel?: string;
 }
 
 export function ProductGrid({ products, slug }: { products: Product[]; slug: string }) {
@@ -26,27 +30,29 @@ export function ProductGrid({ products, slug }: { products: Product[]; slug: str
               />
             </div>
             {product.discountPrice && (
-              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center bg-[#981C1C] text-center text-[18px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center bg-[#981C1C] text-center text-[14px]! text-white">
                 {product.saleLabel}
               </span>
             )}
             {product.outOfStock && (
-              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center bg-ink-soft text-center text-[18px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center bg-ink-soft text-center text-[13px]! text-white">
                 {product.outOfStockLabel}
               </span>
             )}
           </div>
-          <span className="label-tag mt-4 text-ink">NICHE / {product.code}</span>
+          <span className="label-tag mt-4 text-ink text-[11px] md:text-base">NICHE / {product.code}</span>
+          {product.genderLabel && (
+            <span className="label-tag mt-1 text-ink-faint text-[11px]! md:text-sm!">{product.genderLabel}</span>
+          )}
           {product.discountPrice ? (
             <span className="mt-1 flex items-center gap-2">
-              <span className="label-tag relative text-ink-faint">
+              <span className="label-tag text-ink-faint line-through decoration-ink-faint text-[11px]! md:text-base!">
                 {product.price}
-                <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-ink-faint" aria-hidden />
               </span>
-              <span className="label-tag text-[#981C1C]">{product.discountPrice}</span>
+              <span className="label-tag text-[#981C1C] text-[11px]! md:text-base!">{product.discountPrice}</span>
             </span>
           ) : (
-            <span className="label-tag mt-1 text-ink-faint">{product.price}</span>
+            <span className="label-tag mt-1 text-ink-faint text-[11px]! md:text-base!">{product.price}</span>
           )}
         </Link>
       ))}

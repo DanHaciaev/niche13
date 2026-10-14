@@ -31,17 +31,17 @@ export function IllustrationGrid({
               />
             </div>
             {i === 3 && (
-              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center bg-[#981C1C] text-center text-[18px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center bg-[#981C1C] text-center text-[14px]! text-white">
                 {saleLabel}
               </span>
             )}
             {i === 2 && (
-              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center bg-ink-soft text-center text-[18px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center bg-ink-soft text-center text-[13px]! text-white">
                 {outOfStockLabel}
               </span>
             )}
           </div>
-          <span className="label-tag mt-4 text-ink">
+          <span className="label-tag mt-4 text-ink text-[11px] md:text-base">
             {label} / {code}
           </span>
         </Link>
