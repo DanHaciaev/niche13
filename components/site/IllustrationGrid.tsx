@@ -31,12 +31,12 @@ export function IllustrationGrid({
               />
             </div>
             {i === 3 && (
-              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center bg-[#981C1C] text-center text-[14px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center font-medium! justify-center bg-[#981C1C] text-center text-[14px]! text-white">
                 {saleLabel}
               </span>
             )}
             {i === 2 && (
-              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center bg-ink-soft text-center text-[13px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center font-medium! justify-center bg-ink-soft text-center text-[13px]! text-white">
                 {outOfStockLabel}
               </span>
             )}

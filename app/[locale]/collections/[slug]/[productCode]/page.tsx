@@ -36,7 +36,7 @@ export default async function ProductPage({
     return (
       <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-7 lg:gap-16">
-          <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[36%]">
+          <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[30%]">
             <Image
               src="/collection9.jpg"
               alt={`${tIllustration("illustrationLabel")} / ${productCode}`}
@@ -48,24 +48,24 @@ export default async function ProductPage({
           </div>
 
           <div className="flex-1">
-            <span className="label-tag text-base! text-ink md:text-[20px]! lg:text-[24px]!">
+            <span className="label-tag text-[15px]! font-medium! text-ink md:text-[20px]!">
               {tIllustrationProduct("code")}
             </span>
-            <p className="label-tag mt-1 text-[10px]! font-medium! text-ink-faint md:text-[15px]!">
+            <p className="label-tag mt-1 text-[13px]! font-medium! text-ink-faint md:text-[15px]! lg:text-[18px]!">
               {tIllustration("illustrationLabel")} / {productCode}
             </p>
 
-            <span className="label-tag mt-10 lg:mt-20 block text-[11px]! text-ink md:text-xs! lg:text-sm!">
+            <span className="label-tag mt-10 lg:mt-20 block text-[15px]! font-medium! text-ink md:text-[16px]! lg:text-[20px]!">
               {tIllustrationProduct("description")}
             </span>
-            <p className="mt-2 max-w-full font-medium! text-[11px]! md:text-[15px]! leading-relaxed text-ink-soft">
+            <p className="mt-2 max-w-full font-medium! text-[13px]! leading-relaxed text-ink-soft md:text-[15px]! lg:text-[18px]!">
               {tIllustrationProduct("descriptionText")}
             </p>
 
             <div className="mt-10 lg:mt-20">
               <button
                 type="button"
-                className="label-tag w-full bg-ink py-4 text-center text-[13px]! text-cream transition-colors hover:bg-ink-soft md:w-auto md:px-8 md:text-base! lg:text-[20px]!"
+                className="label-tag w-full bg-ink py-4 text-center text-[12px]! font-medium! text-cream transition-colors hover:bg-ink-soft md:w-auto md:px-8 md:text-[14px]! lg:text-[16px]!"
               >
                 {tIllustrationProduct("submit")}
               </button>
@@ -82,8 +82,8 @@ export default async function ProductPage({
 
     return (
       <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
-        <div className="flex flex-col gap-10 md:flex-row md:gap-7 lg:gap-16">
-          <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[36%]">
+        <div className="flex flex-col items-center gap-10 md:flex-row md:gap-7 lg:gap-16">
+          <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[30%]">
             <Image
               src="/clothes.jpg"
               alt={`NICHE / ${productCode}`}
@@ -95,17 +95,17 @@ export default async function ProductPage({
           </div>
 
           <div className="flex-1">
-            <span className="label-tag text-[13px]! font-medium! text-ink md:text-[16px]!">
+            <span className="label-tag text-[15px]! font-medium! text-ink md:text-base! lg:text-[20px]!">
               {tOneOfOneProduct("nicheNumber")}
             </span>
-            <p className="label-tag mt-1 text-[10px]! font-medium! text-ink-faint md:text-[15px]!">
+            <p className="label-tag mt-1 text-[13px]! font-medium! text-ink-faint md:text-[15px]! lg:text-[18px]!">
               NICHE / {productCode}
             </p>
 
-            <span className="label-tag mt-10 lg:mt-20 block text-[11px]! text-ink md:text-xs! lg:text-sm!">
+            <span className="label-tag mt-10 lg:mt-20 block text-[15px]! font-medium! text-ink md:text-base! lg:text-[20px]!">
               {tOneOfOneProduct("detailsTitle")}
             </span>
-            <div className="mt-2 max-w-full font-medium! text-[11px]! md:text-[15px]! leading-relaxed text-ink-soft">
+            <div className="mt-2 max-w-full font-medium! text-[13px]! md:text-[15px]! lg:text-[18px]! leading-relaxed text-ink-soft">
               {descriptionLines.map((line, i) => (
                 <p key={i}>{line}</p>
               ))}
@@ -114,7 +114,7 @@ export default async function ProductPage({
             <div className="mt-10 lg:mt-20">
               <button
                 type="button"
-                className="label-tag w-full bg-ink py-4 text-center text-[13px]! text-cream transition-colors hover:bg-ink-soft md:w-auto md:px-8 md:text-base! lg:text-[20px]!"
+                className="label-tag w-full bg-ink py-4 text-center text-[12px]! font-medium! md:text-[14px]! text-cream transition-colors hover:bg-ink-soft md:w-auto md:px-8 md:text-base! lg:text-[16px]!"
               >
                 {tOneOfOneProduct("submit")}
               </button>

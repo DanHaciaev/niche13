@@ -30,12 +30,12 @@ export function ProductGrid({ products, slug }: { products: Product[]; slug: str
               />
             </div>
             {product.discountPrice && (
-              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center bg-[#981C1C] text-center text-[14px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center font-medium! bg-[#981C1C] text-center text-[14px]! text-white">
                 {product.saleLabel}
               </span>
             )}
             {product.outOfStock && (
-              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center bg-ink-soft text-center text-[13px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center font-medium! bg-ink-soft text-center text-[13px]! text-white">
                 {product.outOfStockLabel}
               </span>
             )}
