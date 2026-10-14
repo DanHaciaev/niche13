@@ -40,7 +40,7 @@ export default function NavDrawer({
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        className={`label-tag relative z-50 transition-colors duration-300 ${
+        className={`label-tag relative z-50 text-[12px]! font-medium! transition-colors duration-300 ${
           isDark ? "text-white/70 hover:text-white" : "text-ink-soft hover:text-ink"
         }`}
       >
@@ -61,7 +61,7 @@ export default function NavDrawer({
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className={`label-tag absolute right-24 top-7 transition-colors duration-300 ${
+              className={`label-tag absolute right-24 top-0 flex h-20 items-center text-[12px]! font-medium! transition-colors duration-300 ${
                 isDark ? "text-white/70 hover:text-white" : "text-ink-soft hover:text-ink"
               }`}
             >

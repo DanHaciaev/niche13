@@ -62,7 +62,7 @@ export function CollectionsList({ rows }: { rows: CollectionRow[] }) {
             className="group flex w-full flex-col items-center text-center"
           >
             <CollectionMedia row={row} className="aspect-7/3 w-full" sizes="100vw" />
-            <span className="label-tag mt-6 text-ink">{row.title}</span>
+            <span className="label-tag mt-6 text-ink font-medium! tracking-[-2%] text-[12px] md:text-[14px]">{row.title}</span>
           </Link>
         ) : (
           <Link
@@ -83,9 +83,9 @@ export function CollectionsList({ rows }: { rows: CollectionRow[] }) {
               }`}
             >
               {row.eyebrow && (
-                <span className="label-tag text-ink-faint">{row.eyebrow}</span>
+                <span className="label-tag text-ink-faint font-medium! tracking-[-2%] text-[12px] md:text-[14px]">{row.eyebrow}</span>
               )}
-              <span className="label-tag mt-1 text-ink">{row.title}</span>
+              <span className="label-tag text-ink font-medium! tracking-[-2%] text-[12px] md:text-[14px]">{row.title}</span>
               {row.sub && (
                 <span className="label-tag mt-1 text-ink-faint text-[11px]! md:text-base!">{row.sub}</span>
               )}

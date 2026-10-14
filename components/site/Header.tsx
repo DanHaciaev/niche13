@@ -20,7 +20,7 @@ export default async function Header() {
         <div className="relative z-50 flex items-center gap-8">
           <Link
             href="/"
-            className="label-tag relative z-50 text-ink transition-colors hover:text-ink-soft"
+            className="label-tag relative z-50 text-[12px]! text-ink font-medium! transition-colors hover:text-ink-soft"
           >
             {t("home")}
           </Link>

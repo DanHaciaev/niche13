@@ -27,7 +27,7 @@ export default async function Footer() {
     link: (typeof links)[number];
     className?: string;
   }) {
-    const cls = `label-tag whitespace-nowrap text-[9px]! text-right text-ink-soft transition-colors hover:text-ink md:text-[12px]! lg:text-[15px]! ${className}`;
+    const cls = `label-tag whitespace-nowrap text-[#2C2C29]! text-[8px]! text-right font-medium! transition-colors hover:text-ink md:text-[11px]! ${className}`;
     return link.external ? (
       <a href={link.href} target="_blank" rel="noopener noreferrer" className={cls}>
         {link.label}
@@ -46,7 +46,7 @@ export default async function Footer() {
       </div>
 
       <div className="px-5 py-16 text-center md:px-12 md:py-24">
-        <h2 className="label-tag text-ink text-[13px]! md:text-[15px]! lg:text-base!">{t("heading")}</h2>
+        <h2 className="label-tag text-ink text-[10px]! md:text-[12px]! lg:text-[13px]!">{t("heading")}</h2>
         <div aria-hidden className="mt-6 flex justify-center text-ink-faint">
           <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
             <path
@@ -103,7 +103,7 @@ export default async function Footer() {
         </div>
 
         <div className="flex-1">
-          <p className="max-w-full text-base leading-relaxed text-ink-soft">
+          <p className="max-w-full text-[10px] md:text-[12px] lg:text-[14px] leading-relaxed text-ink-soft">
             {t("paragraph1")}
             <br />
             {t("paragraph2")}
@@ -128,7 +128,7 @@ export default async function Footer() {
                 .map((link) => (
                   <LinkItem key={link.href} link={link} />
                 ))}
-              <span className="label-tag whitespace-nowrap text-[11px]! text-right text-ink-faint md:text-[12px]! lg:text-[15px]!">
+              <span className="label-tag whitespace-nowrap text-[11px]! text-right text-[#A1A1A1] md:text-[12px]! lg:text-[13px]!">
                 Made by SIMP
               </span>
             </div>

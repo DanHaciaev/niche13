@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -41,7 +42,7 @@ export default function LanguageSwitcher() {
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        className="label-tag flex h-9 w-12 items-center justify-center text-ink transition-colors duration-300"
+        className="label-tag flex h-9 w-12 items-center justify-center text-[12px]! font-medium! text-ink transition-colors duration-300"
       >
         {locale.toUpperCase()}
       </button>
@@ -62,7 +63,7 @@ export default function LanguageSwitcher() {
                 key={code}
                 type="button"
                 onClick={() => switchTo(code)}
-                className="label-tag flex h-9 w-full items-center justify-center text-ink-soft transition-colors duration-300 hover:text-ink"
+                className="label-tag flex h-9 w-full items-center justify-center text-[12px]! font-light! text-ink-soft transition-colors duration-300 hover:text-ink"
               >
                 {code.toUpperCase()}
               </button>

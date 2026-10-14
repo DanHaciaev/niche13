@@ -93,7 +93,7 @@ export function OrderRequestForm({ t, heading }: { t: FormT; heading: string }) 
           </span>
           <textarea
             placeholder={t("additionalPlaceholder")}
-            className="flex-1 resize-none border border-black bg-transparent p-4 text-sm text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
+            className="flex-1 resize-none border border-black bg-transparent p-4 text-[12px]! md:text-[14px]! lg:text-base! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
           />
         </label>
 
