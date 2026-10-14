@@ -120,7 +120,7 @@ export default async function CollectionDetailPage({
           <span className="h-px flex-1 bg-black/40" aria-hidden />
         </div>
 
-        <p className="px-5 py-12 text-right text-[13px]! font-medium! leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-[20px] md:text-right lg:px-12 lg:py-34 ml-auto max-w-200">
+        <p className="px-5 py-12 text-right text-[13px]! font-medium! leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-right lg:px-12 lg:py-34 ml-auto max-w-200">
           {tPage("orderRequestText")}
         </p>
 
@@ -175,7 +175,7 @@ export default async function CollectionDetailPage({
           <span className="h-px flex-1 bg-black/40" aria-hidden />
         </div>
 
-        <p className="px-5 py-12 text-right text-[13px]! font-medium! leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-[20px] md:text-right lg:px-12 lg:py-34 ml-auto max-w-165">
+        <p className="px-5 py-12 text-right text-[13px]! font-medium! leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-right lg:px-12 lg:py-34 ml-auto max-w-165">
           {tPage("orderRequestText")}
         </p>
 
@@ -230,7 +230,7 @@ export default async function CollectionDetailPage({
         <span className="h-px flex-1 bg-black/40" aria-hidden />
       </div>
 
-      <p className="px-5 py-12 text-right text-[13px]! font-medium! leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-[20px] md:text-right lg:px-12 lg:py-34 ml-auto max-w-340">
+      <p className="px-5 py-12 text-right text-[13px]! font-medium! leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-right lg:px-12 lg:py-34 ml-auto max-w-340">
         {t("detail.exploreLine1")}
         <br />
         {t("detail.exploreLine2")}

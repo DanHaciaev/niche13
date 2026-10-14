@@ -55,7 +55,7 @@ export default async function CustomPage({
         <span className="h-px flex-1 bg-black/40" aria-hidden />
       </div>
 
-      <p className="px-5 py-12 text-right text-[13px] leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-[20px] md:text-right lg:px-12 lg:py-34  ml-auto max-w-250">
+      <p className="px-5 py-12 text-right text-[13px]! leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-right lg:px-12 lg:py-34 ml-auto max-w-250">
         {t("orderRequestText")}
       </p>
 

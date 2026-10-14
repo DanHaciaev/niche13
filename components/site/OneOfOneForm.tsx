@@ -44,7 +44,7 @@ export function OneOfOneForm({ t, heading }: { t: FormT; heading: string }) {
 
         <div className="flex flex-col gap-8 md:gap-15 [grid-area:B]">
           <label className="flex flex-col gap-3">
-            <span className="label-tag text-[13px]! md:text-base!" style={{ color: ACCENT }}>
+            <span className="label-tag font-medium! text-[10px]! md:text-[12px]!" style={{ color: ACCENT }}>
               {t("nicheNumbers")}*
             </span>
             <textarea
@@ -55,7 +55,7 @@ export function OneOfOneForm({ t, heading }: { t: FormT; heading: string }) {
           </label>
 
           <label className="flex flex-col gap-3">
-            <span className="label-tag text-[13px]! md:text-base!" style={{ color: ACCENT }}>
+            <span className="label-tag font-medium! text-[10px]! md:text-[12px]!" style={{ color: ACCENT }}>
               {t("additional")}
             </span>
             <textarea

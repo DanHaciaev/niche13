@@ -76,7 +76,7 @@ export default async function ContactsPage({
             className="flex flex-row justify-between border-t border-black/40 px-5 py-8 md:px-8 md:py-10 lg:px-12"
           >
             <span className="label-tag text-ink text-[15px]! md:text-[16px]! lg:text-[20px]!">{row.label}</span>
-            <div className="w-1/2 text-[13px]! md:text-[20px]! lg:text-[24px]!">{row.content}</div>
+            <div className="w-1/2 shrink-0 text-[13px]! md:text-[20px]! lg:text-[24px]!">{row.content}</div>
           </div>
         ))}
         <div className="border-t border-line" aria-hidden />
