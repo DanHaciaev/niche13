@@ -14,13 +14,13 @@ function TextField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-[13px]! text-black md:text-base!">
+      <span className="label-tag font-medium! text-[10px]! md:text-[12px]! text-black">
         {label}
       </span>
       <input
         type={type}
         placeholder={placeholder}
-        className="border-b border-black bg-transparent pb-2 text-[12px]! md:text-[14px]! lg:text-base! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
+        className="border-b border-black bg-transparent pb-2 font-medium! text-[8px]! md:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
       />
     </label>
   );
@@ -37,13 +37,13 @@ function TextareaField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-black text-[13px]! lg:text-base! ml-auto md:ml-0">
+      <span className="label-tag text-black font-medium! text-[10px]! md:text-[12px]! ml-auto md:ml-0">
         {label}
       </span>
       <textarea
         rows={rows}
         placeholder={placeholder}
-        className="resize-none border-b border-black bg-transparent pb-3 text-[12px]! md:text-[14px]! lg:text-base! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+        className="resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
       />
     </label>
   );
@@ -68,7 +68,7 @@ export function OrderRequestForm({ t, heading }: { t: FormT; heading: string }) 
           <TextareaField label={t("codes")} placeholder={t("codesPlaceholder")} rows={2} />
           <div>
             <div className="flex flex-row-reverse items-center justify-between md:flex-row">
-              <span className="label-tag text-[13px]! text-black md:text-base!">
+              <span className="label-tag text-black font-medium! text-[10px]! md:text-[12px]!">
                 {t("sizeQty")}
               </span>
               <Link
@@ -81,19 +81,19 @@ export function OrderRequestForm({ t, heading }: { t: FormT; heading: string }) 
             <textarea
               rows={2}
               placeholder={t("sizeQtyPlaceholder")}
-              className="mt-3 w-full resize-none border-b border-black bg-transparent pb-3 text-[12px]! md:text-[14px]! lg:text-base! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+              className="mt-3 w-full resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
             />
           </div>
           <TextareaField label={t("colour")} placeholder={t("colourPlaceholder")} />
         </div>
 
         <label className="flex flex-col gap-3 [grid-area:C]">
-          <span className="label-tag text-[13px]! text-black md:text-base!">
+          <span className="label-tag text-black font-medium! text-[10px]! md:text-[12px]!">
             {t("additional")}
           </span>
           <textarea
             placeholder={t("additionalPlaceholder")}
-            className="flex-1 resize-none border border-black bg-transparent p-4 text-[12px]! md:text-[14px]! lg:text-base! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
+            className="flex-1 resize-none border border-black bg-transparent p-4 font-medium! text-[8px]! md:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
           />
         </label>
 

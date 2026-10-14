@@ -51,11 +51,11 @@ export default async function CustomPage({
       </section>
 
       <div className="flex items-center gap-4 px-5 md:px-8 lg:px-12">
-        <span className="label-tag text-ink text-base! md:text-[20px]! lg:text-[24px]!">{t("orderRequest")}</span>
+        <span className="label-tag text-ink font-medium! text-[11px]! md:text-[13px]! lg:text-base!">{t("orderRequest")}</span>
         <span className="h-px flex-1 bg-black/40" aria-hidden />
       </div>
 
-      <p className="px-5 py-12 text-right text-base leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-[20px] md:text-right lg:px-12 lg:py-34 lg:text-[24px] ml-auto max-w-295">
+      <p className="px-5 py-12 text-right text-[13px] leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-[20px] md:text-right lg:px-12 lg:py-34  ml-auto max-w-295">
         {t("orderRequestText")}
       </p>
 

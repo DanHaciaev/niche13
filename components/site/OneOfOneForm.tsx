@@ -15,13 +15,13 @@ function TextField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-[13px]! md:text-base!" style={{ color: ACCENT }}>
+      <span className="label-tag font-medium! text-[10px]! md:text-[12px]!" style={{ color: ACCENT }}>
         {label}
       </span>
       <input
         type={type}
         placeholder={placeholder}
-        className="border-b border-ink/30 bg-transparent pb-2 text-[12px]! md:text-[14px]! lg:text-base! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
+        className="border-b border-ink/30 bg-transparent pb-2 font-medium! text-[10px]! md:text-[12px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
       />
     </label>
   );
@@ -50,7 +50,7 @@ export function OneOfOneForm({ t, heading }: { t: FormT; heading: string }) {
             <textarea
               rows={2}
               placeholder={t("nicheNumbersPlaceholder")}
-              className="resize-none border-b border-ink/30 bg-transparent pb-3 text-[12px]! md:text-[14px]! lg:text-base! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+              className="resize-none border-b border-ink/30 bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
             />
           </label>
 

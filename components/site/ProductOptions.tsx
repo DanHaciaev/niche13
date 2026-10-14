@@ -14,7 +14,7 @@ export function SizeOptions() {
           key={size}
           type="button"
           onClick={() => setSelected(size)}
-          className={`label-tag text-[13px]! transition-colors md:text-[20px]! lg:text-[23px]! ${
+          className={`label-tag text-[11px]! transition-colors font-medium! md:text-base! ${
             selected === size ? "text-ink" : "text-ink-faint hover:text-ink-soft"
           }`}
         >

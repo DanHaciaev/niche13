@@ -14,13 +14,13 @@ function TextField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-[13px]! text-white md:text-base!">
+      <span className="label-tag font-medium! text-[10px]! md:text-[12px]! text-white">
         {label}
       </span>
       <input
         type={type}
         placeholder={placeholder}
-        className="border-b border-white/40 bg-transparent pb-2 text-[12px]! md:text-[14px]! lg:text-base! text-white placeholder:text-white/50 focus:border-white focus:outline-none"
+        className="border-b border-white/40 bg-transparent pb-2 font-medium! text-[8px]! md:text-[11px]! text-white placeholder:text-white/50 focus:border-white focus:outline-none"
       />
     </label>
   );
@@ -37,13 +37,13 @@ function TextareaField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-white text-[13px]! lg:text-base! ml-auto md:ml-0">
+      <span className="label-tag text-white font-medium! text-[10px]! md:text-[12px]! ml-auto md:ml-0">
         {label}
       </span>
       <textarea
         rows={rows}
         placeholder={placeholder}
-        className="resize-none border-b border-white/40 bg-transparent pb-3 text-[12px]! md:text-[14px]! lg:text-base! leading-relaxed text-white/70 placeholder:text-white/50 focus:border-white focus:outline-none md:text-sm"
+        className="resize-none border-b border-white/40 bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-white/70 placeholder:text-white/50 focus:border-white focus:outline-none md:text-sm"
       />
     </label>
   );
@@ -69,7 +69,7 @@ export function ChooseYourDesignForm({ t, heading }: { t: FormT; heading: string
           <TextareaField label={t("garmentSelection")} placeholder={t("garmentSelectionPlaceholder")} rows={2} />
           <div>
             <div className="flex flex-row-reverse items-center justify-between md:flex-row">
-              <span className="label-tag text-[13px]! text-white md:text-base!">
+              <span className="label-tag font-medium! text-[10px]! md:text-[12px]! text-white">
                 {t("sizeColour")}
               </span>
               <Link
@@ -82,14 +82,14 @@ export function ChooseYourDesignForm({ t, heading }: { t: FormT; heading: string
             <textarea
               rows={2}
               placeholder={t("sizeColourPlaceholder")}
-              className="mt-3 w-full resize-none border-b border-white/40 bg-transparent pb-3 text-[12px]! md:text-[14px]! lg:text-base! leading-relaxed text-white/70 placeholder:text-white/50 focus:border-white focus:outline-none md:text-sm"
+              className="mt-3 w-full resize-none border-b border-white/40 bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-white/70 placeholder:text-white/50 focus:border-white focus:outline-none md:text-sm"
             />
           </div>
           <TextareaField label={t("quantity")} placeholder={t("quantityPlaceholder")} />
         </div>
 
         <label className="flex flex-col gap-3 [grid-area:C]">
-          <span className="label-tag text-[13px]! text-white md:text-base!">
+          <span className="label-tag font-medium! text-[10px]! md:text-[12px]! text-white">
             {t("additional")}
           </span>
           <textarea
