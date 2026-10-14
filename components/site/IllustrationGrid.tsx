@@ -41,7 +41,7 @@ export function IllustrationGrid({
               </span>
             )}
           </div>
-          <span className="label-tag mt-4 text-ink text-[11px] md:text-base">
+          <span className="label-tag mt-4 text-ink font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]!">
             {label} / {code}
           </span>
         </Link>

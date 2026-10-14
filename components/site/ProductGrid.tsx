@@ -40,19 +40,19 @@ export function ProductGrid({ products, slug }: { products: Product[]; slug: str
               </span>
             )}
           </div>
-          <span className="label-tag mt-4 text-ink text-[11px] md:text-base">NICHE / {product.code}</span>
+          <span className="label-tag mt-4 text-ink font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]!">NICHE / {product.code}</span>
           {product.genderLabel && (
-            <span className="label-tag mt-1 text-ink-faint text-[11px]! md:text-sm!">{product.genderLabel}</span>
+            <span className="label-tag mt-1 text-ink-faint font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]!">{product.genderLabel}</span>
           )}
           {product.discountPrice ? (
             <span className="mt-1 flex items-center gap-2">
-              <span className="label-tag text-ink-faint line-through decoration-ink-faint text-[11px]! md:text-base!">
+              <span className="label-tag text-ink-faint line-through decoration-ink-faint font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]!">
                 {product.price}
               </span>
-              <span className="label-tag text-[#981C1C] text-[11px]! md:text-base!">{product.discountPrice}</span>
+              <span className="label-tag text-[#981C1C] font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]!">{product.discountPrice}</span>
             </span>
           ) : (
-            <span className="label-tag mt-1 text-ink-faint text-[11px]! md:text-base!">{product.price}</span>
+            <span className="label-tag mt-1 text-ink-faint font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]!">{product.price}</span>
           )}
         </Link>
       ))}
