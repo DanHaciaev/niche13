@@ -53,7 +53,7 @@ function CollectionMedia({
 
 export function CollectionsList({ rows }: { rows: CollectionRow[] }) {
   return (
-    <div className="flex flex-col gap-20 px-5 pb-28 sm:gap-24 sm:px-8 lg:gap-32 lg:px-12">
+    <div className="flex flex-col gap-20 px-5 pb-28 md:gap-24 md:px-8 lg:gap-32 lg:px-12">
       {rows.map((row, i) =>
         row.feature ? (
           <Link

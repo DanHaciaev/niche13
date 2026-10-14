@@ -5,6 +5,7 @@ import { useLocale } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { useDarkRoute } from "./DarkRouteContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -14,6 +15,7 @@ export default function LanguageSwitcher() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const isDark = useDarkRoute();
 
   const otherLocales = routing.locales.filter((code) => code !== locale);
 
@@ -51,7 +53,9 @@ export default function LanguageSwitcher() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.45, ease: EASE }}
-            className="absolute right-0 top-full mt-1 w-12 overflow-hidden border border-line bg-white"
+            className={`absolute right-0 top-full mt-1 w-12 overflow-hidden border border-line ${
+              isDark ? "bg-black" : "bg-white"
+            }`}
           >
             {otherLocales.map((code) => (
               <button

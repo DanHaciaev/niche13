@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Link } from "@/i18n/navigation";
 
 export interface Product {
   code: string;
@@ -9,11 +10,11 @@ export interface Product {
   outOfStockLabel?: string;
 }
 
-export function ProductGrid({ products }: { products: Product[] }) {
+export function ProductGrid({ products, slug }: { products: Product[]; slug: string }) {
   return (
-    <div className="grid grid-cols-2 gap-x-4 gap-y-10 px-5 sm:grid-cols-3 sm:gap-x-6 sm:px-8 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14 lg:px-12">
+    <div className="grid grid-cols-2 gap-x-4 gap-y-10 px-5 md:grid-cols-3 md:gap-x-6 md:px-8 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14 lg:px-12">
       {products.map((product) => (
-        <div key={product.code} className="flex flex-col">
+        <Link key={product.code} href={`/collections/${slug}/${product.code}`} className="group flex flex-col">
           <div className="relative">
             <div className="relative aspect-3/4 w-full overflow-hidden">
               <Image
@@ -21,16 +22,16 @@ export function ProductGrid({ products }: { products: Product[] }) {
                 alt={`NICHE / ${product.code}`}
                 fill
                 sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
-                className="object-cover"
+                className="object-cover transition-opacity duration-500 group-hover:opacity-80"
               />
             </div>
             {product.discountPrice && (
-              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center bg-[#981C1C] text-center text-[22px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center bg-[#981C1C] text-center text-[18px]! text-white">
                 {product.saleLabel}
               </span>
             )}
             {product.outOfStock && (
-              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center bg-ink-soft text-center text-[11px]! text-white">
+              <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center bg-ink-soft text-center text-[18px]! text-white">
                 {product.outOfStockLabel}
               </span>
             )}
@@ -47,7 +48,7 @@ export function ProductGrid({ products }: { products: Product[] }) {
           ) : (
             <span className="label-tag mt-1 text-ink-faint">{product.price}</span>
           )}
-        </div>
+        </Link>
       ))}
     </div>
   );

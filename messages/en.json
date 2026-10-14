@@ -112,11 +112,19 @@
   "pages": {
     "about": {
       "title": "About",
-      "intro": "[TO FILL IN: company story]"
+      "text": "NICHE was born from a love for thoughtful details, individual expression, and the beauty of things made with intention. More than a clothing brand, it is a space where creativity meets craftsmanship, and everyday essentials become something personal.<br/>Behind NICHE is a vision of making fashion feel more individual — where every embroidered detail tells a story, reflects a feeling, or carries a meaning of its own.<br/>Created for those who appreciate subtle statements over loud trends, NICHE celebrates individuality through timeless pieces, meaningful designs, and the art of making something truly yours.<br/>Not just what you wear. A reflection of who you are."
     },
     "contacts": {
-      "title": "Contact",
-      "intro": "[TO FILL IN: contact details]"
+      "title": "Let's get in touch",
+      "subtitle": "For enquiries, custom designs\nand everything in between",
+      "generalEnquiries": "General enquiries",
+      "generalEnquiriesValue": "hello@niche.com",
+      "social": "Social",
+      "socialValue": "Instagram",
+      "customOrders": "Custom orders",
+      "customOrdersLine1": "Have something in mind?",
+      "customOrdersLine2": "Tell us about your idea and let's bring it to life.",
+      "customOrdersCta": "Start a custom request"
     },
     "privacyPolicy": {
       "title": "Privacy Policy",
@@ -144,7 +152,7 @@
     "customize": "Customize your Niche",
     "detail": {
       "titlePrefix": "Collection",
-      "description": "Discover our collection of embroidered pieces, where timeless essentials meet thoughtful craftsmanship. Each piece brings together simplicity, individuality, and attention to detail. Find the piece that speaks to you.",
+      "description": "Discover our collection of embroidered pieces, where timeless essentials meet thoughtful craftsmanship. Each piece brings together simplicity, individuality, and attention to detail.<br/>Find the piece that speaks to you.",
       "filters": "Filters",
       "price": "400 MDL",
       "discountPrice": "200 MDL",
@@ -152,6 +160,46 @@
       "exploreLine1": "Explore the collection,",
       "exploreLine2": "choose your favourites, and make them yours.",
       "findPiece": "Find your piece",
+      "form": {
+        "fullName": "Full name*",
+        "fullNamePlaceholder": "Enter your name",
+        "email": "Email address*",
+        "emailPlaceholder": "Enter your email",
+        "phone": "Phone number*",
+        "phonePlaceholder": "Enter your phone number",
+        "country": "Country*",
+        "countryPlaceholder": "Enter your country",
+        "codes": "niche number(s)*",
+        "codesPlaceholder": "Enter the product numbers of the pieces you'd like to order.\nExample: 001, 004, 012",
+        "sizeQty": "Size & Quantity*",
+        "sizeQtyPlaceholder": "Please specify the size and quantity for each selected piece.\nExample: 001 – Size M, Quantity 1.  004 – Size L, Quantity 2.",
+        "sizeGuide": "Size guide",
+        "colour": "Colour preferences",
+        "colourPlaceholder": "Specify your preferred colour for each piece, if applicable.",
+        "additional": "Additional requests (optional)",
+        "additionalPlaceholder": "Is there anything else you'd like us to know?",
+        "submit": "Submit your request",
+        "submitHelper": "We'll get in touch to confirm availability, pricing, and delivery details."
+      },
+      "product": {
+        "nicheNumber": "Niche number:",
+        "title": "Embroidered tank t-shirt",
+        "description": "A minimalist tank top featuring delicate embroidery. Designed for everyday wear, with a distinctive detail that makes it uniquely yours.",
+        "size": "Size",
+        "sizeGuide": "Size guide",
+        "quantity": "Quantity",
+        "quantityPlaceholder": "Please specify the quantity",
+        "color": "Color",
+        "addToOrderRequest": "Add to order request",
+        "viewYourRequest": "View your request"
+      }
+    },
+    "illustrationsPage": {
+      "heroTitle": "Collection of Illustrations",
+      "heroDescription": "Explore our curated collection of illustrations, thoughtfully designed to bring character to every piece. Choose your favourite design and make it yours with a unique embroidered detail.",
+      "orderRequestText": "Explore our collection of unique illustrations, choose the design that speaks to you, and bring it to life through a beautifully embroidered piece made just for you.",
+      "chooseYourDesign": "Choose your design",
+      "illustrationLabel": "Illustration",
       "form": {
         "fullName": "Full name",
         "fullNamePlaceholder": "Enter your name",
@@ -161,18 +209,65 @@
         "phonePlaceholder": "Enter your phone number",
         "country": "Country",
         "countryPlaceholder": "Enter your country",
-        "codes": "Product codes",
-        "codesPlaceholder": "Enter the product numbers of the pieces you'd like to order.\nExample: 001, 004, 012",
-        "sizeQty": "Size & quantity",
-        "sizeQtyPlaceholder": "Please specify the size and quantity for each selected piece.\nExample: 001 – Size M, Quantity 1.  004 – Size L, Quantity 2.",
-        "colour": "Colour preferences",
-        "colourPlaceholder": "Specify your preferred colour for each piece, if applicable.",
+        "illustrationCodes": "Illustration code(s)",
+        "illustrationCodesPlaceholder": "Enter the code(s) of your chosen illustrations.\nExample: 001, 004, 012",
+        "garmentSelection": "Garment selection",
+        "garmentSelectionPlaceholder": "Specify which garment you'd like for each illustration.\nExample: 001 – Hoodie, 004 – T-Shirt.",
+        "sizeColour": "Size & colour",
+        "sizeGuide": "Size guide",
+        "sizeColourPlaceholder": "Specify the size and colour for each garment.\nExample: 001 – Size M, Black. 004 – Size S, White.",
+        "quantity": "Quantity",
+        "quantityPlaceholder": "Specify the quantity for each item.\nExample: 001 – 1 piece, 004 – 2 pieces.",
         "additional": "Additional requests (optional)",
         "additionalPlaceholder": "Is there anything else you'd like us to know?",
         "submit": "Submit your request",
         "submitHelper": "We'll get in touch to confirm availability, pricing, and delivery details."
+      },
+      "product": {
+        "code": "Illustration code:",
+        "description": "Illustration description:",
+        "descriptionText": "Inspired by Moldovan heritage, this illustration brings together cultural symbolism and timeless artistry. A subtle tribute to local traditions, reimagined for contemporary expression and embroidery.",
+        "submit": "Submit your request"
+      }
+    },
+    "oneOfOnePage": {
+      "heroTitle": "One - of - one collection",
+      "heroDescription": "Unique pieces, each created only once. No replicas, no second editions – just one-of-a-kind designs made to belong to one person. Once it's yours, it's yours alone.",
+      "orderRequestText": "A collection of one-of-a-kind pieces, each with its own character. Thoughtfully designed, individually crafted, and made to stand apart. Every piece has a story – yours begins when you find it.",
+      "findYourOne": "Find your one",
+      "form": {
+        "fullName": "Full name",
+        "fullNamePlaceholder": "Enter your name",
+        "email": "Email address",
+        "emailPlaceholder": "Enter your email",
+        "phone": "Phone number",
+        "phonePlaceholder": "Enter your phone number",
+        "country": "Country",
+        "countryPlaceholder": "Enter your country",
+        "nicheNumbers": "Niche number(s)",
+        "nicheNumbersPlaceholder": "Enter the NICHE numbers of the pieces you'd like to order.\nExample: 001, 004, 012",
+        "additional": "Additional requests (optional)",
+        "additionalPlaceholder": "Is there anything else you'd like us to know?",
+        "submit": "Submit your request",
+        "submitHelper": "We'll get in touch to confirm availability, pricing, and delivery details."
+      },
+      "product": {
+        "nicheNumber": "Niche number:",
+        "detailsTitle": "The details behind it:",
+        "descriptionText": "A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.\nAvailable in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.\nOne piece, one story.",
+        "submit": "Submit your request"
       }
     }
+  },
+  "sizeGuide": {
+    "title": "Size guide",
+    "intro": "All measurements are taken flat, in centimetres, and may vary slightly depending on the piece. If you're between sizes, we recommend sizing up for a relaxed fit.",
+    "size": "Size",
+    "chest": "Chest (cm)",
+    "length": "Length (cm)",
+    "shoulder": "Shoulder (cm)",
+    "sleeve": "Sleeve (cm)",
+    "note": "Need help choosing? Reach out and we'll help you find your fit."
   },
   "catalog": {
     "title": "Catalog",
@@ -191,18 +286,37 @@
     "notFound": "Product not found"
   },
   "custom": {
-    "title": "Custom order",
-    "intro": "Tell us what you want — a print, embroidery, or just an idea. We'll sort out the rest together.",
-    "types": {
-      "print": "Custom print",
-      "embroidery": "Embroidery",
-      "consultation": "Not sure yet, need advice"
-    },
-    "uploadLabel": "Upload an image",
-    "descriptionLabel": "Describe your idea",
-    "addToCart": "Add to cart",
-    "fileTypeError": "Please choose an image file.",
-    "fileSizeError": "File is too large (max 8 MB)."
+    "heroTitle": "Customize your Niche",
+    "heroDescription": "Have a design in mind? Bring it to NICHE. Upload your illustration, sketch, or inspiration and turn your idea into something you can wear.<br/>From a personal symbol to a design that holds a special meaning, we believe the best pieces tell your story.",
+    "orderRequest": "Order request",
+    "orderRequestText": "Choose your garment, share your design, and tell us how you envision the final piece. We'll review your request and get in touch to discuss the details of bringing your idea to life. Your idea. Your design. Your NICHE.",
+    "makeItReal": "Make your idea a reality",
+    "form": {
+      "fullName": "Full name",
+      "fullNamePlaceholder": "Enter your name",
+      "email": "Email address",
+      "emailPlaceholder": "Enter your email",
+      "phone": "Phone number",
+      "phonePlaceholder": "Enter your phone number",
+      "country": "Country",
+      "countryPlaceholder": "Enter your country",
+      "garmentSelection": "Garment selection",
+      "garmentSelectionPlaceholder": "Specify which garment you'd like for your custom design",
+      "sizeColour": "Size & colour",
+      "sizeGuide": "Size guide",
+      "sizeColourPlaceholder": "Specify the size and colour for garment",
+      "quantity": "Quantity",
+      "quantityPlaceholder": "Specify the quantity for item",
+      "uploadDesign": "Upload your design",
+      "uploadDesignHelper": "Upload your design or inspiration so we can understand your vision.",
+      "uploadPrompt": "Upload an image or sketch",
+      "uploadFormats": "PNG, JPG or PDF",
+      "uploadFieldNote": "File upload field goes here",
+      "additional": "Additional requests (optional)",
+      "additionalPlaceholder": "Is there anything else you'd like us to know?",
+      "submit": "Submit your request",
+      "submitHelper": "We'll get in touch to confirm availability, pricing, and delivery details."
+    }
   },
   "cart": {
     "title": "Cart",

@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import { nats, fallback } from "@/lib/fonts";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
+import { DarkRouteProvider } from "@/components/site/DarkRouteContext";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -57,9 +58,11 @@ export default async function LocaleLayout({
     >
       <body className="flex min-h-full flex-col bg-white text-ink antialiased">
         <NextIntlClientProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <DarkRouteProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </DarkRouteProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -46,24 +46,24 @@ export default async function HomePage({
       />
 
       {/* Hero */}
-      <section className="flex min-h-screen items-center px-5 pb-24 pt-10 sm:px-8 sm:pb-32 lg:px-12 lg:pt-16">
-        <div className="grid w-full gap-12 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-10">
-          <div className="mx-auto flex flex-col max-w-md min-w-0 text-right justify-end items-end lg:mx-0 lg:ml-auto lg:max-w-lg lg:justify-end">
+      <section className="flex min-h-screen items-center px-5 pb-24 pt-10 md:px-8 md:pb-32 lg:px-12 lg:pt-16">
+        <div className="grid w-full gap-12 md:flex md:flex-col-reverse md:items-end md:gap-3 lg:grid lg:gap-10 lg:grid-cols-[1fr_1.3fr] lg:items-center">
+          <div className="mx-auto flex flex-col items-center gap-4 max-w-md min-w-0 text-right justify-end md:flex-col md:items-end md:gap-5 md:mx-auto md:max-w-lg md:justify-end lg:gap-0 lg:mx-0 lg:ml-auto">
             <Image
               src="/logo.png"
               alt="Niche"
               width={193}
               height={84}
               priority
-              className="h-21 w-auto shrink-0"
+              className="h-16 md:h-21 w-auto self-start shrink-0 md:self-start lg:self-auto"
             />
             <p className="text-right text-base leading-relaxed text-ink-soft lg:text-[21px]">
               {t("intro")}
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:gap-5">
-            <div className="relative aspect-265/355 overflow-hidden">
+          <div className="grid grid-cols-2 gap-3 md:gap-4 md:ml-auto md:w-[70%] lg:w-full lg:ml-0 lg:gap-5">
+            <div className="relative aspect-265/355 overflow-hidden md:translate-y-0">
               <Image
                 src="/top1.jpg"
                 alt="Niche — original illustration"
@@ -73,7 +73,7 @@ export default async function HomePage({
                 className="object-cover"
               />
             </div>
-            <div className="relative aspect-265/355 overflow-hidden">
+            <div className="relative aspect-265/355 translate-y-10 overflow-hidden md:translate-y-0">
               <Image
                 src="/top2.jpg"
                 alt="Niche — lookbook"
@@ -88,7 +88,7 @@ export default async function HomePage({
       </section>
 
       {/* News */}
-      <div className="px-5 py-10 sm:px-8 lg:px-12">
+      <div className="px-5 py-10 md:px-8 lg:px-12">
         <div className="flex items-center gap-6">
           <span className="label-tag shrink-0 text-ink">{t("news")}</span>
           <span className="h-px flex-1 bg-black/40" />

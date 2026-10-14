@@ -52,7 +52,7 @@ export default async function CollectionsPage({
           alt="Niche"
           width={200}
           height={148}
-          className="h-16 w-auto sm:h-20"
+          className="h-16 w-auto md:h-20"
         />
       </div>
 

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { Link } from "@/i18n/navigation";
+import { useDarkRoute } from "./DarkRouteContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -22,6 +23,7 @@ export default function NavDrawer({
   closeLabel: string;
 }) {
   const [open, setOpen] = useState(false);
+  const isDark = useDarkRoute();
 
   useEffect(() => {
     if (!open) return;
@@ -38,7 +40,9 @@ export default function NavDrawer({
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        className="label-tag relative z-50 text-ink-soft transition-colors duration-300 hover:text-ink"
+        className={`label-tag relative z-50 transition-colors duration-300 ${
+          isDark ? "text-white/70 hover:text-white" : "text-ink-soft hover:text-ink"
+        }`}
       >
         {menuLabel}
       </button>
@@ -50,12 +54,16 @@ export default function NavDrawer({
             animate={{ x: "0%" }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.65, ease: EASE }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-white"
+            className={`fixed inset-0 z-40 flex flex-col items-center justify-center ${
+              isDark ? "bg-black" : "bg-white"
+            }`}
           >
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="label-tag absolute right-24 top-7 text-ink-soft transition-colors duration-300 hover:text-ink"
+              className={`label-tag absolute right-24 top-7 transition-colors duration-300 ${
+                isDark ? "text-white/70 hover:text-white" : "text-ink-soft hover:text-ink"
+              }`}
             >
               {closeLabel}
             </button>
@@ -65,7 +73,7 @@ export default function NavDrawer({
               animate="visible"
               exit="hidden"
               variants={{ visible: { transition: { staggerChildren: 0.07, delayChildren: 0.25 } } }}
-              className="flex flex-col items-center gap-10 sm:gap-12"
+              className="flex flex-col items-center gap-10 md:gap-12"
             >
               <motion.div
                 variants={{
@@ -79,11 +87,11 @@ export default function NavDrawer({
                   alt="Niche"
                   width={200}
                   height={148}
-                  className="h-16 w-auto sm:h-20"
+                  className={`h-16 w-auto md:h-20 ${isDark ? "invert" : ""}`}
                 />
               </motion.div>
 
-              <nav className="flex flex-col items-center gap-8 sm:gap-10">
+              <nav className="flex flex-col items-center gap-6">
                 {links.map((link) => (
                   <motion.div
                     key={link.href}
@@ -96,7 +104,9 @@ export default function NavDrawer({
                     <Link
                       href={link.href}
                       onClick={() => setOpen(false)}
-                      className="text-[22px]  uppercase tracking-widest text-ink transition-colors hover:text-ink-soft"
+                      className={`text-[22px]  uppercase tracking-widest transition-colors ${
+                        isDark ? "text-white hover:text-white/70" : "text-ink hover:text-ink-soft"
+                      }`}
                     >
                       {link.label}
                     </Link>
