@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { getSiteContent } from "@/lib/data/content";
 import { FooterShell } from "./FooterShell";
 
 export default async function Footer() {
   const t = await getTranslations("footer");
+  const content = await getSiteContent(await getLocale());
 
   const links: {
     href: string;
@@ -15,8 +17,8 @@ export default async function Footer() {
       { href: "/custom", label: t("links.customize"), pos: "md:col-start-3 md:row-start-2" },
       { href: "/collections", label: t("links.collections"), pos: "md:col-start-4 md:row-start-1" },
       { href: "/about", label: t("links.brand"), pos: "md:col-start-4 md:row-start-2" },
-      { href: "mailto:hello@niche.com", label: t("links.email"), external: true, pos: "row-start-3" },
-      { href: "https://instagram.com", label: t("links.instagram"), external: true, pos: "row-start-3" },
+      { href: `mailto:${content.email}`, label: t("links.email"), external: true, pos: "row-start-3" },
+      { href: content.instagramUrl, label: t("links.instagram"), external: true, pos: "row-start-3" },
       { href: "/contacts", label: t("links.contactUs"), pos: "row-start-3" },
     ];
 
@@ -124,7 +126,7 @@ export default async function Footer() {
             <div className="flex items-center justify-between">
               {links
                 .filter((link) => link.pos.includes("row-start-3"))
-                .sort((a, b) => (a.href.includes("instagram") ? -1 : b.href.includes("instagram") ? 1 : 0))
+                .sort((a, b) => (a.href === content.instagramUrl ? -1 : b.href === content.instagramUrl ? 1 : 0))
                 .map((link) => (
                   <LinkItem key={link.href} link={link} />
                 ))}

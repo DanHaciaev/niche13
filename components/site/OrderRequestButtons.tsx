@@ -6,6 +6,7 @@ import {
   addOrderRequestItem,
   getOrderRequestItems,
   subscribeOrderRequest,
+  useOrderRequestItems,
 } from "@/lib/orderRequestStore";
 
 export function AddToOrderRequestButton({
@@ -49,12 +50,7 @@ export function ViewYourRequestLink({
   label: string;
   className: string;
 }) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    setCount(getOrderRequestItems().length);
-    return subscribeOrderRequest(() => setCount(getOrderRequestItems().length));
-  }, []);
+  const count = useOrderRequestItems().length;
 
   return (
     <Link href={href} className={className}>

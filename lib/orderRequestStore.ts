@@ -1,5 +1,7 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
+
 export interface OrderRequestItem {
   code: string;
   size: string;
@@ -58,4 +60,11 @@ export function subscribeOrderRequest(listener: Listener): () => void {
   hydrate();
   listeners.add(listener);
   return () => listeners.delete(listener);
+}
+
+const EMPTY: OrderRequestItem[] = [];
+
+/** React binding: re-renders when the request list changes (in this tab). */
+export function useOrderRequestItems(): OrderRequestItem[] {
+  return useSyncExternalStore(subscribeOrderRequest, getOrderRequestItems, () => EMPTY);
 }

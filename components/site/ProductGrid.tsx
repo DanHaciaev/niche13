@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 
 export interface Product {
   code: string;
+  image: string;
   price: string;
   priceValue?: number;
   discountPrice?: string;
@@ -22,7 +23,7 @@ export function ProductGrid({ products, slug }: { products: Product[]; slug: str
           <div className="relative">
             <div className="relative aspect-3/4 w-full overflow-hidden">
               <Image
-                src="/clothes.jpg"
+                src={product.image}
                 alt={`NICHE / ${product.code}`}
                 fill
                 sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"

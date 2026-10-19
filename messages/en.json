@@ -200,7 +200,8 @@
         "color": "Color",
         "addToOrderRequest": "Add to order request",
         "addedToOrderRequest": "Added",
-        "viewYourRequest": "View your request"
+        "viewYourRequest": "View your request",
+        "lowStock": "Only {count} left"
       }
     },
     "illustrationsPage": {
@@ -355,6 +356,26 @@
     "success": {
       "title": "Order sent",
       "subtitle": "We'll be in touch shortly to confirm."
+    }
+  },
+  "notFound": {
+    "label": "Error 404",
+    "title": "This page is not in the collection",
+    "text": "The link may be outdated or the address mistyped. Head back home or browse the collections.",
+    "home": "Back home",
+    "collections": "Browse collections",
+    "marquee": "Page not found"
+  },
+  "requestForm": {
+    "sending": "Sending…",
+    "success": "Thank you! Your request has been sent — we'll be in touch soon.",
+    "errors": {
+      "validation": "Please check the form: your name and fields marked * are required.",
+      "contact": "Please enter a valid email or phone number so we can reply.",
+      "file": "Please attach a PNG, JPG or PDF file up to 10 MB.",
+      "rate": "Too many requests in a row. Please try again in a few minutes.",
+      "unavailable": "Requests are temporarily unavailable. Please email us instead.",
+      "server": "Something went wrong. Please try again."
     }
   }
 }

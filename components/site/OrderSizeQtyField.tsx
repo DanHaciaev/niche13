@@ -9,7 +9,15 @@ function format(items: OrderRequestItem[]): string {
   return withSize.map((i) => `${i.code} – Size ${i.size}, Quantity ${i.quantity || 1}`).join(".  ") + ".";
 }
 
-export function OrderSizeQtyField({ placeholder, className }: { placeholder: string; className: string }) {
+export function OrderSizeQtyField({
+  name,
+  placeholder,
+  className,
+}: {
+  name: string;
+  placeholder: string;
+  className: string;
+}) {
   const [value, setValue] = useState("");
   const editingRef = useRef(false);
 
@@ -25,6 +33,8 @@ export function OrderSizeQtyField({ placeholder, className }: { placeholder: str
   return (
     <textarea
       rows={2}
+      name={name}
+      maxLength={2000}
       placeholder={placeholder}
       value={value}
       onFocus={() => {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getSiteContent } from "@/lib/data/content";
 import { renderBreaks } from "@/lib/rich-text";
 
 export async function generateMetadata({
@@ -21,6 +22,7 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("pages.about");
+  const content = await getSiteContent(locale);
 
   return (
     <div className="bg-black">
@@ -48,7 +50,7 @@ export default async function AboutPage({
           </div>
 
           <div className="flex flex-col leading-relaxed text-white/80 md:flex-1 text-[18px] lg:max-w-200">
-            <p>{renderBreaks(t("text"))}</p>
+            <p>{renderBreaks(content.aboutText ?? t("text"))}</p>
           </div>
         </div>
       </div>

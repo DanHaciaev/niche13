@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { getSiteContent } from "@/lib/data/content";
 
 export async function generateMetadata({
   params,
@@ -20,16 +21,17 @@ export default async function ContactsPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("pages.contacts");
+  const content = await getSiteContent(locale);
 
   const rows = [
     {
       label: t("generalEnquiries"),
       content: (
         <a
-          href={`mailto:${t("generalEnquiriesValue")}`}
+          href={`mailto:${content.email}`}
           className="text-sm text-ink-faint transition-colors hover:text-ink"
         >
-          {t("generalEnquiriesValue")}
+          {content.email}
         </a>
       ),
     },
@@ -37,7 +39,7 @@ export default async function ContactsPage({
       label: t("social"),
       content: (
         <a
-          href="https://instagram.com"
+          href={content.instagramUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="text-sm text-ink-faint transition-colors hover:text-ink"

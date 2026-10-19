@@ -2,17 +2,25 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { getCollections } from "@/lib/collections-data";
+import { Link } from "@/i18n/navigation";
+import { formatPrice, getCollection, getProduct } from "@/lib/data/catalog";
 import { ProductOrderPanel } from "@/components/site/ProductOrderPanel";
+
+export async function generateStaticParams({ params }: { params: { locale: string; slug: string } }) {
+  const data = await getCollection(params.slug, params.locale);
+  return (data?.products ?? []).map((p) => ({ productCode: p.code }));
+}
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string; slug: string; productCode: string }>;
 }): Promise<Metadata> {
-  const { locale, productCode } = await params;
+  const { locale, slug, productCode } = await params;
   const t = await getTranslations({ locale, namespace: "collections.detail.product" });
-  return { title: `NICHE / ${productCode} — ${t("title")}` };
+  const data = await getProduct(slug, productCode, locale);
+  if (!data) return {};
+  return { title: `NICHE / ${productCode} — ${data.product.title || t("title")}` };
 }
 
 export default async function ProductPage({
@@ -26,10 +34,11 @@ export default async function ProductPage({
   const tProduct = await getTranslations("collections.detail.product");
   const tBadges = await getTranslations("badges");
 
-  const collection = getCollections(t).find((c) => c.slug === slug);
-  if (!collection) notFound();
+  const data = await getProduct(slug, productCode, locale);
+  if (!data) notFound();
+  const { collection, product } = data;
 
-  if (slug === "illustrations") {
+  if (collection.kind === "illustrations") {
     const tIllustration = await getTranslations("collections.illustrationsPage");
     const tIllustrationProduct = await getTranslations("collections.illustrationsPage.product");
 
@@ -38,7 +47,7 @@ export default async function ProductPage({
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-7 lg:gap-16">
           <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[30%]">
             <Image
-              src="/collection9.jpg"
+              src={product.images[0] ?? "/collection9.jpg"}
               alt={`${tIllustration("illustrationLabel")} / ${productCode}`}
               fill
               sizes="(min-width: 1024px) 36vw, (min-width: 640px) 42vw, 100vw"
@@ -59,16 +68,16 @@ export default async function ProductPage({
               {tIllustrationProduct("description")}
             </span>
             <p className="mt-2 max-w-full font-medium! text-[13px]! leading-relaxed text-ink-soft md:text-[15px]! lg:text-[18px]!">
-              {tIllustrationProduct("descriptionText")}
+              {product.description || tIllustrationProduct("descriptionText")}
             </p>
 
             <div className="mt-10 lg:mt-20">
-              <button
-                type="button"
-                className="label-tag w-full bg-ink py-4 text-center text-[12px]! font-medium! text-cream transition-colors hover:bg-ink-soft md:w-auto md:px-8 md:text-[14px]! lg:text-[16px]!"
+              <Link
+                href={`/collections/${slug}#order-request`}
+                className="label-tag block w-full bg-ink py-4 text-center text-[12px]! font-medium! text-cream transition-colors hover:bg-ink-soft md:inline-block md:w-auto md:px-8 md:text-[14px]! lg:text-[16px]!"
               >
                 {tIllustrationProduct("submit")}
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -76,16 +85,16 @@ export default async function ProductPage({
     );
   }
 
-  if (slug === "one-of-one") {
+  if (collection.kind === "one_of_one") {
     const tOneOfOneProduct = await getTranslations("collections.oneOfOnePage.product");
-    const descriptionLines = tOneOfOneProduct("descriptionText").split("\n");
+    const descriptionLines = (product.description || tOneOfOneProduct("descriptionText")).split("\n");
 
     return (
       <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-7 lg:gap-16">
           <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[30%]">
             <Image
-              src="/clothes.jpg"
+              src={product.images[0] ?? "/clothes.jpg"}
               alt={`NICHE / ${productCode}`}
               fill
               sizes="(min-width: 1024px) 36vw, (min-width: 640px) 42vw, 100vw"
@@ -112,12 +121,12 @@ export default async function ProductPage({
             </div>
 
             <div className="mt-10 lg:mt-20">
-              <button
-                type="button"
-                className="label-tag w-full bg-ink py-4 text-center text-[12px]! font-medium! md:text-[14px]! text-cream transition-colors hover:bg-ink-soft md:w-auto md:px-8 md:text-base! lg:text-[16px]!"
+              <Link
+                href={`/collections/${slug}#order-request`}
+                className="label-tag block w-full bg-ink py-4 text-center text-[12px]! font-medium! md:text-[14px]! text-cream transition-colors hover:bg-ink-soft md:inline-block md:w-auto md:px-8 md:text-base! lg:text-[16px]!"
               >
                 {tOneOfOneProduct("submit")}
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -125,13 +134,15 @@ export default async function ProductPage({
     );
   }
 
+  const onSale = product.discountPrice !== null;
+
   return (
     <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
       <div className="flex flex-col items-center gap-10 md:items-start md:flex-row md:gap-7 lg:gap-16">
         <div className="relative w-full shrink-0 md:w-[42%] lg:w-[30%]">
           <div className="relative aspect-392/525 w-full overflow-hidden">
             <Image
-              src="/clothes.jpg"
+              src={product.images[0] ?? "/clothes.jpg"}
               alt={`NICHE / ${productCode}`}
               fill
               sizes="(min-width: 1024px) 36vw, (min-width: 640px) 42vw, 100vw"
@@ -139,12 +150,12 @@ export default async function ProductPage({
               className="object-cover"
             />
           </div>
-          {parseInt(productCode, 10) === 4 && (
+          {onSale && (
             <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center font-medium! bg-[#981C1C] text-center text-[14px]! text-white">
               {tBadges("sale")}
             </span>
           )}
-          {parseInt(productCode, 10) === 3 && (
+          {product.soldOut && (
             <span className="label-tag absolute -left-1 -top-1 flex h-7 w-37 items-center justify-center font-medium! bg-ink-soft text-center text-[13px]! text-white">
               {tBadges("outOfStock")}
             </span>
@@ -160,40 +171,49 @@ export default async function ProductPage({
               <p className="label-tag mt-1 text-[10px]! font-medium! text-ink-faint md:text-[15px]!">
                 NICHE/{productCode}
               </p>
-              <p className="label-tag mt-1 text-[10px]! font-medium! text-ink-faint md:text-[15px]!">
-                {(parseInt(productCode, 10) - 1) % 2 === 0 ? t("detail.male") : t("detail.female")}
-              </p>
-            </div>
-
-            <div className="text-left">
-              <span className="label-tag text-[13px]! font-medium! text-ink md:text-[16px]!">
-                {tProduct("price")}
-              </span>
-              {parseInt(productCode, 10) === 4 ? (
-                <p className="mt-1 flex items-center gap-2">
-                  <span className="label-tag text-[10px]! font-medium! text-ink-faint line-through decoration-ink-faint md:text-[15px]!">
-                    {t("detail.price")}
-                  </span>
-                  <span className="label-tag text-[10px]! font-medium! text-[#981C1C] md:text-[15px]!">
-                    {t("detail.discountPrice")}
-                  </span>
-                </p>
-              ) : (
+              {product.gender && (
                 <p className="label-tag mt-1 text-[10px]! font-medium! text-ink-faint md:text-[15px]!">
-                  {t("detail.price")}
+                  {product.gender === "male" ? t("detail.male") : t("detail.female")}
                 </p>
               )}
             </div>
+
+            {product.price !== null && (
+              <div className="text-left">
+                <span className="label-tag text-[13px]! font-medium! text-ink md:text-[16px]!">
+                  {tProduct("price")}
+                </span>
+                {onSale ? (
+                  <p className="mt-1 flex items-center gap-2">
+                    <span className="label-tag text-[10px]! font-medium! text-ink-faint line-through decoration-ink-faint md:text-[15px]!">
+                      {formatPrice(product.price, product.currency)}
+                    </span>
+                    <span className="label-tag text-[10px]! font-medium! text-[#981C1C] md:text-[15px]!">
+                      {formatPrice(product.discountPrice, product.currency)}
+                    </span>
+                  </p>
+                ) : (
+                  <p className="label-tag mt-1 text-[10px]! font-medium! text-ink-faint md:text-[15px]!">
+                    {formatPrice(product.price, product.currency)}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
-          <h1 className="label-tag mt-10 lg:mt-20 text-[13px]! md:text-base! font-medium! text-ink">{tProduct("title")}</h1>
+          <h1 className="label-tag mt-10 lg:mt-20 text-[13px]! md:text-base! font-medium! text-ink">
+            {product.title || tProduct("title")}
+          </h1>
           <p className="mt-2 max-w-full font-medium! text-[11px]! md:text-[15px]! leading-relaxed text-ink-soft">
-            {tProduct("description")}
+            {product.description || tProduct("description")}
           </p>
 
           <ProductOrderPanel
             code={productCode}
             slug={slug}
+            sizes={product.sizes}
+            colors={product.colors}
+            stock={product.stock}
             labels={{
               size: tProduct("size"),
               sizeGuide: tProduct("sizeGuide"),
@@ -203,6 +223,7 @@ export default async function ProductPage({
               addToOrderRequest: tProduct("addToOrderRequest"),
               addedToOrderRequest: tProduct("addedToOrderRequest"),
               viewYourRequest: tProduct("viewYourRequest"),
+              soldOut: tBadges("outOfStock"),
             }}
           />
         </div>

@@ -3,7 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import { getOrderRequestItems, setOrderRequestItems, subscribeOrderRequest } from "@/lib/orderRequestStore";
 
-export function OrderCodesField({ label, placeholder }: { label: string; placeholder: string }) {
+export function OrderCodesField({
+  name,
+  label,
+  placeholder,
+}: {
+  name: string;
+  label: string;
+  placeholder: string;
+}) {
   const [codes, setCodes] = useState("");
   const editingRef = useRef(false);
 
@@ -38,6 +46,8 @@ export function OrderCodesField({ label, placeholder }: { label: string; placeho
       </span>
       <textarea
         rows={2}
+        name={name}
+        maxLength={2000}
         placeholder={placeholder}
         value={codes}
         onFocus={() => {

@@ -15,7 +15,15 @@ function format(items: OrderRequestItem[]): string {
   return withColor.map((i) => `${i.code} – ${COLOR_NAMES[i.color] ?? i.color}`).join(", ");
 }
 
-export function OrderColourField({ placeholder, className }: { placeholder: string; className: string }) {
+export function OrderColourField({
+  name,
+  placeholder,
+  className,
+}: {
+  name: string;
+  placeholder: string;
+  className: string;
+}) {
   const [value, setValue] = useState("");
   const editingRef = useRef(false);
 
@@ -31,6 +39,8 @@ export function OrderColourField({ placeholder, className }: { placeholder: stri
   return (
     <textarea
       rows={2}
+      name={name}
+      maxLength={2000}
       placeholder={placeholder}
       value={value}
       onFocus={() => {

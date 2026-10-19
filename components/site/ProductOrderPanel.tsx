@@ -1,19 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { addOrderRequestItem, getOrderRequestItems, subscribeOrderRequest } from "@/lib/orderRequestStore";
-
-const SIZES = ["S", "M", "L", "XL", "2XL", "3XL"];
-const COLORS = ["#17150f", "#ffffff", "#f5c518"];
 
 export function ProductOrderPanel({
   code,
   slug,
+  sizes,
+  colors,
+  stock,
   labels,
 }: {
   code: string;
   slug: string;
+  sizes: string[];
+  colors: string[];
+  /** Pieces left per size; null when stock isn't tracked. */
+  stock: Record<string, number> | null;
   labels: {
     size: string;
     sizeGuide: string;
@@ -23,11 +28,17 @@ export function ProductOrderPanel({
     addToOrderRequest: string;
     addedToOrderRequest: string;
     viewYourRequest: string;
+    soldOut: string;
   };
 }) {
-  const [size, setSize] = useState("2XL");
+  const t = useTranslations("collections.detail.product");
+  const available = (s: string) => stock === null || (stock[s] ?? 0) > 0;
+  const inStock = sizes.filter(available);
+  const [size, setSize] = useState(inStock.includes("2XL") ? "2XL" : (inStock[0] ?? ""));
+  const left = stock === null || !size ? null : (stock[size] ?? 0);
+  const soldOut = inStock.length === 0;
   const [quantity, setQuantity] = useState("");
-  const [color, setColor] = useState(COLORS[2]);
+  const [color, setColor] = useState(colors[2] ?? colors[0] ?? "");
   const [added, setAdded] = useState(false);
   const [count, setCount] = useState(0);
 
@@ -57,19 +68,39 @@ export function ProductOrderPanel({
             </Link>
           </div>
           <div className="mt-3 flex gap-4">
-            {SIZES.map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => setSize(s)}
-                className={`label-tag text-[11px]! transition-colors font-medium! md:text-base! ${
-                  size === s ? "text-ink" : "text-ink-faint hover:text-ink-soft"
-                }`}
-              >
-                {s}
-              </button>
-            ))}
+            {sizes.map((s) =>
+              available(s) ? (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => {
+                    setSize(s);
+                    // Don't keep a quantity the newly picked size can't cover.
+                    if (stock && Number(quantity) > (stock[s] ?? 0)) setQuantity(String(stock[s]));
+                  }}
+                  className={`label-tag text-[11px]! transition-colors font-medium! md:text-base! ${
+                    size === s ? "text-ink" : "text-ink-faint hover:text-ink-soft"
+                  }`}
+                >
+                  {s}
+                </button>
+              ) : (
+                <span
+                  key={s}
+                  title={labels.soldOut}
+                  className="label-tag cursor-not-allowed text-[11px]! font-medium! text-ink-faint/50 line-through md:text-base!"
+                >
+                  <span className="sr-only">{labels.soldOut}: </span>
+                  {s}
+                </span>
+              ),
+            )}
           </div>
+          {left !== null && left > 0 && left <= 3 && (
+            <p className="label-tag mt-3 text-[10px]! font-medium! text-[#981C1C] md:text-[12px]!">
+              {t("lowStock", { count: left })}
+            </p>
+          )}
         </div>
 
         <div>
@@ -79,8 +110,12 @@ export function ProductOrderPanel({
           <input
             type="number"
             min={1}
+            max={left ?? undefined}
             value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              setQuantity(left !== null && Number(value) > left ? String(left) : value);
+            }}
             placeholder={labels.quantityPlaceholder}
             className="mt-3 block w-full border-b border-line bg-transparent pb-2 font-medium! text-[11px]! md:text-[15px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none lg:w-48"
           />
@@ -92,7 +127,7 @@ export function ProductOrderPanel({
           {labels.color}*
         </span>
         <div className="mt-3 flex gap-3">
-          {COLORS.map((c) => (
+          {colors.map((c) => (
             <button
               key={c}
               type="button"
@@ -110,10 +145,11 @@ export function ProductOrderPanel({
       <div className="mt-15 flex items-center gap-6">
         <button
           type="button"
+          disabled={soldOut}
           onClick={() => addOrderRequestItem({ code, size, quantity: quantity || "1", color })}
-          className="label-tag bg-ink px-4 py-2 md:px-8 md:py-4 text-[10px]! font-medium! text-cream transition-colors hover:bg-ink-soft md:text-[14px]!"
+          className="label-tag bg-ink px-4 py-2 md:px-8 md:py-4 text-[10px]! font-medium! text-cream transition-colors hover:bg-ink-soft disabled:cursor-not-allowed disabled:bg-ink-soft md:text-[14px]!"
         >
-          {added ? labels.addedToOrderRequest : labels.addToOrderRequest}
+          {soldOut ? labels.soldOut : added ? labels.addedToOrderRequest : labels.addToOrderRequest}
         </button>
         <Link
           href={`/collections/${slug}#order-request`}

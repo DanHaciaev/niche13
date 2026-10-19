@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CollectionsList, type CollectionRow } from "@/components/site/CollectionsList";
-import { getCollections } from "@/lib/collections-data";
+import { getCollections } from "@/lib/data/catalog";
 
 export async function generateMetadata({
   params,
@@ -24,15 +24,14 @@ export default async function CollectionsPage({
   const t = await getTranslations("collections");
 
   const rows: CollectionRow[] = [
-    ...getCollections(t).map((c) => ({
+    ...(await getCollections(locale)).map((c) => ({
       href: `/collections/${c.slug}`,
-      eyebrow: c.eyebrow,
+      eyebrow: c.eyebrow || undefined,
       title: c.title,
-      sub: c.sub,
-      reverse: c.reverse,
-      feature: c.feature,
-      placeholderLabel: c.placeholderLabel,
-      image: c.image,
+      reverse: c.layout === "right",
+      feature: c.layout === "feature",
+      placeholderLabel: c.slug,
+      image: c.coverImage ?? undefined,
     })),
     {
       href: "/custom",

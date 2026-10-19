@@ -8,6 +8,7 @@ import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import { FooterGate } from "@/components/site/FooterGate";
 import { DarkRouteProvider } from "@/components/site/DarkRouteContext";
+import { PageViewTracker } from "@/components/site/PageViewTracker";
 import "../globals.css";
 
 export function generateStaticParams() {
@@ -65,6 +66,7 @@ export default async function LocaleLayout({
             <FooterGate>
               <Footer />
             </FooterGate>
+            <PageViewTracker />
           </DarkRouteProvider>
         </NextIntlClientProvider>
       </body>
