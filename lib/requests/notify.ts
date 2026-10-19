@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 import { Resend } from "resend";
 import { serviceClient } from "@/lib/supabase/service";
 import { decryptSecret } from "@/lib/security/secrets";
+import { siteUrl } from "@/lib/site-url";
 import { FIELD_LABELS, type RequestItem, type RequestKind } from "./schema";
 
 export interface NotificationSettings {
@@ -36,7 +37,6 @@ interface NewRequest {
 /** Plain text on purpose: neither email nor Telegram is asked to render
  * HTML, so nothing a visitor types can inject markup into the message. */
 function formatMessage(request: NewRequest) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const lines = [
     `Новая заявка — ${KIND_LABELS[request.kind]}${request.collectionSlug ? ` (${request.collectionSlug})` : ""}`,
     "",

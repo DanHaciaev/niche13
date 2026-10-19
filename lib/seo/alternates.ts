@@ -1,6 +1,6 @@
 import { routing } from "@/i18n/routing";
+import { siteUrl } from "@/lib/site-url";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export function localeAlternates(path: string, currentLocale: string) {
   return {
