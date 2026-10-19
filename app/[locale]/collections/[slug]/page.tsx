@@ -236,7 +236,9 @@ export default async function CollectionDetailPage({
         {t("detail.exploreLine2")}
       </p>
 
-      <OrderRequestForm t={tForm} heading={t("detail.findPiece")} />
+      <div id="order-request">
+        <OrderRequestForm t={tForm} heading={t("detail.findPiece")} />
+      </div>
     </>
   );
 }

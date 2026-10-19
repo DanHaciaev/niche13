@@ -1,5 +1,8 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { OrderCodesField } from "./OrderCodesField";
+import { OrderSizeQtyField } from "./OrderSizeQtyField";
+import { OrderColourField } from "./OrderColourField";
 
 type FormT = (key: string) => string;
 
@@ -26,29 +29,6 @@ function TextField({
   );
 }
 
-function TextareaField({
-  label,
-  placeholder,
-  rows = 1,
-}: {
-  label: string;
-  placeholder: string;
-  rows?: number;
-}) {
-  return (
-    <label className="flex flex-col gap-3">
-      <span className="label-tag text-black font-medium! text-[10px]! md:text-[12px]! ml-auto md:ml-0">
-        {label}
-      </span>
-      <textarea
-        rows={rows}
-        placeholder={placeholder}
-        className="resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
-      />
-    </label>
-  );
-}
-
 export function OrderRequestForm({ t, heading }: { t: FormT; heading: string }) {
   return (
     <div className="relative mx-5 mb-20 bg-[#E5DED7] px-5 pb-12 pt-12 md:mx-12 md:px-8 md:pb-16 md:pt-24 lg:px-12 lg:pb-10 lg:pt-20">
@@ -65,7 +45,7 @@ export function OrderRequestForm({ t, heading }: { t: FormT; heading: string }) 
         </div>
 
         <div className="flex flex-col gap-8 md:gap-15 [grid-area:B]">
-          <TextareaField label={t("codes")} placeholder={t("codesPlaceholder")} rows={2} />
+          <OrderCodesField label={t("codes")} placeholder={t("codesPlaceholder")} />
           <div>
             <div className="flex flex-row-reverse items-center justify-between md:flex-row">
               <span className="label-tag text-black font-medium! text-[10px]! md:text-[12px]!">
@@ -78,13 +58,20 @@ export function OrderRequestForm({ t, heading }: { t: FormT; heading: string }) 
                 {t("sizeGuide")}
               </Link>
             </div>
-            <textarea
-              rows={2}
+            <OrderSizeQtyField
               placeholder={t("sizeQtyPlaceholder")}
               className="mt-3 w-full resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
             />
           </div>
-          <TextareaField label={t("colour")} placeholder={t("colourPlaceholder")} />
+          <div>
+            <span className="label-tag text-black font-medium! text-[10px]! md:text-[12px]!">
+              {t("colour")}
+            </span>
+            <OrderColourField
+              placeholder={t("colourPlaceholder")}
+              className="mt-3 w-full resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+            />
+          </div>
         </div>
 
         <label className="flex flex-col gap-3 [grid-area:C]">

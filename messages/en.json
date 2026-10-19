@@ -199,6 +199,7 @@
         "quantityPlaceholder": "Please specify the quantity",
         "color": "Color",
         "addToOrderRequest": "Add to order request",
+        "addedToOrderRequest": "Added",
         "viewYourRequest": "View your request"
       }
     },

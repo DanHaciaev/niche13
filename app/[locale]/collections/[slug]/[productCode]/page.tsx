@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
-import { SizeOptions, ColorOptions } from "@/components/site/ProductOptions";
 import { getCollections } from "@/lib/collections-data";
+import { ProductOrderPanel } from "@/components/site/ProductOrderPanel";
 
 export async function generateMetadata({
   params,
@@ -192,60 +191,20 @@ export default async function ProductPage({
             {tProduct("description")}
           </p>
 
-          <div className="mt-10 lg:mt-20 flex flex-col gap-10 lg:flex-row lg:gap-20">
-            <div className="w-40 md:w-56">
-              <div className="flex items-baseline gap-4">
-                <span className="label-tag text-[13px]! font-medium! text-ink md:text-[16px]!">
-                  {tProduct("size")}*
-                </span>
-                <Link
-                  href="/size-guide"
-                  className="label-tag text-[11px]! text-ink-faint underline-offset-2 hover:text-ink hover:underline md:text-xs!"
-                >
-                  {tProduct("sizeGuide")}
-                </Link>
-              </div>
-              <div className="mt-3">
-                <SizeOptions />
-              </div>
-            </div>
-
-            <div>
-              <span className="label-tag text-[13px]! font-medium! text-ink md:text-[16px]!">
-                {tProduct("quantity")}*
-              </span>
-              <input
-                type="number"
-                min={1}
-                placeholder={tProduct("quantityPlaceholder")}
-                className="mt-3 block w-full border-b border-line bg-transparent pb-2 font-medium! text-[11px]! md:text-[15px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none lg:w-48"
-              />
-            </div>
-          </div>
-
-          <div className="mt-10 lg:mt-20">
-            <span className="label-tag text-[13px]! font-medium! text-ink md:text-[16px]!">
-              {tProduct("color")}*
-            </span>
-            <div className="mt-3">
-              <ColorOptions />
-            </div>
-          </div>
-
-          <div className="mt-15 flex items-center gap-6">
-            <button
-              type="button"
-              className="label-tag bg-ink px-4 py-2 md:px-8 md:py-4 text-[10px]! font-medium! text-cream transition-colors hover:bg-ink-soft md:text-[14px]!"
-            >
-              {tProduct("addToOrderRequest")}
-            </button>
-            <Link
-              href="/checkout"
-              className="label-tag text-[10px]! text-ink-soft text-center underline-offset-2 hover:text-ink hover:underline font-medium! md:text-[14px]!"
-            >
-              {tProduct("viewYourRequest")}
-            </Link>
-          </div>
+          <ProductOrderPanel
+            code={productCode}
+            slug={slug}
+            labels={{
+              size: tProduct("size"),
+              sizeGuide: tProduct("sizeGuide"),
+              quantity: tProduct("quantity"),
+              quantityPlaceholder: tProduct("quantityPlaceholder"),
+              color: tProduct("color"),
+              addToOrderRequest: tProduct("addToOrderRequest"),
+              addedToOrderRequest: tProduct("addedToOrderRequest"),
+              viewYourRequest: tProduct("viewYourRequest"),
+            }}
+          />
         </div>
       </div>
     </div>
