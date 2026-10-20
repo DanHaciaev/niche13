@@ -20,7 +20,7 @@ export default async function Header() {
           <Link
             key={link.href}
             href={link.href}
-            className="text-[9px] font-medium uppercase leading-none text-ink transition-colors hover:text-ink-soft"
+            className="text-[10px] font-medium uppercase leading-none text-ink transition-colors hover:text-ink-soft"
           >
             {link.label}
           </Link>

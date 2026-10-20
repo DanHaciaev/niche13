@@ -47,7 +47,7 @@ export default async function HomePage({
 
       {/* Hero: two 499×688 photos, 27px apart, centred. Below the design
           width they scale down together and keep their proportions. */}
-      <section className="px-5 pb-24 pt-4 md:px-8 md:pb-32">
+      <section className="px-5 pb-24 pt-6 md:px-8 md:pb-18">
         <div className="mx-auto grid max-w-[1025px] grid-cols-2 gap-3 md:gap-[27px]">
           {[
             { src: "/top1.jpg", alt: "Niche — original illustration" },
