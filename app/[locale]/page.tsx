@@ -45,45 +45,25 @@ export default async function HomePage({
         }}
       />
 
-      {/* Hero */}
-      <section className="flex min-h-screen items-center px-5 pb-24 pt-10 md:px-8 md:pb-32 lg:px-12 lg:pt-16">
-        <div className="grid w-full gap-12 md:flex md:flex-col-reverse md:items-end md:gap-3 lg:grid lg:gap-10 lg:grid-cols-[1fr_1.3fr] lg:items-center">
-          <div className="mx-auto flex flex-col font-medium items-center gap-4 max-w-md min-w-0 text-right justify-end md:flex-col md:items-end md:gap-5 md:mx-auto md:max-w-140 md:justify-end lg:gap-0 lg:mx-0 lg:ml-auto">
-            <Image
-              src="/logo.png"
-              alt="Niche"
-              width={193}
-              height={84}
-              priority
-              className="h-16 md:h-21 w-auto self-start shrink-0 md:self-start lg:self-auto"
-            />
-            <p className="text-right text-[12px]! tracking-[-2%] leading-relaxed text-ink-soft md:text-base! lg:text-[18px]">
-              {t("intro")}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 md:gap-4 md:ml-auto md:w-[70%] lg:w-full lg:ml-0 lg:gap-5">
-            <div className="relative aspect-265/355 overflow-hidden md:translate-y-0">
+      {/* Hero: two 499×688 photos, 27px apart, centred. Below the design
+          width they scale down together and keep their proportions. */}
+      <section className="px-5 pb-24 pt-4 md:px-8 md:pb-32">
+        <div className="mx-auto grid max-w-[1025px] grid-cols-2 gap-3 md:gap-[27px]">
+          {[
+            { src: "/top1.jpg", alt: "Niche — original illustration" },
+            { src: "/top2.jpg", alt: "Niche — lookbook" },
+          ].map((photo) => (
+            <div key={photo.src} className="relative aspect-499/688 overflow-hidden">
               <Image
-                src="/top1.jpg"
-                alt="Niche — original illustration"
+                src={photo.src}
+                alt={photo.alt}
                 fill
-                sizes="(min-width: 1024px) 25vw, 45vw"
+                sizes="(min-width: 1089px) 499px, 48vw"
                 priority
                 className="object-cover"
               />
             </div>
-            <div className="relative aspect-265/355 translate-y-10 overflow-hidden md:translate-y-0">
-              <Image
-                src="/top2.jpg"
-                alt="Niche — lookbook"
-                fill
-                sizes="(min-width: 1024px) 25vw, 45vw"
-                priority
-                className="object-cover"
-              />
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 

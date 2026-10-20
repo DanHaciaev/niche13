@@ -42,7 +42,7 @@ export default function LanguageSwitcher() {
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        className="label-tag flex h-9 w-12 items-center justify-center text-[12px]! font-medium! text-ink transition-colors duration-300"
+        className="text-[9px] font-medium uppercase leading-none text-ink transition-colors duration-300 hover:text-ink-soft"
       >
         {locale.toUpperCase()}
       </button>
@@ -54,7 +54,7 @@ export default function LanguageSwitcher() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.45, ease: EASE }}
-            className={`absolute right-0 top-full mt-1 w-12 overflow-hidden border border-line ${
+            className={`absolute left-1/2 top-full mt-3 w-10 -translate-x-1/2 overflow-hidden border border-line ${
               isDark ? "bg-black" : "bg-white"
             }`}
           >
@@ -63,7 +63,7 @@ export default function LanguageSwitcher() {
                 key={code}
                 type="button"
                 onClick={() => switchTo(code)}
-                className="label-tag flex h-9 w-full items-center justify-center text-[12px]! font-light! text-ink-soft transition-colors duration-300 hover:text-ink"
+                className="flex h-8 w-full items-center justify-center text-[9px] font-medium uppercase text-ink-soft transition-colors duration-300 hover:text-ink"
               >
                 {code.toUpperCase()}
               </button>
