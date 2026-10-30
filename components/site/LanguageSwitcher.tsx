@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
-import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { useDarkRoute } from "./DarkRouteContext";
 
@@ -12,12 +11,15 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 /** Current locale, the others, and a switch that remembers the choice. */
 export function useLocaleSwitch() {
   const locale = useLocale();
-  const pathname = usePathname();
-  const router = useRouter();
 
+  // URLs carry no locale (localePrefix: "never"), so /collections is the same
+  // address in every language and the router's prefetched pages are still in
+  // the old one. A full reload drops that cache: every page after the switch
+  // is fetched fresh, in the new language, from the cookie set here.
   function switchTo(next: string) {
-    document.cookie = `NEXT_LOCALE=${next}; path=/; max-age=31536000`;
-    router.replace(pathname, { locale: next });
+    if (next === locale) return;
+    document.cookie = `NEXT_LOCALE=${next}; path=/; max-age=31536000; samesite=lax`;
+    window.location.reload();
   }
 
   return { locale, otherLocales: routing.locales.filter((code) => code !== locale), switchTo };
