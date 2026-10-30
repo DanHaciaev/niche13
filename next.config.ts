@@ -28,6 +28,8 @@ const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   experimental: {
+    // Lets `next upgrade --agent` keep this app on security releases.
+    agentUpgrade: "security",
     serverActions: {
       // 10 MB design upload + form fields.
       bodySizeLimit: "12mb",
