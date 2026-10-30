@@ -149,55 +149,26 @@
   }
 }
 
-/* News carousel (Swiper). The slide's own box stays a constant width at all
-   times — Swiper's loop math is keyed off slide width, and changing it live
-   (our first attempt) desynced the loop and made it stick. The "active grows"
-   effect is done purely as a visual transform on an inner wrapper instead,
-   which Swiper never looks at, so its layout/loop tracking is untouched. */
-.niche-carousel .swiper-wrapper {
-  align-items: center;
-}
-
+/* News carousel (Swiper). Every slide is the same size: 313×419 on a
+   1280px screen, scaling with the viewport so the layout holds everywhere.
+   !important: Swiper's own CSS also sets `.swiper-slide { width }`, and
+   whichever stylesheet loads second would otherwise win. */
 .niche-carousel-slide {
   position: relative;
-  /* !important: Swiper's own base CSS also sets `.swiper-slide { width }`,
-     and whichever stylesheet happens to load second would otherwise win
-     the cascade at equal specificity — this makes the override reliable
-     regardless of import order. */
-  width: clamp(9.5rem, 26vw, 16.125rem) !important;
-  aspect-ratio: 258 / 345;
-  overflow: visible;
-}
-
-.niche-carousel-slide.swiper-slide-active {
-  z-index: 10;
-}
-
-/* Gaps stay visually even WITHOUT ever touching margin/width (which would
-   desync Swiper's centering math, see the earlier centering bug). Instead,
-   the two slides next to the active one retreat — purely via `transform`,
-   anchored at their *outer* edge so only the side facing the active slide
-   moves. The retreat distance is set to exactly match how far the active
-   slide's own growth encroaches, so the visible gap on both sides of it
-   ends up equal to every other gap. */
-.niche-carousel-slide-inner {
-  position: absolute;
-  inset: 0;
+  width: 62vw !important;
+  aspect-ratio: 313 / 419;
   overflow: hidden;
-  transform-origin: center;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.niche-carousel-slide.swiper-slide-active .niche-carousel-slide-inner {
-  transform: scale(1.21318);
+@media (min-width: 640px) {
+  .niche-carousel-slide {
+    width: 38vw !important;
+  }
 }
 
-.niche-carousel-slide.swiper-slide-prev .niche-carousel-slide-inner {
-  transform-origin: left center;
-  transform: scale(0.89341);
-}
-
-.niche-carousel-slide.swiper-slide-next .niche-carousel-slide-inner {
-  transform-origin: right center;
-  transform: scale(0.89341);
+@media (min-width: 1024px) {
+  .niche-carousel-slide {
+    /* 313px at 1280px wide; capped so huge monitors don't get giant slides. */
+    width: min(24.4531vw, 391px) !important;
+  }
 }

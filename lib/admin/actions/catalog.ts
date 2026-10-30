@@ -25,6 +25,99 @@ function dbError(error: { code?: string; message?: string }, duplicate: string) 
 }
 
 // ---------------------------------------------------------------------------
+// Collection ↔ category links
+// ---------------------------------------------------------------------------
+
+/** Replaces the links of one collection (or one category) with the ticked
+ * checkboxes. Forms render a "links" marker field next to the checkboxes, so
+ * a form without them never wipes existing links by accident. */
+async function saveLinks(
+  admin: Awaited<ReturnType<typeof requireAdmin>>,
+  formData: FormData,
+  side: "collection_id" | "category_id",
+  id: string,
+) {
+  if (formData.get("links") !== "1") return null;
+  const other = side === "collection_id" ? "category_id" : "collection_id";
+  const ids = [...new Set(formData.getAll("link_ids").map(String))].filter((v) => uuid.safeParse(v).success);
+
+  const { error: deleteError } = await admin.supabase.from("collection_categories").delete().eq(side, id);
+  if (deleteError) return deleteError;
+  if (ids.length === 0) return null;
+  const { error } = await admin.supabase
+    .from("collection_categories")
+    .insert(ids.map((otherId) => ({ [side]: id, [other]: otherId })));
+  return error;
+}
+
+// ---------------------------------------------------------------------------
+// Categories
+// ---------------------------------------------------------------------------
+
+const categorySchema = z.object({
+  slug: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Адрес: латиница, цифры и дефисы, например t-shirts")
+    .max(60),
+  title_ru: text(80).min(1, "Укажите название"),
+  title_en: text(80),
+  sort_order: z.coerce.number().int().min(-9999).max(9999),
+});
+
+export async function saveCategory(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const admin = await requireAdmin();
+  const id = str(formData, "id");
+  if (id && !uuid.safeParse(id).success) return failed("Неверный идентификатор");
+
+  const parsed = categorySchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return failed(parsed.error.issues[0]?.message ?? "Проверьте поля");
+
+  let image = readImageList(formData, "image")[0] ?? null;
+  const upload = newFiles(formData, "image_file").slice(0, 1);
+  if (upload.length) {
+    const result = await uploadImages(admin, upload, `categories/${parsed.data.slug}`);
+    if ("error" in result) return failed(result.error);
+    image = result.urls[0];
+  }
+
+  const row = {
+    ...parsed.data,
+    title_en: parsed.data.title_en || parsed.data.title_ru,
+    image,
+    is_active: checked(formData, "is_active"),
+  };
+  const query = id
+    ? admin.supabase.from("categories").update(row).eq("id", id).select("id").single()
+    : admin.supabase.from("categories").insert(row).select("id").single();
+  const { data, error } = await query;
+  if (error || !data) return dbError(error ?? {}, "Категория с таким адресом уже есть");
+
+  const linkError = await saveLinks(admin, formData, "category_id", data.id);
+  if (linkError) return dbError(linkError, "");
+
+  refreshSite(CATALOG_TAG);
+  if (!id) redirect(`/admin/categories/${data.id}?created=1`);
+  return done("Категория сохранена");
+}
+
+export async function deleteCategory(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const admin = await requireAdmin();
+  const id = str(formData, "id");
+  if (!uuid.safeParse(id).success) return failed("Неверный идентификатор");
+
+  const { data: existing } = await admin.supabase.from("categories").select("image").eq("id", id).single();
+  // Links go with it (on delete cascade); the collections themselves stay.
+  const { error } = await admin.supabase.from("categories").delete().eq("id", id);
+  if (error) return dbError(error, "");
+
+  if (existing?.image) await removeImages(admin, [existing.image]);
+  refreshSite(CATALOG_TAG);
+  redirect("/admin/categories");
+}
+
+// ---------------------------------------------------------------------------
 // Collections
 // ---------------------------------------------------------------------------
 
@@ -79,6 +172,9 @@ export async function saveCollection(_prev: ActionState, formData: FormData): Pr
     : admin.supabase.from("collections").insert(row).select("id").single();
   const { data, error } = await query;
   if (error || !data) return dbError(error ?? {}, "Коллекция с таким адресом уже есть");
+
+  const linkError = await saveLinks(admin, formData, "collection_id", data.id);
+  if (linkError) return dbError(linkError, "");
 
   refreshSite(CATALOG_TAG);
   if (!id) redirect(`/admin/collections/${data.id}?created=1`);

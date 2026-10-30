@@ -45,21 +45,28 @@ export default async function HomePage({
         }}
       />
 
-      {/* Hero: two 499×688 photos, 27px apart, centred. Below the design
-          width they scale down together and keep their proportions. */}
-      <section className="px-5 pb-24 pt-6 md:px-8 md:pb-18">
-        <div className="mx-auto grid max-w-[1025px] grid-cols-2 gap-3 md:gap-[27px]">
+      {/* Hero, sized in vw so every screen keeps the design's proportions:
+          - below md: only the right photo, 352×398 on a 375px screen (93.9%);
+          - from md: both photos, 590×688 each and 27px apart on a 1280px
+            screen (together 94.3% of the width), growing no further past 1440px. */}
+      <section className="py-33 md:pt-10 md:pb-15 lg:pt-4 lg:pb-18">
+        <div className="mx-auto grid w-[93.87vw] grid-cols-1 md:w-[94.3vw] md:max-w-[1358px] md:grid-cols-2 md:gap-[min(2.11vw,30px)]">
           {[
-            { src: "/top1.jpg", alt: "Niche — original illustration" },
-            { src: "/top2.jpg", alt: "Niche — lookbook" },
+            { src: "/top1.jpg", alt: "Niche — original illustration", desktopOnly: true },
+            { src: "/top2.jpg", alt: "Niche — lookbook", desktopOnly: false },
           ].map((photo) => (
-            <div key={photo.src} className="relative aspect-499/688 overflow-hidden">
+            <div
+              key={photo.src}
+              className={`relative aspect-352/398 overflow-hidden md:aspect-590/688 ${photo.desktopOnly ? "hidden md:block" : ""}`}
+            >
               <Image
                 src={photo.src}
                 alt={photo.alt}
                 fill
-                sizes="(min-width: 1089px) 499px, 48vw"
-                priority
+                sizes={photo.desktopOnly ? "(min-width: 1440px) 664px, 47vw" : "(min-width: 1440px) 664px, (min-width: 768px) 47vw, 94vw"}
+                // The left photo is hidden on phones: as a normal lazy image it's
+                // skipped there, yet still loads at once on desktop (it's on screen).
+                priority={!photo.desktopOnly}
                 className="object-cover"
               />
             </div>
@@ -68,7 +75,7 @@ export default async function HomePage({
       </section>
 
       {/* News */}
-      <div className="px-5 py-10 md:px-8 lg:px-12">
+      <div className="px-5 md:px-8 lg:px-12">
         <div className="flex items-center gap-6">
           <span className="label-tag shrink-0 text-ink">{t("news")}</span>
           <span className="h-px flex-1 bg-black/40" />

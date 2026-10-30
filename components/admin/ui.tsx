@@ -115,6 +115,44 @@ export function StatusBadge({ status }: { status: RequestStatus }) {
   );
 }
 
+/** Tick-list that links a collection to categories (or the reverse). The
+ * hidden "links" field tells the server this form manages links, so saving
+ * a form without the list never clears them. */
+export function LinkChecklist({
+  options,
+  selected,
+  empty,
+}: {
+  options: { id: string; label: string; hint?: string }[];
+  selected: string[];
+  empty: ReactNode;
+}) {
+  if (options.length === 0) return <p className="text-sm text-ink-faint">{empty}</p>;
+  return (
+    <div className="grid gap-2 sm:grid-cols-2">
+      <input type="hidden" name="links" value="1" />
+      {options.map((option) => (
+        <label
+          key={option.id}
+          className="flex cursor-pointer items-center gap-3 border border-line bg-white px-3.5 py-3 transition-colors hover:border-ink-faint has-checked:border-ink has-checked:bg-cream/60"
+        >
+          <input
+            type="checkbox"
+            name="link_ids"
+            value={option.id}
+            defaultChecked={selected.includes(option.id)}
+            className="h-4 w-4 shrink-0 accent-[#17150f]"
+          />
+          <span className="min-w-0">
+            <span className="block truncate text-sm text-ink">{option.label}</span>
+            {option.hint && <span className="block truncate text-xs text-ink-faint">{option.hint}</span>}
+          </span>
+        </label>
+      ))}
+    </div>
+  );
+}
+
 /** Collapsible step-by-step help inside a settings card. */
 export function Guide({
   title,

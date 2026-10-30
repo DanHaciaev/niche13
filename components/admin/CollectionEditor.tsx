@@ -2,7 +2,7 @@ import { saveCollection } from "@/lib/admin/actions/catalog";
 import { COLLECTION_KIND_LABELS, LAYOUT_LABELS } from "@/lib/admin/labels";
 import { AdminForm, SubmitButton, Toggle } from "./forms";
 import { BilingualField, ImagesField, Select } from "./fields";
-import { Card, Field, inputClass } from "./ui";
+import { Card, Field, LinkChecklist, inputClass } from "./ui";
 
 export interface CollectionRecord {
   id?: string;
@@ -37,7 +37,15 @@ export const EMPTY_COLLECTION: CollectionRecord = {
   sort_order: 100,
 };
 
-export function CollectionEditor({ collection }: { collection: CollectionRecord }) {
+export function CollectionEditor({
+  collection,
+  categories,
+  linked,
+}: {
+  collection: CollectionRecord;
+  categories: { id: string; title_ru: string }[];
+  linked: string[];
+}) {
   const imagesKey = `${collection.cover_image}|${collection.hero_image}`;
 
   return (
@@ -65,6 +73,17 @@ export function CollectionEditor({ collection }: { collection: CollectionRecord 
               hint="Текст рядом с фото вверху страницы коллекции. Пусто — стандартный текст сайта."
             />
           </div>
+        </Card>
+
+        <Card
+          title="Категории"
+          description="В каких категориях на странице «Коллекции» показывать эту коллекцию. Можно выбрать несколько."
+        >
+          <LinkChecklist
+            options={categories.map((c) => ({ id: c.id, label: c.title_ru }))}
+            selected={linked}
+            empty="Категорий пока нет — создайте их в разделе «Категории»."
+          />
         </Card>
 
         <div className="grid gap-4 md:grid-cols-2">

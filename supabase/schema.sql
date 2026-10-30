@@ -420,3 +420,78 @@ as $$
   order by count(*) desc
   limit least(max_rows, 50);
 $$;
+
+-- ---------------------------------------------------------------------------
+-- Categories (T-shirts, Hoodies, Bags…) — the /collections page lists these,
+-- and each category shows the collections linked to it. A collection can
+-- belong to several categories.
+-- ---------------------------------------------------------------------------
+
+create table if not exists categories (
+  id uuid primary key default gen_random_uuid(),
+  slug text unique not null,
+  title_ru text not null,
+  title_en text not null default '',
+  image text,
+  is_active boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+do $$ begin
+  alter table categories add constraint categories_slug_format
+    check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$');
+exception when duplicate_object then null; end $$;
+
+create table if not exists collection_categories (
+  collection_id uuid not null references collections (id) on delete cascade,
+  category_id uuid not null references categories (id) on delete cascade,
+  primary key (collection_id, category_id)
+);
+
+create index if not exists collection_categories_category_idx on collection_categories (category_id);
+
+alter table categories enable row level security;
+alter table collection_categories enable row level security;
+
+drop policy if exists "public read active categories" on categories;
+create policy "public read active categories" on categories
+  for select using (is_active = true);
+
+drop policy if exists "admins manage categories" on categories;
+create policy "admins manage categories" on categories
+  for all using (is_admin()) with check (is_admin());
+
+drop policy if exists "public read collection categories" on collection_categories;
+create policy "public read collection categories" on collection_categories
+  for select using (true);
+
+drop policy if exists "admins manage collection categories" on collection_categories;
+create policy "admins manage collection categories" on collection_categories
+  for all using (is_admin()) with check (is_admin());
+
+-- Starter categories. Every starter collection is linked to each of them so
+-- no category opens empty — untick what doesn't belong in the admin.
+insert into categories (slug, title_ru, title_en, image, sort_order) values
+  ('t-shirts', 'Футболки', 'T-shirts', '/middle_4.jpg', 10),
+  ('hoodies', 'Худи', 'Hoodies', '/middle_2.jpg', 20),
+  ('bags', 'Сумки', 'Bags', '/collection2.png', 30)
+on conflict (slug) do nothing;
+
+-- Starter categories created by an earlier version of this file all used
+-- the same placeholder photo; give them the design's photos. Categories whose
+-- photo was changed in the admin are left alone.
+update categories set image = case slug
+    when 't-shirts' then '/middle_4.jpg'
+    when 'hoodies' then '/middle_2.jpg'
+    when 'bags' then '/collection2.png'
+  end
+where slug in ('t-shirts', 'hoodies', 'bags') and image = '/top2.jpg';
+
+insert into collection_categories (collection_id, category_id)
+select c.id, k.id
+from collections c
+cross join categories k
+where k.slug in ('t-shirts', 'hoodies', 'bags')
+  and not exists (select 1 from collection_categories)
+on conflict do nothing;

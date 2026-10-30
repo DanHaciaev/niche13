@@ -40,7 +40,7 @@
       "customize": "Customize your Niche",
       "collections": "Explore our collections",
       "orderRequest": "Submit an order request",
-      "brand": "Brand",
+      "brand": "The brand",
       "email": "Email",
       "instagram": "Instagram",
       "contactUs": "Contact us"
@@ -267,6 +267,12 @@
         "descriptionText": "A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.\nAvailable in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.\nOne piece, one story.",
         "submit": "Submit your request"
       }
+    },
+    "categories": {
+      "tShirts": "T-shirts",
+      "hoodies": "Hoodies",
+      "bags": "Bags",
+      "empty": "There are no collections in this category yet."
     }
   },
   "sizeGuide": {

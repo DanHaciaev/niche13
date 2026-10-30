@@ -23,7 +23,11 @@ export default async function EditCollectionPage({
   const { created } = await searchParams;
   if (!z.uuid().safeParse(id).success) notFound();
 
-  const { data } = await admin.supabase.from("collections").select("*").eq("id", id).maybeSingle();
+  const [{ data }, { data: categories }, { data: links }] = await Promise.all([
+    admin.supabase.from("collections").select("*").eq("id", id).maybeSingle(),
+    admin.supabase.from("categories").select("id, title_ru").order("sort_order").order("created_at"),
+    admin.supabase.from("collection_categories").select("category_id").eq("collection_id", id),
+  ]);
   if (!data) notFound();
   const collection = data as CollectionRecord & { id: string };
 
@@ -53,7 +57,11 @@ export default async function EditCollectionPage({
           </>
         }
       />
-      <CollectionEditor collection={collection} />
+      <CollectionEditor
+        collection={collection}
+        categories={categories ?? []}
+        linked={(links ?? []).map((l) => l.category_id as string)}
+      />
       <div className="flex justify-end border-t border-line pt-6">
         <ConfirmAction
           action={deleteCollection}

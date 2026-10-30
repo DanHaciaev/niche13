@@ -7,10 +7,6 @@ import { Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 
-const RATIO = 258 / 345;
-const PAD = 60; // fixed 60px top/bottom, never changes regardless of which item is active
-const ACTIVE_W_CSS = "clamp(11.5rem, 32vw, 19.5625rem)"; // 313px at desktop
-
 export function NewsCarousel({ images, label }: { images: string[]; label: string }) {
   // Swiper's loop mode needs enough real slides to build its clones from —
   // with only a handful of source photos and a wide viewport that can fit
@@ -63,7 +59,7 @@ export function NewsCarousel({ images, label }: { images: string[]; label: strin
         <Image src="/arrow.png" alt="" fill className="rotate-180 object-contain" />
       </button>
 
-      <div style={{ paddingBlock: PAD, height: `calc(${ACTIVE_W_CSS} / ${RATIO} + ${PAD * 2}px)` }}>
+      <div className="py-13 md:py-20 lg:py-25">
         <Swiper
           onSwiper={(s) => {
             swiperRef.current = s;
@@ -73,29 +69,26 @@ export function NewsCarousel({ images, label }: { images: string[]; label: strin
           loopAdditionalSlides={images.length}
           centeredSlides
           slidesPerView="auto"
-          spaceBetween={24}
+          spaceBetween={12}
           grabCursor
           speed={600}
           autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: false }}
           breakpoints={{
-            640: { spaceBetween: 32 },
-            1024: { spaceBetween: 40 },
+            640: { spaceBetween: 16 },
+            1024: { spaceBetween: 20 },
           }}
-          className="niche-carousel h-full overflow-visible!"
+          className="niche-carousel"
         >
           {slides.map((src, i) => (
             <SwiperSlide key={`${src}-${i}`} className="niche-carousel-slide">
-              <div className="niche-carousel-slide-inner">
-                <Image
-                  src={src}
-                  alt=""
-                  fill
-                  draggable={false}
-                  sizes="(min-width: 1024px) 20vw, 32vw"
-                  priority={i === 0}
-                  className="pointer-events-none object-cover"
-                />
-              </div>
+              <Image
+                src={src}
+                alt=""
+                fill
+                draggable={false}
+                sizes="(min-width: 1600px) 391px, (min-width: 1024px) 25vw, (min-width: 640px) 38vw, 62vw"
+                className="pointer-events-none object-cover"
+              />
             </SwiperSlide>
           ))}
         </Swiper>

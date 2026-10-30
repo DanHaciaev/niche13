@@ -12,6 +12,7 @@ const NAV = [
   { href: "/admin", label: "Обзор", icon: "M4 13h6V4H4v9Zm0 7h6v-5H4v5Zm10 0h6v-9h-6v9Zm0-16v5h6V4h-6Z" },
   { href: "/admin/requests", label: "Заявки", icon: "M4 6h16M4 12h16M4 18h10" },
   { href: "/admin/products", label: "Товары", icon: "M7 4 4 7l3 2v11h10V9l3-2-3-3h-3a2 2 0 0 1-4 0H7Z" },
+  { href: "/admin/categories", label: "Категории", icon: "M4 6h7M4 12h7M4 18h7M15 5l5 5-5 5" },
   { href: "/admin/collections", label: "Коллекции", icon: "M4 5h7v7H4V5Zm9 0h7v7h-7V5ZM4 14h7v5H4v-5Zm9 0h7v5h-7v-5Z" },
   { href: "/admin/content", label: "Тексты", icon: "M5 5h14M5 10h14M5 15h9M5 20h6" },
   { href: "/admin/stats", label: "Статистика", icon: "M5 20V10m7 10V4m7 16v-7" },

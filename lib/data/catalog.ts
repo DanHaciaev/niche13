@@ -18,6 +18,12 @@ export interface Collection {
   layout: CollectionLayout;
 }
 
+export interface Category {
+  slug: string;
+  title: string;
+  image: string | null;
+}
+
 export interface Product {
   code: string;
   title: string;
@@ -77,9 +83,19 @@ interface ProductRow {
   stock_by_size: unknown;
 }
 
+interface CategoryRow {
+  id: string;
+  slug: string;
+  title_ru: string;
+  title_en: string;
+  image: string | null;
+}
+
 interface CatalogRows {
   collections: CollectionRow[];
   products: ProductRow[];
+  categories: CategoryRow[];
+  links: { collection_id: string; category_id: string }[];
 }
 
 const loadCatalogRows = unstable_cache(
@@ -87,7 +103,7 @@ const loadCatalogRows = unstable_cache(
     const supabase = publicClient();
     if (!supabase) return null;
 
-    const [collections, products] = await Promise.all([
+    const [collections, products, categories, links] = await Promise.all([
       supabase
         .from("collections")
         .select(
@@ -105,6 +121,13 @@ const loadCatalogRows = unstable_cache(
         .not("code", "is", null)
         .order("sort_order")
         .order("code"),
+      supabase
+        .from("categories")
+        .select("id, slug, title_ru, title_en, image")
+        .eq("is_active", true)
+        .order("sort_order")
+        .order("created_at"),
+      supabase.from("collection_categories").select("collection_id, category_id"),
     ]);
 
     // On a database error fall back to the built-in catalog rather than
@@ -114,9 +137,17 @@ const loadCatalogRows = unstable_cache(
       return null;
     }
 
+    // Categories are optional: if their tables aren't there yet (schema.sql
+    // not re-run), the shop still works and /collections lists collections.
+    if (categories.error || links.error) {
+      console.error("[catalog] categories unavailable", categories.error ?? links.error);
+    }
+
     return {
       collections: collections.data as CollectionRow[],
       products: products.data as ProductRow[],
+      categories: categories.error ? [] : (categories.data as CategoryRow[]),
+      links: links.error ? [] : (links.data as CatalogRows["links"]),
     };
   },
   ["catalog-rows"],
@@ -268,4 +299,46 @@ export function formatPrice(value: number | null, currency: string) {
   if (value === null) return "";
   const amount = Number.isInteger(value) ? String(value) : value.toFixed(2);
   return currency ? `${amount} ${currency}` : amount;
+}
+
+// ---------------------------------------------------------------------------
+// Categories
+// ---------------------------------------------------------------------------
+
+async function fallbackCategories(locale: string): Promise<Category[]> {
+  const t = await getTranslations({ locale, namespace: "collections.categories" });
+  return [
+    { slug: "t-shirts", title: t("tShirts"), image: "/middle_4.jpg" },
+    { slug: "hoodies", title: t("hoodies"), image: "/middle_2.jpg" },
+    { slug: "bags", title: t("bags"), image: "/collection2.png" },
+  ];
+}
+
+/** Categories for the /collections page. Empty when the database has none
+ * yet — the page then lists collections directly, as before categories. */
+export async function getCategories(locale: string): Promise<Category[]> {
+  const rows = await loadCatalogRows();
+  if (!rows) return fallbackCategories(locale);
+  return rows.categories.map((c) => ({ slug: c.slug, title: pick(locale, c.title_ru, c.title_en), image: c.image }));
+}
+
+/** One category with the collections linked to it, in collection order. */
+export async function getCategory(
+  slug: string,
+  locale: string,
+): Promise<{ category: Category; collections: Collection[] } | null> {
+  const rows = await loadCatalogRows();
+
+  if (!rows) {
+    const category = (await fallbackCategories(locale)).find((c) => c.slug === slug);
+    return category ? { category, collections: await fallbackCollections(locale) } : null;
+  }
+
+  const row = rows.categories.find((c) => c.slug === slug);
+  if (!row) return null;
+  const linked = new Set(rows.links.filter((l) => l.category_id === row.id).map((l) => l.collection_id));
+  return {
+    category: { slug: row.slug, title: pick(locale, row.title_ru, row.title_en), image: row.image },
+    collections: rows.collections.filter((c) => linked.has(c.id)).map((c) => mapCollection(c, locale)),
+  };
 }

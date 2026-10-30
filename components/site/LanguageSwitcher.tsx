@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/immutability */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -10,15 +9,25 @@ import { useDarkRoute } from "./DarkRouteContext";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function LanguageSwitcher() {
+/** Current locale, the others, and a switch that remembers the choice. */
+export function useLocaleSwitch() {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
+
+  function switchTo(next: string) {
+    document.cookie = `NEXT_LOCALE=${next}; path=/; max-age=31536000`;
+    router.replace(pathname, { locale: next });
+  }
+
+  return { locale, otherLocales: routing.locales.filter((code) => code !== locale), switchTo };
+}
+
+export default function LanguageSwitcher() {
+  const { locale, otherLocales, switchTo: switchLocale } = useLocaleSwitch();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const isDark = useDarkRoute();
-
-  const otherLocales = routing.locales.filter((code) => code !== locale);
 
   useEffect(() => {
     function onClick(event: MouseEvent) {
@@ -31,9 +40,8 @@ export default function LanguageSwitcher() {
   }, []);
 
   function switchTo(next: string) {
-    document.cookie = `NEXT_LOCALE=${next}; path=/; max-age=31536000`;
     setOpen(false);
-    router.replace(pathname, { locale: next });
+    switchLocale(next);
   }
 
   return (
@@ -42,7 +50,7 @@ export default function LanguageSwitcher() {
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        className="text-[9px] font-medium uppercase leading-none text-ink transition-colors duration-300 hover:text-ink-soft"
+        className="text-[11px] font-medium uppercase leading-none text-ink transition-colors duration-300 hover:text-ink-soft"
       >
         {locale.toUpperCase()}
       </button>
@@ -63,7 +71,7 @@ export default function LanguageSwitcher() {
                 key={code}
                 type="button"
                 onClick={() => switchTo(code)}
-                className="flex h-8 w-full items-center justify-center text-[9px] font-medium uppercase text-ink-soft transition-colors duration-300 hover:text-ink"
+                className="flex h-8 w-full items-center justify-center text-[11px] font-medium uppercase text-ink-soft transition-colors duration-300 hover:text-ink"
               >
                 {code.toUpperCase()}
               </button>
