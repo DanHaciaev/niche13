@@ -7,14 +7,15 @@ import { addOrderRequestItem, getOrderRequestItems, subscribeOrderRequest } from
 
 export function ProductOrderPanel({
   code,
-  slug,
+  basePath,
   sizes,
   colors,
   stock,
   labels,
 }: {
   code: string;
-  slug: string;
+  /** Listing this product belongs to; its order form is at #order-request. */
+  basePath: string;
   sizes: string[];
   colors: string[];
   /** Pieces left per size; null when stock isn't tracked. */
@@ -152,7 +153,7 @@ export function ProductOrderPanel({
           {soldOut ? labels.soldOut : added ? labels.addedToOrderRequest : labels.addToOrderRequest}
         </button>
         <Link
-          href={`/collections/${slug}#order-request`}
+          href={`${basePath}#order-request`}
           className="label-tag text-[10px]! text-ink-soft text-center underline-offset-2 hover:text-ink hover:underline font-medium! md:text-[14px]!"
         >
           {labels.viewYourRequest}

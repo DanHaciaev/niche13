@@ -30,7 +30,7 @@ export async function CollectionGrid({
         <p className="px-5 pt-16 text-center text-sm text-ink-faint">{emptyText}</p>
       )}
 
-      <div className="mx-auto grid w-[83.7vw] grid-cols-1 gap-y-[58px] pb-24 pt-7 md:w-auto md:grid-cols-3 md:gap-x-[2vw] md:gap-y-12 md:px-[5.5vw] md:pt-[6vw] lg:gap-x-[2.73vw] lg:px-[3.44vw] lg:pt-[5.2vw]">
+      <div className="mx-auto grid w-[83.7vw] grid-cols-1 gap-y-[58px] pb-24 pt-7 md:w-auto md:grid-cols-3 md:gap-x-[2vw] md:gap-y-12 md:px-[5.5vw] md:pt-[6vw] lg:gap-x-[2.73vw] lg:px-[3.44vw] lg:pt-[60px]">
         {tiles.map((tile, i) => (
           <Link key={tile.href} href={tile.href} className="group flex flex-col items-center">
             <span className="relative block aspect-374/501 w-full overflow-hidden bg-cream-deep">

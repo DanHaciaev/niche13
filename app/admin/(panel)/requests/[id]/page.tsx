@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/admin/auth";
+import { plainCategories } from "@/lib/admin/catalog-queries";
 import { deleteRequest, updateRequest } from "@/lib/admin/actions/requests";
 import { KIND_LABELS, STATUS_LABELS } from "@/lib/admin/labels";
 import { FIELD_LABELS, REQUEST_STATUSES, type RequestItem, type RequestKind, type RequestStatus } from "@/lib/requests/schema";
@@ -65,6 +66,13 @@ export default async function RequestPage({ params }: { params: Promise<{ id: st
     attachmentUrl = signed?.signedUrl ?? null;
   }
   const isPdf = request.attachment_path?.endsWith(".pdf");
+  // Requests from a category without collections (e.g. Bags) carry that
+  // category's slug; its products live under /category/.
+  const fromCategory =
+    request.collection_slug && (await plainCategories(admin)).some((c) => c.slug === request.collection_slug);
+  const itemBase = request.collection_slug
+    ? `/${fromCategory ? "category" : "collections"}/${request.collection_slug}`
+    : null;
   const phoneDigits = request.phone?.replace(/[^\d+]/g, "");
 
   return (
@@ -98,9 +106,9 @@ export default async function RequestPage({ params }: { params: Promise<{ id: st
                     {request.items.map((item, i) => (
                       <tr key={i} className="border-b border-line last:border-0">
                         <td className="py-3 font-medium">
-                          {request.collection_slug ? (
+                          {itemBase ? (
                             <a
-                              href={`/collections/${request.collection_slug}/${item.code}`}
+                              href={`${itemBase}/${item.code}`}
                               target="_blank"
                               rel="noopener"
                               className="underline-offset-4 hover:underline"

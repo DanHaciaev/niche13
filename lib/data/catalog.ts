@@ -22,6 +22,8 @@ export interface Category {
   slug: string;
   title: string;
   image: string | null;
+  /** False for a plain catalog (e.g. Bags): its page lists products directly. */
+  hasCollections: boolean;
 }
 
 export interface Product {
@@ -65,7 +67,8 @@ interface CollectionRow {
 }
 
 interface ProductRow {
-  collection_id: string;
+  collection_id: string | null;
+  category_id?: string | null;
   code: string;
   title_ru: string;
   title_en: string;
@@ -89,6 +92,8 @@ interface CategoryRow {
   title_ru: string;
   title_en: string;
   image: string | null;
+  /** Missing until schema.sql adds it; treated as true. */
+  has_collections?: boolean;
 }
 
 interface CatalogRows {
@@ -112,18 +117,18 @@ const loadCatalogRows = unstable_cache(
         .eq("is_active", true)
         .order("sort_order")
         .order("created_at"),
+      // "*" rather than a column list: a column added by a newer schema.sql
+      // that hasn't been run yet must not take the whole catalog down.
       supabase
         .from("products")
-        .select(
-          "collection_id, code, title_ru, title_en, description_ru, description_en, gender, price, discount_price, currency, images, sizes, colors, is_sold_out, track_stock, stock_by_size",
-        )
+        .select("*")
         .eq("is_hidden", false)
         .not("code", "is", null)
         .order("sort_order")
         .order("code"),
       supabase
         .from("categories")
-        .select("id, slug, title_ru, title_en, image")
+        .select("*")
         .eq("is_active", true)
         .order("sort_order")
         .order("created_at"),
@@ -308,10 +313,27 @@ export function formatPrice(value: number | null, currency: string) {
 async function fallbackCategories(locale: string): Promise<Category[]> {
   const t = await getTranslations({ locale, namespace: "collections.categories" });
   return [
-    { slug: "t-shirts", title: t("tShirts"), image: "/middle_4.jpg" },
-    { slug: "hoodies", title: t("hoodies"), image: "/middle_2.jpg" },
-    { slug: "bags", title: t("bags"), image: "/collection2.png" },
+    { slug: "t-shirts", title: t("tShirts"), image: "/middle_4.jpg", hasCollections: true },
+    { slug: "hoodies", title: t("hoodies"), image: "/middle_2.jpg", hasCollections: true },
+    { slug: "bags", title: t("bags"), image: "/collection2.png", hasCollections: false },
   ];
+}
+
+function mapCategory(row: CategoryRow, locale: string): Category {
+  return {
+    slug: row.slug,
+    title: pick(locale, row.title_ru, row.title_en),
+    image: row.image,
+    hasCollections: row.has_collections !== false,
+  };
+}
+
+/** Demo products for a plain-catalog category, shown until real ones exist. */
+function fallbackCategoryProducts(category: Category, locale: string) {
+  return fallbackProducts(
+    { slug: category.slug, title: category.title, eyebrow: "", description: "", coverImage: null, heroImage: null, kind: "catalog", layout: "left" },
+    locale,
+  );
 }
 
 /** Categories for the /collections page. Empty when the database has none
@@ -319,26 +341,49 @@ async function fallbackCategories(locale: string): Promise<Category[]> {
 export async function getCategories(locale: string): Promise<Category[]> {
   const rows = await loadCatalogRows();
   if (!rows) return fallbackCategories(locale);
-  return rows.categories.map((c) => ({ slug: c.slug, title: pick(locale, c.title_ru, c.title_en), image: c.image }));
+  return rows.categories.map((c) => mapCategory(c, locale));
 }
 
-/** One category with the collections linked to it, in collection order. */
+/** One category: its linked collections (in collection order) or, for a
+ * plain catalog, the products that belong to it directly. */
 export async function getCategory(
   slug: string,
   locale: string,
-): Promise<{ category: Category; collections: Collection[] } | null> {
+): Promise<{ category: Category; collections: Collection[]; products: Product[] } | null> {
   const rows = await loadCatalogRows();
 
   if (!rows) {
     const category = (await fallbackCategories(locale)).find((c) => c.slug === slug);
-    return category ? { category, collections: await fallbackCollections(locale) } : null;
+    if (!category) return null;
+    return category.hasCollections
+      ? { category, collections: await fallbackCollections(locale), products: [] }
+      : { category, collections: [], products: await fallbackCategoryProducts(category, locale) };
   }
 
   const row = rows.categories.find((c) => c.slug === slug);
   if (!row) return null;
+  const category = mapCategory(row, locale);
+
+  if (!category.hasCollections) {
+    // Same rule as collections: an empty database keeps the demo catalog.
+    const products =
+      rows.products.length === 0
+        ? await fallbackCategoryProducts(category, locale)
+        : rows.products.filter((p) => p.category_id === row.id).map((p) => mapProduct(p, locale));
+    return { category, collections: [], products };
+  }
+
   const linked = new Set(rows.links.filter((l) => l.category_id === row.id).map((l) => l.collection_id));
   return {
-    category: { slug: row.slug, title: pick(locale, row.title_ru, row.title_en), image: row.image },
+    category,
     collections: rows.collections.filter((c) => linked.has(c.id)).map((c) => mapCollection(c, locale)),
+    products: [],
   };
+}
+
+export async function getCategoryProduct(slug: string, code: string, locale: string) {
+  const data = await getCategory(slug, locale);
+  if (!data || data.category.hasCollections) return null;
+  const product = data.products.find((p) => p.code === code);
+  return product ? { category: data.category, product } : null;
 }

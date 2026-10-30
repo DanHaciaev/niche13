@@ -2,6 +2,7 @@ import { saveCategory } from "@/lib/admin/actions/catalog";
 import { AdminForm, SubmitButton, Toggle } from "./forms";
 import { BilingualField, ImagesField } from "./fields";
 import { Card, Field, LinkChecklist, inputClass } from "./ui";
+import { CategoryModeField } from "./CategoryModeField";
 
 export interface CategoryRecord {
   id?: string;
@@ -11,6 +12,8 @@ export interface CategoryRecord {
   image: string | null;
   is_active: boolean;
   sort_order: number;
+  /** Missing until schema.sql adds the column; treated as true. */
+  has_collections?: boolean;
 }
 
 export const EMPTY_CATEGORY: CategoryRecord = {
@@ -20,6 +23,7 @@ export const EMPTY_CATEGORY: CategoryRecord = {
   image: null,
   is_active: true,
   sort_order: 100,
+  has_collections: true,
 };
 
 export function CategoryEditor({
@@ -47,15 +51,20 @@ export function CategoryEditor({
           />
         </Card>
 
-        <Card
-          title="Коллекции в категории"
-          description="Отмеченные коллекции появятся, когда покупатель откроет эту категорию. Одна коллекция может быть в нескольких категориях."
-        >
-          <LinkChecklist
-            options={collections.map((c) => ({ id: c.id, label: c.title_ru, hint: `/collections/${c.slug}` }))}
-            selected={linked}
-            empty="Коллекций пока нет — создайте их в разделе «Коллекции»."
-          />
+        <Card title="Что открывается по клику" description="Сетка коллекций или сразу каталог товаров.">
+          <CategoryModeField
+            defaultOn={category.has_collections !== false}
+            productsHref={category.id ? `/admin/products?category=${category.id}` : null}
+          >
+            <span className="mb-3 block text-xs leading-relaxed text-ink-faint">
+              Отмеченные коллекции появятся в этой категории. Одна коллекция может быть в нескольких категориях.
+            </span>
+            <LinkChecklist
+              options={collections.map((c) => ({ id: c.id, label: c.title_ru, hint: `/collections/${c.slug}` }))}
+              selected={linked}
+              empty="Коллекций пока нет — создайте их в разделе «Коллекции»."
+            />
+          </CategoryModeField>
         </Card>
 
         <Card title="Фото" description="Плитка на странице «Коллекции». Лучше горизонтальное: на макете 394×261.">

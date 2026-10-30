@@ -15,11 +15,13 @@ export interface Product {
   genderLabel?: string;
 }
 
-export function ProductGrid({ products, slug }: { products: Product[]; slug: string }) {
+/** `basePath` is the listing the products belong to, e.g. "/collections/ru"
+ * or "/category/bags"; product pages live under it. */
+export function ProductGrid({ products, basePath }: { products: Product[]; basePath: string }) {
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-10 px-5 md:grid-cols-3 md:gap-x-6 md:px-8 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14 lg:px-12">
       {products.map((product) => (
-        <Link key={product.code} href={`/collections/${slug}/${product.code}`} className="group flex flex-col">
+        <Link key={product.code} href={`${basePath}/${product.code}`} className="group flex flex-col">
           <div className="relative">
             <div className="relative aspect-3/4 w-full overflow-hidden">
               <Image

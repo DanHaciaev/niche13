@@ -495,3 +495,43 @@ cross join categories k
 where k.slug in ('t-shirts', 'hoodies', 'bags')
   and not exists (select 1 from collection_categories)
 on conflict do nothing;
+
+-- ---------------------------------------------------------------------------
+-- Categories without collections (e.g. Bags): the category page is the
+-- product catalog itself, and products belong to the category directly.
+-- ---------------------------------------------------------------------------
+
+do $$ begin
+  if not exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'categories' and column_name = 'has_collections'
+  ) then
+    alter table categories add column has_collections boolean not null default true;
+    -- First run only: Bags is a plain catalog. Later changes made in the
+    -- admin are never overwritten, because this block doesn't run again.
+    update categories set has_collections = false where slug = 'bags';
+    delete from collection_categories
+    where category_id in (select id from categories where slug = 'bags');
+  end if;
+end $$;
+
+alter table products add column if not exists category_id uuid references categories (id) on delete set null;
+create unique index if not exists products_category_code_idx on products (category_id, code);
+create index if not exists products_category_id_idx on products (category_id);
+
+-- A product lives in a collection OR directly in a category, never both.
+do $$ begin
+  alter table products add constraint products_single_parent
+    check (collection_id is null or category_id is null);
+exception when duplicate_object then null; end $$;
+
+-- Visitors see a product when its collection — or its category — is shown.
+drop policy if exists "public read visible products" on products;
+create policy "public read visible products" on products
+  for select using (
+    is_hidden = false
+    and (
+      exists (select 1 from collections c where c.id = collection_id and c.is_active)
+      or exists (select 1 from categories k where k.id = category_id and k.is_active)
+    )
+  );

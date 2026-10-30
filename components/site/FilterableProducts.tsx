@@ -19,11 +19,11 @@ export interface FilterLabels {
 
 export function FilterableProducts({
   products,
-  slug,
+  basePath,
   labels,
 }: {
   products: Product[];
-  slug: string;
+  basePath: string;
   labels: FilterLabels;
 }) {
   const [open, setOpen] = useState(false);
@@ -134,7 +134,7 @@ export function FilterableProducts({
         )}
       </div>
 
-      <ProductGrid products={filtered} slug={slug} />
+      <ProductGrid products={filtered} basePath={basePath} />
     </>
   );
 }

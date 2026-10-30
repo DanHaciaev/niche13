@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/admin/auth";
+import { plainCategories } from "@/lib/admin/catalog-queries";
 import { toggleProductFlag } from "@/lib/admin/actions/catalog";
 import { formatPrice } from "@/lib/data/catalog";
 import { AdminForm } from "@/components/admin/forms";
@@ -20,6 +21,7 @@ interface Row {
   is_hidden: boolean;
   is_sold_out: boolean;
   collection_id: string | null;
+  category_id?: string | null;
   sizes: string[];
   track_stock: boolean;
   stock_by_size: Record<string, number>;
@@ -54,46 +56,54 @@ function QuickToggle({ id, flag, value, label }: { id: string; flag: string; val
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ collection?: string }>;
+  searchParams: Promise<{ collection?: string; category?: string }>;
 }) {
   const admin = await requireAdmin();
-  const { collection } = await searchParams;
+  const { collection, category } = await searchParams;
   const filter = z.uuid().safeParse(collection).success ? collection! : null;
+  const categoryFilter = !filter && z.uuid().safeParse(category).success ? category! : null;
 
-  const [{ data: collections }, productsResult] = await Promise.all([
+  const [{ data: collections }, categories, productsResult] = await Promise.all([
     admin.supabase.from("collections").select("id, title_ru, slug").order("sort_order").order("created_at"),
+    plainCategories(admin),
     (() => {
-      let q = admin.supabase
-        .from("products")
-        .select(
-          "id, code, title_ru, price, discount_price, currency, images, is_hidden, is_sold_out, collection_id, sizes, track_stock, stock_by_size",
-        )
-        .order("sort_order")
-        .order("code");
+      // "*": keeps working before schema.sql adds products.category_id.
+      let q = admin.supabase.from("products").select("*").order("sort_order").order("code");
       if (filter) q = q.eq("collection_id", filter);
+      if (categoryFilter) q = q.eq("category_id", categoryFilter);
       return q;
     })(),
   ]);
 
   const rows = (productsResult.data ?? []) as Row[];
   const byId = new Map((collections ?? []).map((c) => [c.id as string, c as { id: string; title_ru: string; slug: string }]));
+  const categoryById = new Map(categories.map((c) => [c.id, c]));
+  const newHref = filter
+    ? `/admin/products/new?collection=${filter}`
+    : categoryFilter
+      ? `/admin/products/new?category=${categoryFilter}`
+      : "/admin/products/new";
 
   return (
     <div className="flex flex-col gap-8">
       <PageHeader
-        eyebrow={`${rows.length} ${filter ? "в коллекции" : "всего"}`}
+        eyebrow={`${rows.length} ${filter ? "в коллекции" : categoryFilter ? "в категории" : "всего"}`}
         title="Товары"
-        actions={<ButtonLink href={`/admin/products/new${filter ? `?collection=${filter}` : ""}`}>+ Новый товар</ButtonLink>}
+        actions={<ButtonLink href={newHref}>+ Новый товар</ButtonLink>}
       />
 
       {(collections?.length ?? 0) > 0 && (
         <nav className="no-scrollbar -mx-5 flex gap-1 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0">
-          {[{ id: null, title_ru: "Все" }, ...(collections ?? [])].map((c) => {
-            const active = (c.id ?? null) === filter;
+          {[
+            { id: null, title_ru: "Все", param: "" },
+            ...(collections ?? []).map((c) => ({ id: c.id as string, title_ru: c.title_ru as string, param: "collection" })),
+            ...categories.map((c) => ({ id: c.id, title_ru: c.title_ru, param: "category" })),
+          ].map((c) => {
+            const active = c.id === null ? !filter && !categoryFilter : c.id === (filter ?? categoryFilter);
             return (
               <Link
                 key={c.id ?? "all"}
-                href={c.id ? `/admin/products?collection=${c.id}` : "/admin/products"}
+                href={c.id ? `/admin/products?${c.param}=${c.id}` : "/admin/products"}
                 className={`label-tag shrink-0 px-4 py-2.5 text-[10px]! font-medium! transition-colors ${
                   active ? "bg-ink text-white" : "border border-line bg-white text-ink-soft hover:border-ink hover:text-ink"
                 }`}
@@ -151,7 +161,7 @@ export default async function ProductsPage({
                   <Link href={`/admin/products/${p.id}`} className="min-w-0">
                     <span className="label-tag block text-[11px]! font-semibold! text-ink">NICHE / {p.code ?? "—"}</span>
                     <span className="mt-0.5 block truncate text-xs text-ink-faint">
-                      {col?.title_ru ?? "Без коллекции"}
+                      {col?.title_ru ?? (p.category_id ? categoryById.get(p.category_id)?.title_ru : null) ?? "Без коллекции"}
                       {p.title_ru ? ` · ${p.title_ru}` : ""}
                     </span>
                     <span className="mt-1.5 flex items-baseline gap-2 text-sm">

@@ -21,6 +21,10 @@ function dbError(error: { code?: string; message?: string }, duplicate: string) 
   console.error("[admin] db error", error);
   if (error.code === "23505") return failed(duplicate);
   if (error.code === "42501") return failed("Нет прав. Проверьте, что вы добавлены в таблицу admins.");
+  // Column/table unknown to the API: the database is older than this code.
+  if (error.code === "PGRST204" || error.code === "42703" || error.code === "PGRST205") {
+    return failed("База устарела — выполните заново supabase/schema.sql в Supabase.");
+  }
   return failed("Не удалось сохранить. Попробуйте ещё раз.");
 }
 
@@ -87,6 +91,7 @@ export async function saveCategory(_prev: ActionState, formData: FormData): Prom
     title_en: parsed.data.title_en || parsed.data.title_ru,
     image,
     is_active: checked(formData, "is_active"),
+    has_collections: checked(formData, "has_collections"),
   };
   const query = id
     ? admin.supabase.from("categories").update(row).eq("id", id).select("id").single()
@@ -218,7 +223,8 @@ const money = z
 
 const productSchema = z
   .object({
-    collection_id: uuid,
+    // "collection:<id>" or "category:<id>" — a product lives in one or the other.
+    place: z.string().regex(/^(collection|category):[0-9a-f-]{36}$/i, "Выберите, где показывать товар"),
     code: z.string().trim().regex(/^[A-Za-z0-9-]{1,20}$/, "Код: латиница, цифры и дефис, например 001"),
     title_ru: text(160),
     title_en: text(160),
@@ -241,6 +247,9 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
 
   const parsed = productSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return failed(parsed.error.issues[0]?.message ?? "Проверьте поля");
+  const { place, ...fields } = parsed.data;
+  const [placeKind, placeId] = place.split(":");
+  if (!uuid.safeParse(placeId).success) return failed("Выберите, где показывать товар");
 
   const sizes = formData.getAll("sizes").map(String).filter((s) => SIZE_PATTERN.test(s));
   const colors = [...new Set(formData.getAll("colors").map(String).filter((c) => COLOR_PATTERN.test(c)))].slice(0, 12);
@@ -251,12 +260,14 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
   );
 
   const kept = readImageList(formData, "images");
-  const upload = await uploadImages(admin, newFiles(formData, "new_images"), `products/${parsed.data.code}`);
+  const upload = await uploadImages(admin, newFiles(formData, "new_images"), `products/${fields.code}`);
   if ("error" in upload) return failed(upload.error);
 
   const row = {
-    ...parsed.data,
-    currency: parsed.data.currency || "MDL",
+    ...fields,
+    collection_id: placeKind === "collection" ? placeId : null,
+    category_id: placeKind === "category" ? placeId : null,
+    currency: fields.currency || "MDL",
     sizes,
     colors,
     images: [...kept, ...upload.urls],
@@ -279,7 +290,7 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
   const { data, error } = await query;
   if (error || !data) {
     await removeImages(admin, upload.urls);
-    return dbError(error ?? {}, "В этой коллекции уже есть товар с таким кодом");
+    return dbError(error ?? {}, "Здесь уже есть товар с таким кодом");
   }
 
   await removeImages(admin, previousImages.filter((url) => !row.images.includes(url)));

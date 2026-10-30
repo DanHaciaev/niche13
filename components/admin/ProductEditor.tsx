@@ -6,6 +6,7 @@ import { Card, Field, inputClass } from "./ui";
 export interface ProductRecord {
   id?: string;
   collection_id: string | null;
+  category_id?: string | null;
   code: string;
   title_ru: string;
   title_en: string;
@@ -27,6 +28,7 @@ export interface ProductRecord {
 
 export const EMPTY_PRODUCT: ProductRecord = {
   collection_id: null,
+  category_id: null,
   code: "",
   title_ru: "",
   title_en: "",
@@ -49,9 +51,12 @@ export const EMPTY_PRODUCT: ProductRecord = {
 export function ProductEditor({
   product,
   collections,
+  categories = [],
 }: {
   product: ProductRecord;
   collections: { id: string; title_ru: string }[];
+  /** Categories without collections: products can live in them directly. */
+  categories?: { id: string; title_ru: string }[];
 }) {
   return (
     <AdminForm action={saveProduct} className="grid gap-4 xl:grid-cols-[1fr_340px]">
@@ -117,12 +122,38 @@ export function ProductEditor({
 
         <Card title="Основное">
           <div className="flex flex-col gap-5">
-            <Field label="Коллекция *">
-              <Select
-                name="collection_id"
-                defaultValue={product.collection_id ?? collections[0]?.id}
-                options={collections.map((c) => ({ value: c.id, label: c.title_ru }))}
-              />
+            <Field label="Где показывать *" hint="Коллекция — или категория без коллекций, например «Сумки».">
+              <span className="relative block">
+                <select
+                  name="place"
+                  defaultValue={
+                    product.category_id
+                      ? `category:${product.category_id}`
+                      : `collection:${product.collection_id ?? collections[0]?.id ?? ""}`
+                  }
+                  className={`${inputClass} appearance-none pr-10`}
+                >
+                  <optgroup label="Коллекции">
+                    {collections.map((c) => (
+                      <option key={c.id} value={`collection:${c.id}`}>
+                        {c.title_ru}
+                      </option>
+                    ))}
+                  </optgroup>
+                  {categories.length > 0 && (
+                    <optgroup label="Категории без коллекций">
+                      {categories.map((c) => (
+                        <option key={c.id} value={`category:${c.id}`}>
+                          {c.title_ru}
+                        </option>
+                      ))}
+                    </optgroup>
+                  )}
+                </select>
+                <svg className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-faint" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden>
+                  <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
             </Field>
             <div className="grid grid-cols-2 gap-3">
               <Field label="Код *" hint="NICHE / код">

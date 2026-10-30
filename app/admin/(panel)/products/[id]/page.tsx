@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/admin/auth";
+import { plainCategories } from "@/lib/admin/catalog-queries";
 import { deleteProduct } from "@/lib/admin/actions/catalog";
 import { ConfirmAction } from "@/components/admin/forms";
 import { ProductEditor, type ProductRecord } from "@/components/admin/ProductEditor";
@@ -23,14 +24,21 @@ export default async function EditProductPage({
   const { created } = await searchParams;
   if (!z.uuid().safeParse(id).success) notFound();
 
-  const [{ data: product }, { data: collections }] = await Promise.all([
+  const [{ data: product }, { data: collections }, categories] = await Promise.all([
     admin.supabase.from("products").select("*").eq("id", id).maybeSingle(),
     admin.supabase.from("collections").select("id, title_ru, slug").order("sort_order").order("created_at"),
+    plainCategories(admin),
   ]);
   if (!product) notFound();
 
   const record = product as ProductRecord;
-  const slug = collections?.find((c) => c.id === record.collection_id)?.slug;
+  const collectionSlug = collections?.find((c) => c.id === record.collection_id)?.slug;
+  const categorySlug = categories.find((c) => c.id === record.category_id)?.slug;
+  const sitePath = collectionSlug
+    ? `/collections/${collectionSlug}`
+    : categorySlug
+      ? `/category/${categorySlug}`
+      : null;
 
   return (
     <div className="flex flex-col gap-8">
@@ -41,9 +49,9 @@ export default async function EditProductPage({
         eyebrow={record.title_ru || "Товар"}
         title={`NICHE / ${record.code ?? "—"}`}
         actions={
-          slug && record.code && !record.is_hidden ? (
+          sitePath && record.code && !record.is_hidden ? (
             <a
-              href={`/collections/${slug}/${record.code}`}
+              href={`${sitePath}/${record.code}`}
               target="_blank"
               rel="noopener"
               className="label-tag link-underline text-[10px]! font-medium! text-ink"
@@ -60,6 +68,7 @@ export default async function EditProductPage({
           discount_price: record.discount_price === null ? null : Number(record.discount_price),
         }}
         collections={collections ?? []}
+        categories={categories}
       />
       <div className="flex justify-end border-t border-line pt-6">
         <ConfirmAction
