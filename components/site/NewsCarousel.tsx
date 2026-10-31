@@ -48,6 +48,9 @@ export function NewsCarousel({ images, label }: { images: string[]; label: strin
         onClick={() => swiperRef.current?.slidePrev()}
         className="absolute left-2 top-1/2 z-10 h-10 w-10 -translate-y-1/2 sm:left-4 sm:h-12 sm:w-12"
       >
+        {/* The arrow is a see-through cut-out in a white disc; a smaller black disc
+            behind it makes the arrow solid black on any photo. */}
+        <span aria-hidden className="absolute inset-[12%] rounded-full bg-black" />
         <Image src="/arrow.png" alt="" fill className="object-contain" />
       </button>
       <button
@@ -56,6 +59,7 @@ export function NewsCarousel({ images, label }: { images: string[]; label: strin
         onClick={() => swiperRef.current?.slideNext()}
         className="absolute right-2 top-1/2 z-10 h-10 w-10 -translate-y-1/2 sm:right-4 sm:h-12 sm:w-12"
       >
+        <span aria-hidden className="absolute inset-[12%] rounded-full bg-black" />
         <Image src="/arrow.png" alt="" fill className="rotate-180 object-contain" />
       </button>
 

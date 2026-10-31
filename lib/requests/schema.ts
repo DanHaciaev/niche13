@@ -8,18 +8,19 @@ export type RequestStatus = (typeof REQUEST_STATUSES)[number];
 
 /** Free-text fields each form may send, besides the shared contact fields. */
 export const KIND_FIELDS: Record<RequestKind, readonly string[]> = {
-  collection: ["codes", "size_qty", "colour"],
-  custom: ["garment", "size_colour", "quantity"],
+  collection: ["instagram", "codes", "size_qty", "colour"],
+  custom: ["instagram", "garment", "size_colour", "quantity"],
   one_of_one: ["niche_numbers"],
-  illustrations: ["illustration_codes", "garment", "size_colour", "quantity"],
+  illustrations: ["instagram", "illustration_codes", "garment", "size_colour", "quantity"],
 };
 
 /** Fields the form marks with "*" — rejected when empty. */
 export const REQUIRED_FIELDS: Partial<Record<RequestKind, readonly string[]>> = {
-  one_of_one: ["niche_numbers"],
+  one_of_one: ["instagram", "niche_numbers"],
 };
 
 export const FIELD_LABELS: Record<string, string> = {
+  instagram: "Instagram",
   codes: "Номера NICHE",
   size_qty: "Размер и количество",
   colour: "Цвет",
