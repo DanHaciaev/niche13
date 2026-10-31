@@ -4,6 +4,7 @@ import { CategoryGrid } from "@/components/site/CategoryGrid";
 import { CollectionsListing } from "@/components/site/CollectionsListing";
 import { getCategories, getCollections } from "@/lib/data/catalog";
 import { getSiteContent } from "@/lib/data/content";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
   params,
@@ -12,7 +13,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "collections" });
-  return { title: t("title") };
+  return pageMetadata({ locale, path: "/collections", title: t("title") });
 }
 
 export default async function CollectionsPage({

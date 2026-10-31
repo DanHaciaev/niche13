@@ -82,6 +82,27 @@ export default async function ContentPage() {
     <div className="flex flex-col gap-8">
       <PageHeader eyebrow="Все тексты и фото сайта" title="Контент" />
 
+      <Section
+        id="seo"
+        title="Поиск и превью ссылок"
+        description="Как сайт выглядит в Google и в превью ссылок в Instagram, Telegram, WhatsApp."
+      >
+        <Text
+          name="seo_title"
+          label="Название сайта"
+          value={c.seo?.title}
+          hint="Заголовок главной в поиске; на остальных страницах добавляется после их названия. До 60 символов."
+        />
+        <Text
+          name="seo_description"
+          label="Описание"
+          value={c.seo?.description}
+          multiline
+          rows={3}
+          hint="Текст под ссылкой в Google. Лучше 120–160 символов: кто вы и что продаёте."
+        />
+      </Section>
+
       <Section id="home" title="Главная" description="Большие фото вверху и фото слайдера News.">
         <div className="grid gap-6 md:grid-cols-2">
           <Photo name="hero_left" value={c.home?.heroLeft} label="Левое фото" hint="На телефоне не показывается." />

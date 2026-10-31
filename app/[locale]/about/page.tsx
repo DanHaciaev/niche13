@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getSiteContent } from "@/lib/data/content";
+import { pageMetadata } from "@/lib/seo/metadata";
 import { renderBreaks } from "@/lib/rich-text";
 
 export async function generateMetadata({
@@ -11,7 +12,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "pages.about" });
-  return { title: t("title") };
+  const { aboutText, aboutImage } = await getSiteContent(locale);
+  return pageMetadata({ locale, path: "/about", title: t("title"), description: aboutText, image: aboutImage });
 }
 
 export default async function AboutPage({

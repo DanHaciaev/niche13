@@ -39,6 +39,8 @@ export interface StoredContent {
   /** Used by catalog pages whose collection (or category) leaves them empty. */
   catalogDefaults?: { description?: Bilingual; requestText?: Bilingual; formHeading?: Bilingual };
   productDefaults?: { title?: Bilingual; description?: Bilingual };
+  /** Site name and description shown in search results and link previews. */
+  seo?: { title?: Bilingual; description?: Bilingual };
 }
 
 export interface LocalizedSizeTable {
@@ -70,6 +72,7 @@ export interface SiteContent {
   };
   catalogDefaults: { description: string; requestText: string; formHeading: string };
   productDefaults: { title: string; description: string };
+  seo: { title: string; description: string };
 }
 
 export const CONTENT_TAG = "content";
@@ -146,6 +149,7 @@ export async function getSiteContent(locale: string): Promise<SiteContent> {
       formHeading: tr(s.catalogDefaults?.formHeading),
     },
     productDefaults: { title: tr(s.productDefaults?.title), description: tr(s.productDefaults?.description) },
+    seo: { title: tr(s.seo?.title), description: tr(s.seo?.description) },
   };
 }
 

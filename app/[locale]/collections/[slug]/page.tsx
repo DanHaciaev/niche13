@@ -9,6 +9,7 @@ import { IllustrationGrid } from "@/components/site/IllustrationGrid";
 import { getCollection, getCollections } from "@/lib/data/catalog";
 import { getSiteContent, withBreaks } from "@/lib/data/content";
 import { renderBreaks } from "@/lib/rich-text";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 /** Build every collection page ahead of time; new ones added in the admin
  * are rendered on first visit and cached from then on. */
@@ -23,7 +24,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   const data = await getCollection(slug, locale);
-  return data ? { title: data.collection.pageTitle } : {};
+  if (!data) return {};
+  const { collection } = data;
+  const { catalogDefaults } = await getSiteContent(locale);
+  return pageMetadata({
+    locale,
+    path: `/collections/${slug}`,
+    title: collection.pageTitle,
+    description: collection.description || catalogDefaults.description,
+    image: collection.heroImage ?? collection.coverImage,
+  });
 }
 
 /** Every text here comes from the collection in the database; anything it

@@ -4,8 +4,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { NewsCarousel } from "@/components/site/NewsCarousel";
 import { getSiteContent } from "@/lib/data/content";
-import { localeAlternates } from "@/lib/seo/alternates";
-import { siteUrl } from "@/lib/site-url";
+import { pageMetadata } from "@/lib/seo/metadata";
+import { organizationJsonLd } from "@/lib/seo/jsonld";
+import { siteIdentity } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
   params,
@@ -13,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  return { alternates: localeAlternates("", locale) };
+  return pageMetadata({ locale, path: "" });
 }
 
 export default async function HomePage({
@@ -25,7 +26,8 @@ export default async function HomePage({
   setRequestLocale(locale);
 
   const t = await getTranslations("home");
-  const { home } = await getSiteContent(locale);
+  const { home, instagramUrl } = await getSiteContent(locale);
+  const site = await siteIdentity(locale);
   // Photos come from Admin → Content; an empty slot simply isn't shown.
   const heroPhotos = [
     { src: home.heroLeft, alt: "Niche", desktopOnly: true },
@@ -34,15 +36,7 @@ export default async function HomePage({
 
   return (
     <>
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: "Niche",
-          url: siteUrl,
-          logo: `${siteUrl}/logo.png`,
-        }}
-      />
+      <JsonLd data={organizationJsonLd(site.brand, instagramUrl)} />
 
       {/* Hero, sized in vw so every screen keeps the design's proportions:
           - below md: only the right photo, 352×398 on a 375px screen (93.9%);

@@ -4,6 +4,9 @@ import { setRequestLocale } from "next-intl/server";
 import { ProductDetail } from "@/components/site/ProductDetail";
 import { getCategory, getCategoryProduct } from "@/lib/data/catalog";
 import { getSiteContent } from "@/lib/data/content";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { productJsonLd } from "@/lib/seo/jsonld";
+import { localizedUrl, pageMetadata, siteIdentity } from "@/lib/seo/metadata";
 
 /** Products of a category without collections (e.g. Bags). */
 export async function generateStaticParams({ params }: { params: { locale: string; slug: string } }) {
@@ -20,7 +23,13 @@ export async function generateMetadata({
   const data = await getCategoryProduct(slug, productCode, locale);
   if (!data) return {};
   const { productDefaults } = await getSiteContent(locale);
-  return { title: `NICHE / ${productCode} — ${data.product.title || productDefaults.title}` };
+  return pageMetadata({
+    locale,
+    path: `/category/${slug}/${productCode}`,
+    title: `NICHE / ${productCode} — ${data.product.title || productDefaults.title}`,
+    description: data.product.description || productDefaults.description,
+    image: data.product.images[0],
+  });
 }
 
 export default async function CategoryProductPage({
@@ -34,5 +43,21 @@ export default async function CategoryProductPage({
   const data = await getCategoryProduct(slug, productCode, locale);
   if (!data) notFound();
 
-  return <ProductDetail product={data.product} code={productCode} basePath={`/category/${slug}`} />;
+  const { product } = data;
+  const { productDefaults } = await getSiteContent(locale);
+  const site = await siteIdentity(locale);
+  const jsonLd = productJsonLd({
+    product,
+    name: `NICHE / ${productCode} — ${product.title || productDefaults.title}`,
+    description: product.description || productDefaults.description,
+    url: localizedUrl(`/category/${slug}/${productCode}`, locale),
+    brand: site.brand,
+  });
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <ProductDetail product={product} code={productCode} basePath={`/category/${slug}`} />
+    </>
+  );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getSiteContent } from "@/lib/data/content";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
   params,
@@ -9,7 +10,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "sizeGuide" });
-  return { title: t("title") };
+  const { sizeIntro } = await getSiteContent(locale);
+  return pageMetadata({ locale, path: "/size-guide", title: t("title"), description: sizeIntro });
 }
 
 export default async function SizeGuidePage({

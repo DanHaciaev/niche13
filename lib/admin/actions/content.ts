@@ -8,7 +8,7 @@ import { done, failed, type ActionState } from "@/lib/admin/types";
 import { CONTENT_TAG, EMAIL_PATTERN, type Bilingual, type StoredContent } from "@/lib/data/content";
 import { sizeTablesSchema } from "@/lib/size-tables";
 
-const SECTIONS = ["about", "contacts", "home", "collections", "footer", "custom", "catalog", "size"] as const;
+const SECTIONS = ["about", "contacts", "home", "collections", "footer", "custom", "catalog", "size", "seo"] as const;
 type Section = (typeof SECTIONS)[number];
 
 type Admin = Awaited<ReturnType<typeof requireAdmin>>;
@@ -114,6 +114,8 @@ async function readSection(form: SectionForm, section: Section, current: StoredC
           description: form.bilingual("product_description", 4000),
         },
       };
+    case "seo":
+      return { seo: { title: form.bilingual("seo_title", 70), description: form.bilingual("seo_description", 300) } };
     case "size": {
       let sizeTables;
       try {

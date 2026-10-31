@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CustomDesignForm } from "@/components/site/CustomDesignForm";
 import { getSiteContent, withBreaks } from "@/lib/data/content";
 import { renderBreaks } from "@/lib/rich-text";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata({
   params,
@@ -12,7 +13,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const { custom } = await getSiteContent(locale);
-  return { title: custom.heroTitle };
+  return pageMetadata({
+    locale,
+    path: "/custom",
+    title: custom.heroTitle,
+    description: custom.heroDescription,
+    image: custom.heroImage,
+  });
 }
 
 export default async function CustomPage({

@@ -6,6 +6,7 @@ import { CollectionGrid } from "@/components/site/CollectionGrid";
 import { getCategories, getCategory } from "@/lib/data/catalog";
 import { getSiteContent, withBreaks } from "@/lib/data/content";
 import { renderBreaks } from "@/lib/rich-text";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateStaticParams({ params }: { params: { locale: string } }) {
   return (await getCategories(params.locale)).map((c) => ({ slug: c.slug }));
@@ -18,7 +19,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   const data = await getCategory(slug, locale);
-  return data ? { title: data.category.title } : {};
+  if (!data) return {};
+  const { catalogDefaults } = await getSiteContent(locale);
+  return pageMetadata({
+    locale,
+    path: `/category/${slug}`,
+    title: data.category.title,
+    description: catalogDefaults.description,
+    image: data.category.image,
+  });
 }
 
 /** A category opens either the grid of its collections or — when it has no

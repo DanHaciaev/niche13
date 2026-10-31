@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { montserrat } from "@/lib/fonts";
 import { siteUrl } from "@/lib/site-url";
+import { siteIdentity } from "@/lib/seo/metadata";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import { FooterGate } from "@/components/site/FooterGate";
@@ -22,15 +23,17 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "meta" });
+  const site = await siteIdentity(locale);
 
+  // Pages fill in the rest (description, hreflang, link preview) through
+  // pageMetadata; these are the defaults for the ones that don't (404).
   return {
     metadataBase: new URL(siteUrl),
     title: {
-      default: t("defaultTitle"),
-      template: `%s — ${t("siteName")}`,
+      default: site.name,
+      template: `%s — ${site.name}`,
     },
-    description: t("defaultDescription"),
+    description: site.description || undefined,
     icons: {
       icon: "/favicon.ico",
     },

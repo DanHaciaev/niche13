@@ -5,6 +5,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getCollection, getProduct } from "@/lib/data/catalog";
 import { getSiteContent } from "@/lib/data/content";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { productJsonLd } from "@/lib/seo/jsonld";
+import { localizedUrl, pageMetadata, siteIdentity } from "@/lib/seo/metadata";
 import { ProductDetail } from "@/components/site/ProductDetail";
 
 export async function generateStaticParams({ params }: { params: { locale: string; slug: string } }) {
@@ -21,7 +24,13 @@ export async function generateMetadata({
   const data = await getProduct(slug, productCode, locale);
   if (!data) return {};
   const { productDefaults } = await getSiteContent(locale);
-  return { title: `NICHE / ${productCode} — ${data.product.title || productDefaults.title}` };
+  return pageMetadata({
+    locale,
+    path: `/collections/${slug}/${productCode}`,
+    title: `NICHE / ${productCode} — ${data.product.title || productDefaults.title}`,
+    description: data.product.description || productDefaults.description,
+    image: data.product.images[0],
+  });
 }
 
 export default async function ProductPage({
@@ -136,5 +145,20 @@ export default async function ProductPage({
     );
   }
 
-  return <ProductDetail product={product} code={productCode} basePath={`/collections/${slug}`} />;
+  const { productDefaults } = await getSiteContent(locale);
+  const site = await siteIdentity(locale);
+  const jsonLd = productJsonLd({
+    product,
+    name: `NICHE / ${productCode} — ${product.title || productDefaults.title}`,
+    description: product.description || productDefaults.description,
+    url: localizedUrl(`/collections/${slug}/${productCode}`, locale),
+    brand: site.brand,
+  });
+
+  return (
+    <>
+      <JsonLd data={jsonLd} />
+      <ProductDetail product={product} code={productCode} basePath={`/collections/${slug}`} />
+    </>
+  );
 }

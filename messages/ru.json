@@ -1,8 +1,6 @@
 {
   "meta": {
-    "siteName": "Niche",
-    "defaultTitle": "Niche",
-    "defaultDescription": "Niche"
+    "siteName": "Niche"
   },
   "nav": {
     "home": "Главная",
