@@ -6,9 +6,9 @@ import { FormMessage, RequestForm, SubmitButton } from "./RequestForm";
 
 type FormT = (key: string) => string;
 
-const labelClass = "label-tag font-medium! text-[10px]! md:text-[12px]! text-black";
+const labelClass = "label-tag font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]! text-black";
 const lineFieldClass =
-  "mt-3 w-full resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm";
+  "mt-3 w-full resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none";
 
 function TextField({
   label,
@@ -35,7 +35,7 @@ function TextField({
         autoComplete={autoComplete}
         maxLength={type === "email" ? 200 : 120}
         placeholder={placeholder}
-        className="border-b border-black bg-transparent pb-2 font-medium! text-[8px]! md:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
+        className="border-b border-black bg-transparent pb-2 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
       />
     </label>
   );
@@ -83,7 +83,7 @@ export function OrderRequestForm({
               <span className={labelClass}>{t("sizeQty")}</span>
               <Link
                 href="/size-guide"
-                className="label-tag text-[11px]! text-black underline-offset-2 hover:text-ink hover:underline md:text-xs!"
+                className="label-tag text-[10px]! text-black underline-offset-2 hover:text-ink hover:underline md:text-[11px]! lg:text-[12px]!"
               >
                 {t("sizeGuide")}
               </Link>
@@ -102,7 +102,7 @@ export function OrderRequestForm({
             name="comment"
             maxLength={3000}
             placeholder={t("additionalPlaceholder")}
-            className="h-36 resize-none border border-black bg-transparent p-4 font-medium! text-[8px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none md:h-28 md:text-[11px]! lg:h-auto lg:min-h-48 lg:flex-1"
+            className="h-36 resize-none border border-black bg-transparent p-4 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none md:h-28 lg:h-auto lg:min-h-48 lg:flex-1"
           />
         </label>
 

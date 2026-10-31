@@ -21,7 +21,7 @@ function TextField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag font-medium! text-[10px]! md:text-[12px]! text-ink">
+      <span className="label-tag font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]! text-ink">
         {label}
       </span>
       <input
@@ -31,7 +31,7 @@ function TextField({
         autoComplete={autoComplete}
         maxLength={type === "email" ? 200 : 120}
         placeholder={placeholder}
-        className="border-b border-ink/30 bg-transparent pb-2 font-medium! text-[8px]! md:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
+        className="border-b border-ink/30 bg-transparent pb-2 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none"
       />
     </label>
   );
@@ -50,7 +50,7 @@ function TextareaField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag  text-ink font-medium! text-[10px]! md:text-[12px]!! ml-auto md:ml-0">
+      <span className="label-tag  text-ink font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]! ml-auto md:ml-0">
         {label}
       </span>
       <textarea
@@ -58,7 +58,7 @@ function TextareaField({
         name={name}
         maxLength={2000}
         placeholder={placeholder}
-        className="resize-none border-b border-ink/30 bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+        className="resize-none border-b border-ink/30 bg-transparent pb-3 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none"
       />
     </label>
   );
@@ -91,10 +91,10 @@ export function CustomDesignForm({ t, heading }: { t: FormT; heading: string }) 
           <TextareaField name="garment" label={t("garmentSelection")} placeholder={t("garmentSelectionPlaceholder")} rows={1} />
           <div>
             <div className="flex flex-row-reverse items-center justify-between md:flex-row">
-              <span className="label-tag font-medium! text-[10px]! md:text-[12px]! text-ink">{t("sizeColour")}</span>
+              <span className="label-tag font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]! text-ink">{t("sizeColour")}</span>
               <Link
                 href="/size-guide"
-                className="label-tag text-[11px]! text-ink-faint underline-offset-2 hover:text-ink hover:underline md:text-xs!"
+                className="label-tag text-[10px]! text-ink-faint underline-offset-2 hover:text-ink hover:underline md:text-[11px]! lg:text-[12px]!"
               >
                 {t("sizeGuide")}
               </Link>
@@ -104,29 +104,29 @@ export function CustomDesignForm({ t, heading }: { t: FormT; heading: string }) 
               name="size_colour"
               maxLength={2000}
               placeholder={t("sizeColourPlaceholder")}
-              className="mt-3 w-full resize-none border-b border-ink/30 bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+              className="mt-3 w-full resize-none border-b border-ink/30 bg-transparent pb-3 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none"
             />
           </div>
           <TextareaField name="quantity" label={t("quantity")} placeholder={t("quantityPlaceholder")} rows={1} />
 
           <div className="flex flex-col gap-3">
-            <span className="label-tag self-end font-medium! text-[10px]! md:self-start md:text-[12px]! text-ink">
+            <span className="label-tag self-end font-medium! text-[10px]! md:self-start md:text-[11px]! lg:text-[12px]! text-ink">
               {t("uploadDesign")}*
             </span>
-            <span className="text-right text-xs leading-relaxed text-ink-faint md:text-left">{t("uploadDesignHelper")}</span>
+            <span className="text-right text-[8px]! md:text-[10px]! lg:text-[11px]! leading-relaxed text-ink-faint md:text-left">{t("uploadDesignHelper")}</span>
             <DesignUploadField prompt={t("uploadPrompt")} formats={t("uploadFormats")} />
           </div>
         </div>
 
         <label className="flex flex-col gap-3 [grid-area:C]">
-          <span className="label-tag text-center font-medium! text-[10px]! md:text-left md:text-[12px]! text-ink">
+          <span className="label-tag text-center font-medium! md:text-left text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]! text-ink">
             {t("additional")}
           </span>
           <textarea
             name="comment"
             maxLength={3000}
             placeholder={t("additionalPlaceholder")}
-            className="h-36 resize-none border border-ink/30 bg-transparent p-4 text-sm text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none md:h-28 lg:h-auto lg:min-h-48 lg:flex-1"
+            className="h-36 resize-none border border-ink/30 bg-transparent p-4 text-[8px]! md:text-[10px]! lg:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none md:h-28 lg:h-auto lg:min-h-48 lg:flex-1"
           />
         </label>
 

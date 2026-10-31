@@ -41,7 +41,7 @@ export function OrderCodesField({
 
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-black font-medium! text-[10px]! md:text-[12px]! ml-auto md:ml-0">
+      <span className="label-tag text-black font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]! ml-auto md:ml-0">
         {label}
       </span>
       <textarea
@@ -58,7 +58,7 @@ export function OrderCodesField({
           editingRef.current = false;
           commit(e.target.value);
         }}
-        className="resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none md:text-sm"
+        className="resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none"
       />
     </label>
   );

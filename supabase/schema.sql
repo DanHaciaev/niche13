@@ -594,3 +594,101 @@ set value = '{"categoryPlaceholder": "/top2.jpg"}'::jsonb || coalesce(
   '{}'::jsonb
 )
 where key = 'content';
+
+
+-- ---------------------------------------------------------------------------
+-- Starter products: 8 per collection and per category without collections,
+-- the catalog the site showed before. Only on a database with no products.
+-- ---------------------------------------------------------------------------
+
+do $$ begin
+  if not exists (select 1 from products) then
+    insert into products (collection_id, code, description_ru, description_en, gender, price, discount_price, images, is_sold_out, sort_order)
+select p.id, v.code, v.description_ru, v.description_en, v.gender, v.price, v.discount_price, v.images, v.is_sold_out, v.sort_order
+from (values
+    ('001', '', '', 'male', 400, null, '["/clothes.jpg"]'::jsonb, false, 1),
+    ('002', '', '', 'female', 400, null, '["/clothes.jpg"]'::jsonb, false, 2),
+    ('003', '', '', 'male', 400, null, '["/clothes.jpg"]'::jsonb, true, 3),
+    ('004', '', '', 'female', 400, 200, '["/clothes.jpg"]'::jsonb, false, 4),
+    ('005', '', '', 'male', 400, null, '["/clothes.jpg"]'::jsonb, false, 5),
+    ('006', '', '', 'female', 400, null, '["/clothes.jpg"]'::jsonb, false, 6),
+    ('007', '', '', 'male', 400, null, '["/clothes.jpg"]'::jsonb, false, 7),
+    ('008', '', '', 'female', 400, null, '["/clothes.jpg"]'::jsonb, false, 8)
+  ) as v(code, description_ru, description_en, gender, price, discount_price, images, is_sold_out, sort_order)
+    cross join collections p where p.kind = 'catalog';
+
+    insert into products (collection_id, code, description_ru, description_en, gender, price, discount_price, images, is_sold_out, sort_order)
+select p.id, v.code, v.description_ru, v.description_en, v.gender, v.price, v.discount_price, v.images, v.is_sold_out, v.sort_order
+from (values
+    ('001', 'Уникальная в своём роде майка с отличительной вышивкой, превращающая классическую вещь в нечто личное. Минималистичная по форме, но неповторимая по характеру — эта вещь создана для тех, кто ценит индивидуальность в мельчайших деталях.
+Доступна в размере S, длина 58 см и ширина груди 42 см. Замеры приблизительные.
+Одна вещь, одна история.', 'A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.
+Available in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.
+One piece, one story.', 'male', 400, null, '["/clothes.jpg"]'::jsonb, false, 1),
+    ('002', 'Уникальная в своём роде майка с отличительной вышивкой, превращающая классическую вещь в нечто личное. Минималистичная по форме, но неповторимая по характеру — эта вещь создана для тех, кто ценит индивидуальность в мельчайших деталях.
+Доступна в размере S, длина 58 см и ширина груди 42 см. Замеры приблизительные.
+Одна вещь, одна история.', 'A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.
+Available in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.
+One piece, one story.', 'female', 400, null, '["/clothes.jpg"]'::jsonb, false, 2),
+    ('003', 'Уникальная в своём роде майка с отличительной вышивкой, превращающая классическую вещь в нечто личное. Минималистичная по форме, но неповторимая по характеру — эта вещь создана для тех, кто ценит индивидуальность в мельчайших деталях.
+Доступна в размере S, длина 58 см и ширина груди 42 см. Замеры приблизительные.
+Одна вещь, одна история.', 'A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.
+Available in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.
+One piece, one story.', 'male', 400, null, '["/clothes.jpg"]'::jsonb, true, 3),
+    ('004', 'Уникальная в своём роде майка с отличительной вышивкой, превращающая классическую вещь в нечто личное. Минималистичная по форме, но неповторимая по характеру — эта вещь создана для тех, кто ценит индивидуальность в мельчайших деталях.
+Доступна в размере S, длина 58 см и ширина груди 42 см. Замеры приблизительные.
+Одна вещь, одна история.', 'A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.
+Available in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.
+One piece, one story.', 'female', 400, 200, '["/clothes.jpg"]'::jsonb, false, 4),
+    ('005', 'Уникальная в своём роде майка с отличительной вышивкой, превращающая классическую вещь в нечто личное. Минималистичная по форме, но неповторимая по характеру — эта вещь создана для тех, кто ценит индивидуальность в мельчайших деталях.
+Доступна в размере S, длина 58 см и ширина груди 42 см. Замеры приблизительные.
+Одна вещь, одна история.', 'A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.
+Available in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.
+One piece, one story.', 'male', 400, null, '["/clothes.jpg"]'::jsonb, false, 5),
+    ('006', 'Уникальная в своём роде майка с отличительной вышивкой, превращающая классическую вещь в нечто личное. Минималистичная по форме, но неповторимая по характеру — эта вещь создана для тех, кто ценит индивидуальность в мельчайших деталях.
+Доступна в размере S, длина 58 см и ширина груди 42 см. Замеры приблизительные.
+Одна вещь, одна история.', 'A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.
+Available in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.
+One piece, one story.', 'female', 400, null, '["/clothes.jpg"]'::jsonb, false, 6),
+    ('007', 'Уникальная в своём роде майка с отличительной вышивкой, превращающая классическую вещь в нечто личное. Минималистичная по форме, но неповторимая по характеру — эта вещь создана для тех, кто ценит индивидуальность в мельчайших деталях.
+Доступна в размере S, длина 58 см и ширина груди 42 см. Замеры приблизительные.
+Одна вещь, одна история.', 'A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.
+Available in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.
+One piece, one story.', 'male', 400, null, '["/clothes.jpg"]'::jsonb, false, 7),
+    ('008', 'Уникальная в своём роде майка с отличительной вышивкой, превращающая классическую вещь в нечто личное. Минималистичная по форме, но неповторимая по характеру — эта вещь создана для тех, кто ценит индивидуальность в мельчайших деталях.
+Доступна в размере S, длина 58 см и ширина груди 42 см. Замеры приблизительные.
+Одна вещь, одна история.', 'A one-of-a-kind tank top featuring distinctive embroidery that turns a timeless essential into something personal. Minimalist in form, yet unique in character, this piece is designed for those who appreciate individuality in the smallest details.
+Available in size S, with a length of 58 cm and a chest width of 42 cm. Measurements are approximate.
+One piece, one story.', 'female', 400, null, '["/clothes.jpg"]'::jsonb, false, 8)
+  ) as v(code, description_ru, description_en, gender, price, discount_price, images, is_sold_out, sort_order)
+    cross join collections p where p.kind = 'one_of_one';
+
+    insert into products (collection_id, code, description_ru, description_en, gender, price, discount_price, images, is_sold_out, sort_order)
+select p.id, v.code, v.description_ru, v.description_en, v.gender, v.price, v.discount_price, v.images, v.is_sold_out, v.sort_order
+from (values
+    ('001', 'Вдохновлённая молдавским наследием, эта иллюстрация объединяет культурную символику и неподвластное времени мастерство. Скромная дань местным традициям, переосмысленная для современного выражения и вышивки.', 'Inspired by Moldovan heritage, this illustration brings together cultural symbolism and timeless artistry. A subtle tribute to local traditions, reimagined for contemporary expression and embroidery.', null, 400, null, '["/collection9.jpg"]'::jsonb, false, 1),
+    ('002', 'Вдохновлённая молдавским наследием, эта иллюстрация объединяет культурную символику и неподвластное времени мастерство. Скромная дань местным традициям, переосмысленная для современного выражения и вышивки.', 'Inspired by Moldovan heritage, this illustration brings together cultural symbolism and timeless artistry. A subtle tribute to local traditions, reimagined for contemporary expression and embroidery.', null, 400, null, '["/collection9.jpg"]'::jsonb, false, 2),
+    ('003', 'Вдохновлённая молдавским наследием, эта иллюстрация объединяет культурную символику и неподвластное времени мастерство. Скромная дань местным традициям, переосмысленная для современного выражения и вышивки.', 'Inspired by Moldovan heritage, this illustration brings together cultural symbolism and timeless artistry. A subtle tribute to local traditions, reimagined for contemporary expression and embroidery.', null, 400, null, '["/collection9.jpg"]'::jsonb, true, 3),
+    ('004', 'Вдохновлённая молдавским наследием, эта иллюстрация объединяет культурную символику и неподвластное времени мастерство. Скромная дань местным традициям, переосмысленная для современного выражения и вышивки.', 'Inspired by Moldovan heritage, this illustration brings together cultural symbolism and timeless artistry. A subtle tribute to local traditions, reimagined for contemporary expression and embroidery.', null, 400, 200, '["/collection9.jpg"]'::jsonb, false, 4),
+    ('005', 'Вдохновлённая молдавским наследием, эта иллюстрация объединяет культурную символику и неподвластное времени мастерство. Скромная дань местным традициям, переосмысленная для современного выражения и вышивки.', 'Inspired by Moldovan heritage, this illustration brings together cultural symbolism and timeless artistry. A subtle tribute to local traditions, reimagined for contemporary expression and embroidery.', null, 400, null, '["/collection9.jpg"]'::jsonb, false, 5),
+    ('006', 'Вдохновлённая молдавским наследием, эта иллюстрация объединяет культурную символику и неподвластное времени мастерство. Скромная дань местным традициям, переосмысленная для современного выражения и вышивки.', 'Inspired by Moldovan heritage, this illustration brings together cultural symbolism and timeless artistry. A subtle tribute to local traditions, reimagined for contemporary expression and embroidery.', null, 400, null, '["/collection9.jpg"]'::jsonb, false, 6),
+    ('007', 'Вдохновлённая молдавским наследием, эта иллюстрация объединяет культурную символику и неподвластное времени мастерство. Скромная дань местным традициям, переосмысленная для современного выражения и вышивки.', 'Inspired by Moldovan heritage, this illustration brings together cultural symbolism and timeless artistry. A subtle tribute to local traditions, reimagined for contemporary expression and embroidery.', null, 400, null, '["/collection9.jpg"]'::jsonb, false, 7),
+    ('008', 'Вдохновлённая молдавским наследием, эта иллюстрация объединяет культурную символику и неподвластное времени мастерство. Скромная дань местным традициям, переосмысленная для современного выражения и вышивки.', 'Inspired by Moldovan heritage, this illustration brings together cultural symbolism and timeless artistry. A subtle tribute to local traditions, reimagined for contemporary expression and embroidery.', null, 400, null, '["/collection9.jpg"]'::jsonb, false, 8)
+  ) as v(code, description_ru, description_en, gender, price, discount_price, images, is_sold_out, sort_order)
+    cross join collections p where p.kind = 'illustrations';
+
+    insert into products (category_id, code, description_ru, description_en, gender, price, discount_price, images, is_sold_out, sort_order)
+select p.id, v.code, v.description_ru, v.description_en, v.gender, v.price, v.discount_price, v.images, v.is_sold_out, v.sort_order
+from (values
+    ('001', '', '', 'male', 400, null, '["/clothes.jpg"]'::jsonb, false, 1),
+    ('002', '', '', 'female', 400, null, '["/clothes.jpg"]'::jsonb, false, 2),
+    ('003', '', '', 'male', 400, null, '["/clothes.jpg"]'::jsonb, true, 3),
+    ('004', '', '', 'female', 400, 200, '["/clothes.jpg"]'::jsonb, false, 4),
+    ('005', '', '', 'male', 400, null, '["/clothes.jpg"]'::jsonb, false, 5),
+    ('006', '', '', 'female', 400, null, '["/clothes.jpg"]'::jsonb, false, 6),
+    ('007', '', '', 'male', 400, null, '["/clothes.jpg"]'::jsonb, false, 7),
+    ('008', '', '', 'female', 400, null, '["/clothes.jpg"]'::jsonb, false, 8)
+  ) as v(code, description_ru, description_en, gender, price, discount_price, images, is_sold_out, sort_order)
+    cross join categories p where p.has_collections = false;
+  end if;
+end $$;
