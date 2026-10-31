@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { getSiteContent } from "@/lib/data/content";
+import { ContentUnavailableError, getSiteContent, withBreaks, type SiteContent } from "@/lib/data/content";
+import { renderBreaks } from "@/lib/rich-text";
 import { FooterShell } from "./FooterShell";
 
 interface FooterLink {
@@ -26,7 +27,17 @@ function LinkItem({ link, className = "" }: { link: FooterLink; className?: stri
 
 export default async function Footer() {
   const t = await getTranslations("footer");
-  const content = await getSiteContent(await getLocale());
+  // The footer sits in the shared layout: if the database is down it simply
+  // isn't drawn, and the page itself shows the "temporarily unavailable" note.
+  let content: SiteContent;
+  try {
+    content = await getSiteContent(await getLocale());
+  } catch (error) {
+    if (error instanceof ContentUnavailableError) return null;
+    throw error;
+  }
+  const { footer } = content;
+  const textOneLine = footer.text.replace(/\s*\n\s*/g, " ");
 
   const brand: FooterLink = { href: "/about", label: t("links.brand") };
   const customize: FooterLink = { href: "/custom", label: t("links.customize") };
@@ -35,9 +46,8 @@ export default async function Footer() {
   const email: FooterLink = { href: `mailto:${content.email}`, label: t("links.email"), external: true };
   const contact: FooterLink = { href: "/contacts", label: t("links.contactUs") };
 
-  const photo = (sizes: string) => (
-    <Image src="/bottom_1.jpg" alt="Niche" fill sizes={sizes} className="object-cover" />
-  );
+  const photo = (sizes: string) =>
+    footer.image ? <Image src={footer.image} alt="Niche" fill sizes={sizes} className="object-cover" /> : null;
   const madeBy = "whitespace-nowrap font-normal text-[#A1A1A1]";
 
   return (
@@ -48,7 +58,7 @@ export default async function Footer() {
 
       <div className="px-5 pb-6 pt-13 text-center md:pb-1 lg:pb-9 lg:pt-13">
         <h2 className="text-[10px] font-semibold uppercase text-ink md:text-[11px] md:font-normal lg:text-[13px]">
-          {t("heading")}
+          {footer.heading}
         </h2>
         <div aria-hidden className="mt-7 flex justify-center text-ink lg:mt-10">
           <svg width="7" height="5" viewBox="0 0 7 5" fill="currentColor">
@@ -64,16 +74,14 @@ export default async function Footer() {
           gets taller instead of the text overlapping. */}
       <div className="px-[9vw] pb-10 md:hidden">
         <p className="pl-[2.4vw] text-[12px] leading-relaxed text-[#767676]">
-          {t("paragraph1")}
-          <br />
-          {t("paragraph2")}
+          {renderBreaks(withBreaks(footer.text))}
         </p>
 
         <div className="mt-8 flex items-stretch justify-between gap-4">
           <div className="relative aspect-141/189 w-[37.6vw] shrink-0 self-start overflow-hidden">{photo("38vw")}</div>
 
           <div className="flex flex-col items-end justify-between gap-[18px]">
-            <nav aria-label={t("heading")} className="flex flex-col items-end gap-[18px]">
+            <nav aria-label={footer.heading} className="flex flex-col items-end gap-[18px]">
               {[customize, collections, brand, email, instagram, contact].map((link) => (
                 <LinkItem key={link.href} link={link} className="text-right text-[7px]" />
               ))}
@@ -90,10 +98,10 @@ export default async function Footer() {
 
         <div className="ml-[11vw] flex min-w-0 flex-1 flex-col justify-between pb-[5.3vw] pt-[6.1vw]">
           <p className="text-[11px] leading-relaxed text-[#767676]">
-            {t("paragraph1")} {t("paragraph2")}
+            {textOneLine}
           </p>
 
-          <nav aria-label={t("heading")} className="grid grid-cols-[27.8%_29.2%_1fr_auto] items-baseline gap-y-[54px]">
+          <nav aria-label={footer.heading} className="grid grid-cols-[27.8%_29.2%_1fr_auto] items-baseline gap-y-[54px]">
             <LinkItem link={brand} className="text-[10px]" />
             <LinkItem link={collections} className="col-span-2 text-[10px]" />
             <LinkItem link={customize} className="text-right text-[10px]" />
@@ -113,11 +121,11 @@ export default async function Footer() {
 
         <div className="flex min-w-0 flex-1 flex-col justify-between">
           <p className="pt-1 text-[13px] leading-relaxed text-[#767676]">
-            {t("paragraph1")} {t("paragraph2")}
+            {textOneLine}
           </p>
 
           <nav
-            aria-label={t("heading")}
+            aria-label={footer.heading}
             className="grid grid-cols-[30.9%_27.3%_1fr_auto] items-baseline gap-y-[60px] pb-0.5"
           >
             <LinkItem link={brand} className="text-[11px]" />

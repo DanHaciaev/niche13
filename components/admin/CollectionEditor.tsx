@@ -13,6 +13,12 @@ export interface CollectionRecord {
   eyebrow_en: string;
   description_ru: string;
   description_en: string;
+  page_title_ru?: string;
+  page_title_en?: string;
+  request_text_ru?: string;
+  request_text_en?: string;
+  form_heading_ru?: string;
+  form_heading_en?: string;
   cover_image: string | null;
   hero_image: string | null;
   kind: keyof typeof COLLECTION_KIND_LABELS;
@@ -70,7 +76,30 @@ export function CollectionEditor({
               en={collection.description_en}
               multiline
               rows={5}
-              hint="Текст рядом с фото вверху страницы коллекции. Пусто — стандартный текст сайта."
+              hint="Текст рядом с фото вверху страницы коллекции. Пусто — текст по умолчанию из раздела «Контент»."
+            />
+            <BilingualField
+              label="Заголовок страницы"
+              name="page_title"
+              ru={collection.page_title_ru ?? ""}
+              en={collection.page_title_en ?? ""}
+              hint="Крупно вверху страницы коллекции, например «Коллекция RU». Пусто — название коллекции."
+            />
+            <BilingualField
+              label="Текст над формой заявки"
+              name="request_text"
+              ru={collection.request_text_ru ?? ""}
+              en={collection.request_text_en ?? ""}
+              multiline
+              rows={3}
+              hint="Справа над формой внизу страницы. Пусто — текст по умолчанию из раздела «Контент»."
+            />
+            <BilingualField
+              label="Заголовок формы"
+              name="form_heading"
+              ru={collection.form_heading_ru ?? ""}
+              en={collection.form_heading_en ?? ""}
+              hint="Большой заголовок над формой, например «Найдите свою вещь». Пусто — по умолчанию."
             />
           </div>
         </Card>

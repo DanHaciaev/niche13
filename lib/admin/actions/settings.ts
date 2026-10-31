@@ -1,12 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
 import { requireAdmin } from "@/lib/admin/auth";
-import { refreshSite } from "@/lib/admin/revalidate";
 import { done, failed, type ActionState } from "@/lib/admin/types";
-import { CONTENT_TAG, EMAIL_PATTERN, type StoredContent } from "@/lib/data/content";
-import { sizeTablesSchema } from "@/lib/size-tables";
+import { EMAIL_PATTERN } from "@/lib/data/content";
 import {
   SECRETS_KEY,
   TELEGRAM_TOKEN_PATTERN,
@@ -26,39 +23,6 @@ async function saveSetting(admin: Awaited<ReturnType<typeof requireAdmin>>, key:
     .upsert({ key, value, updated_at: new Date().toISOString() });
   if (error) console.error("[admin] save settings failed", error);
   return !error;
-}
-
-export async function saveContent(_prev: ActionState, formData: FormData): Promise<ActionState> {
-  const admin = await requireAdmin();
-
-  const email = String(formData.get("email") ?? "").trim();
-  if (email && !EMAIL_PATTERN.test(email)) return failed("Проверьте email");
-
-  const instagramUrl = String(formData.get("instagramUrl") ?? "").trim();
-  if (instagramUrl && !z.url({ protocol: /^https$/ }).safeParse(instagramUrl).success) {
-    return failed("Ссылка на Instagram должна начинаться с https://");
-  }
-
-  let sizeTables;
-  try {
-    const parsed = sizeTablesSchema.safeParse(JSON.parse(String(formData.get("size_tables") ?? "[]")));
-    if (!parsed.success) return failed("Проверьте таблицы размеров: слишком длинный текст или много колонок");
-    sizeTables = parsed.data;
-  } catch {
-    return failed("Не удалось прочитать таблицы размеров");
-  }
-
-  const content: StoredContent = {
-    aboutRu: String(formData.get("aboutRu") ?? "").slice(0, 8000),
-    aboutEn: String(formData.get("aboutEn") ?? "").slice(0, 8000),
-    email,
-    instagramUrl,
-    sizeTables,
-  };
-
-  if (!(await saveSetting(admin, "content", content))) return failed("Не удалось сохранить");
-  refreshSite(CONTENT_TAG);
-  return done("Тексты обновлены на сайте");
 }
 
 const HOST_PATTERN = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/i;

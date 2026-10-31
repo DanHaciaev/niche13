@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CustomDesignForm } from "@/components/site/CustomDesignForm";
+import { getSiteContent, withBreaks } from "@/lib/data/content";
 import { renderBreaks } from "@/lib/rich-text";
 
 export async function generateMetadata({
@@ -10,8 +11,8 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "custom" });
-  return { title: t("heroTitle") };
+  const { custom } = await getSiteContent(locale);
+  return { title: custom.heroTitle };
 }
 
 export default async function CustomPage({
@@ -23,6 +24,7 @@ export default async function CustomPage({
   setRequestLocale(locale);
   const t = await getTranslations("custom");
   const tForm = await getTranslations("custom.form");
+  const { custom } = await getSiteContent(locale);
 
   return (
     <>
@@ -30,24 +32,26 @@ export default async function CustomPage({
         <div className="flex w-full flex-1 justify-center">
           <div className="text-left md:max-w-170">
               <h1 className="label-tag text-ink text-[14px]! md:text-[20px]! lg:text-[24px]!">
-                {t("heroTitle")}
+                {custom.heroTitle}
               </h1>
               <p className="mt-2 text-right font-medium text-[13px] md:text-base lg:text-[18px] leading-relaxed text-ink-soft md:mt-2">
-                {renderBreaks(t("heroDescription"))}
+                {renderBreaks(withBreaks(custom.heroDescription))}
               </p>
             </div>
         </div>
 
-        <div className="relative aspect-3/4 w-[55%] shrink-0 overflow-hidden md:w-[38%] lg:w-[32%]">
-          <Image
-            src="/collection7.png"
-            alt={t("heroTitle")}
-            fill
-            sizes="(min-width: 1024px) 32vw, (min-width: 769px) 38vw, 55vw"
-            priority
-            className="object-cover"
-          />
-        </div>
+        {custom.heroImage && (
+          <div className="relative aspect-3/4 w-[55%] shrink-0 overflow-hidden md:w-[38%] lg:w-[32%]">
+            <Image
+              src={custom.heroImage}
+              alt={custom.heroTitle}
+              fill
+              sizes="(min-width: 1024px) 32vw, (min-width: 769px) 38vw, 55vw"
+              priority
+              className="object-cover"
+            />
+          </div>
+        )}
       </section>
 
       <div className="flex items-center gap-4 px-5 md:px-8 lg:px-12">
@@ -56,10 +60,10 @@ export default async function CustomPage({
       </div>
 
       <p className="px-5 py-12 text-right text-[13px]! leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-right lg:px-12 lg:py-34 ml-auto max-w-250">
-        {t("orderRequestText")}
+        {renderBreaks(withBreaks(custom.requestText))}
       </p>
 
-      <CustomDesignForm t={tForm} heading={t("makeItReal")} />
+      <CustomDesignForm t={tForm} heading={custom.formHeading} />
     </>
   );
 }

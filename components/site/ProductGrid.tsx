@@ -3,7 +3,8 @@ import { Link } from "@/i18n/navigation";
 
 export interface Product {
   code: string;
-  image: string;
+  /** First product photo; null shows a plain tile. */
+  image: string | null;
   price: string;
   priceValue?: number;
   discountPrice?: string;
@@ -23,14 +24,16 @@ export function ProductGrid({ products, basePath }: { products: Product[]; baseP
       {products.map((product) => (
         <Link key={product.code} href={`${basePath}/${product.code}`} className="group flex flex-col">
           <div className="relative">
-            <div className="relative aspect-3/4 w-full overflow-hidden">
-              <Image
-                src={product.image}
-                alt={`NICHE / ${product.code}`}
-                fill
-                sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
-                className="object-cover transition-opacity duration-500 group-hover:opacity-80"
-              />
+            <div className="relative aspect-3/4 w-full overflow-hidden bg-cream-deep">
+              {product.image && (
+                <Image
+                  src={product.image}
+                  alt={`NICHE / ${product.code}`}
+                  fill
+                  sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
+                  className="object-cover transition-opacity duration-500 group-hover:opacity-80"
+                />
+              )}
             </div>
             {product.discountPrice && (
               <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center font-medium! bg-[#981C1C] text-center text-[14px]! text-white">

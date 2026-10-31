@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 
 export interface IllustrationItem {
   code: string;
-  image: string;
+  image: string | null;
   onSale: boolean;
   soldOut: boolean;
 }
@@ -27,14 +27,16 @@ export function IllustrationGrid({
       {items.map(({ code, image, onSale, soldOut }) => (
         <Link key={code} href={`/collections/${slug}/${code}`} className="group flex flex-col">
           <div className="relative">
-            <div className="relative aspect-3/4 w-full overflow-hidden">
-              <Image
-                src={image}
-                alt={`${label} / ${code}`}
-                fill
-                sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
-                className="object-cover transition-opacity duration-500 group-hover:opacity-80"
-              />
+            <div className="relative aspect-3/4 w-full overflow-hidden bg-cream-deep">
+              {image && (
+                <Image
+                  src={image}
+                  alt={`${label} / ${code}`}
+                  fill
+                  sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
+                  className="object-cover transition-opacity duration-500 group-hover:opacity-80"
+                />
+              )}
             </div>
             {onSale && (
               <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center font-medium! justify-center bg-[#981C1C] text-center text-[14px]! text-white">

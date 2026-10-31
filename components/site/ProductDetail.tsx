@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { formatPrice, type Product } from "@/lib/data/catalog";
+import { getSiteContent } from "@/lib/data/content";
 import { ProductOrderPanel } from "./ProductOrderPanel";
 
 /** Product page for a catalog item: photo with sale/sold-out badge, code,
@@ -19,21 +20,25 @@ export async function ProductDetail({
   const t = await getTranslations("collections");
   const tProduct = await getTranslations("collections.detail.product");
   const tBadges = await getTranslations("badges");
+  // Used when a product leaves its own title/description empty (Admin → Content).
+  const { productDefaults } = await getSiteContent(await getLocale());
   const onSale = product.discountPrice !== null;
 
   return (
     <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
       <div className="flex flex-col items-center gap-10 md:items-start md:flex-row md:gap-7 lg:gap-16">
         <div className="relative w-full shrink-0 md:w-[42%] lg:w-[30%]">
-          <div className="relative aspect-392/525 w-full overflow-hidden">
-            <Image
-              src={product.images[0] ?? "/clothes.jpg"}
-              alt={`NICHE / ${code}`}
-              fill
-              sizes="(min-width: 1024px) 36vw, (min-width: 640px) 42vw, 100vw"
-              priority
-              className="object-cover"
-            />
+          <div className="relative aspect-392/525 w-full overflow-hidden bg-cream-deep">
+            {product.images[0] && (
+              <Image
+                src={product.images[0]}
+                alt={`NICHE / ${code}`}
+                fill
+                sizes="(min-width: 1024px) 36vw, (min-width: 640px) 42vw, 100vw"
+                priority
+                className="object-cover"
+              />
+            )}
           </div>
           {onSale && (
             <span className="label-tag absolute -left-1 -top-1 flex w-25 h-7 items-center justify-center font-medium! bg-[#981C1C] text-center text-[14px]! text-white">
@@ -83,10 +88,10 @@ export async function ProductDetail({
           </div>
 
           <h1 className="label-tag mt-10 lg:mt-20 text-[13px]! md:text-base! font-medium! text-ink">
-            {product.title || tProduct("title")}
+            {product.title || productDefaults.title}
           </h1>
           <p className="mt-2 max-w-full font-medium! text-[11px]! md:text-[15px]! leading-relaxed text-ink-soft">
-            {product.description || tProduct("description")}
+            {product.description || productDefaults.description}
           </p>
 
           <ProductOrderPanel

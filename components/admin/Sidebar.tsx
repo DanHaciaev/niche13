@@ -14,7 +14,7 @@ const NAV = [
   { href: "/admin/products", label: "Товары", icon: "M7 4 4 7l3 2v11h10V9l3-2-3-3h-3a2 2 0 0 1-4 0H7Z" },
   { href: "/admin/categories", label: "Категории", icon: "M4 6h7M4 12h7M4 18h7M15 5l5 5-5 5" },
   { href: "/admin/collections", label: "Коллекции", icon: "M4 5h7v7H4V5Zm9 0h7v7h-7V5ZM4 14h7v5H4v-5Zm9 0h7v5h-7v-5Z" },
-  { href: "/admin/content", label: "Тексты", icon: "M5 5h14M5 10h14M5 15h9M5 20h6" },
+  { href: "/admin/content", label: "Контент", icon: "M5 5h14M5 10h14M5 15h9M5 20h6" },
   { href: "/admin/stats", label: "Статистика", icon: "M5 20V10m7 10V4m7 16v-7" },
   { href: "/admin/settings", label: "Настройки", icon: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm7.4-3a7.4 7.4 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7.6 7.6 0 0 0-2-1.2L14.5 3h-5l-.4 2.6a7.6 7.6 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7.4 7.4 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7.6 7.6 0 0 0 2 1.2l.4 2.6h5l.4-2.6a7.6 7.6 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z" },
 ] as const;

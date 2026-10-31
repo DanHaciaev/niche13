@@ -350,14 +350,14 @@ on conflict (key) do nothing;
 
 insert into collections (slug, title_ru, title_en, eyebrow_ru, eyebrow_en, kind, layout, cover_image, hero_image, sort_order)
 values
-  ('ru', 'RU', 'RU', 'Коллекция', 'Collection', 'catalog', 'right', '/collection1.png', '/collection1.png', 10),
-  ('en', 'EN', 'EN', 'Коллекция', 'Collection', 'catalog', 'left', '/collection2.png', '/collection1.png', 20),
-  ('ro', 'RO', 'RO', 'Коллекция', 'Collection', 'catalog', 'right', '/collection3.png', '/collection1.png', 30),
-  ('niche-feelings', 'Niche Feelings', 'Niche Feelings', '', '', 'catalog', 'feature', '/collection4.png', '/collection1.png', 40),
-  ('with-name', '///', '///', 'Коллекция', 'Collection', 'catalog', 'left', '/collection5.png', '/collection1.png', 50),
-  ('without-name', '///', '///', 'Коллекция', 'Collection', 'catalog', 'right', '/collection6.jpg', '/collection1.png', 60),
-  ('one-of-one', 'One-of-one collection', 'One-of-one collection', '', '', 'one_of_one', 'feature', '/collection7.png', '/collection7.png', 70),
-  ('illustrations', 'Иллюстрации', 'Illustrations', 'Коллекция', 'Collection', 'illustrations', 'left', '/collection8.jpg', '/collection8.jpg', 80)
+  ('ro', 'RO', 'RO', 'Коллекция', 'Collection', 'catalog', 'right', '/collection1.png', '/collection1.png', 10),
+  ('ru', 'RU', 'RU', 'Коллекция', 'Collection', 'catalog', 'left', '/collection2.png', '/collection1.png', 20),
+  ('en', 'EN', 'EN', 'Коллекция', 'Collection', 'catalog', 'right', '/collection3.png', '/collection1.png', 30),
+  ('embroidery', 'Вышивка', 'Embroidery', 'Коллекция', 'Collection', 'catalog', 'left', '/collection4.png', '/collection1.png', 40),
+  ('print', 'Принт', 'Print', 'Коллекция', 'Collection', 'catalog', 'right', '/collection5.png', '/collection1.png', 50),
+  ('bucharest-in-passing', 'Bucharest in passing', 'Bucharest in passing', 'Коллекция', 'Collection', 'catalog', 'left', '/collection6.jpg', '/collection1.png', 60),
+  ('one-of-one', 'One-of-one', 'One-of-one', '', '', 'one_of_one', 'feature', '/collection7.png', '/collection7.png', 70),
+  ('illustrations', 'Иллюстрации', 'Illustrations', 'Коллекция', 'Collection', 'illustrations', 'left', '/collection9.jpg', '/collection8.jpg', 80)
 on conflict (slug) do nothing;
 
 -- Demo rows from the previous version of this file (no collection/code, so
@@ -535,3 +535,62 @@ create policy "public read visible products" on products
       or exists (select 1 from categories k where k.id = category_id and k.is_active)
     )
   );
+
+
+-- ---------------------------------------------------------------------------
+-- All content lives in the database (nothing is hardcoded in the site).
+-- ---------------------------------------------------------------------------
+
+-- Collection page texts, edited in each collection's admin card. Empty means
+-- "use the site-wide default" from Admin → Content.
+alter table collections add column if not exists page_title_ru text not null default '';
+alter table collections add column if not exists page_title_en text not null default '';
+alter table collections add column if not exists request_text_ru text not null default '';
+alter table collections add column if not exists request_text_en text not null default '';
+alter table collections add column if not exists form_heading_ru text not null default '';
+alter table collections add column if not exists form_heading_en text not null default '';
+
+-- Starting values = the texts the site showed before. Only empty fields are
+-- filled, so anything edited in the admin is never overwritten.
+update collections set
+  page_title_ru = 'Коллекция ' || title_ru,
+  page_title_en = 'Collection ' || title_en
+where kind = 'catalog' and page_title_ru = '' and page_title_en = '';
+
+update collections set
+  page_title_ru = case when page_title_ru = '' then 'Коллекция one - of - one' else page_title_ru end,
+  page_title_en = case when page_title_en = '' then 'One - of - one collection' else page_title_en end,
+  description_ru = case when description_ru = '' then 'Уникальные вещи, каждая создана лишь однажды. Никаких повторов, никаких вторых копий — только единственные в своём роде изделия, созданные принадлежать одному человеку. Однажды ставшая вашей, она остаётся только вашей.' else description_ru end,
+  description_en = case when description_en = '' then 'Unique pieces, each created only once. No replicas, no second editions – just one-of-a-kind designs made to belong to one person. Once it''s yours, it''s yours alone.' else description_en end,
+  request_text_ru = case when request_text_ru = '' then 'Коллекция уникальных вещей, каждая со своим характером. Продуманный дизайн, индивидуальное изготовление, созданы, чтобы выделяться. У каждой вещи своя история — ваша начинается, когда вы её находите.' else request_text_ru end,
+  request_text_en = case when request_text_en = '' then 'A collection of one-of-a-kind pieces, each with its own character. Thoughtfully designed, individually crafted, and made to stand apart. Every piece has a story – yours begins when you find it.' else request_text_en end,
+  form_heading_ru = case when form_heading_ru = '' then 'Найдите свою единственную' else form_heading_ru end,
+  form_heading_en = case when form_heading_en = '' then 'Find your one' else form_heading_en end
+where kind = 'one_of_one';
+
+update collections set
+  page_title_ru = case when page_title_ru = '' then 'Коллекция иллюстраций' else page_title_ru end,
+  page_title_en = case when page_title_en = '' then 'Collection of Illustrations' else page_title_en end,
+  description_ru = case when description_ru = '' then 'Исследуйте нашу подборку иллюстраций, созданных, чтобы придать характер каждой вещи. Выберите свой любимый дизайн и сделайте его своим с уникальной вышитой деталью.' else description_ru end,
+  description_en = case when description_en = '' then 'Explore our curated collection of illustrations, thoughtfully designed to bring character to every piece. Choose your favourite design and make it yours with a unique embroidered detail.' else description_en end,
+  request_text_ru = case when request_text_ru = '' then 'Изучите нашу коллекцию уникальных иллюстраций, выберите дизайн, который отзывается именно вам, и воплотите его в красиво вышитой вещи, созданной специально для вас.' else request_text_ru end,
+  request_text_en = case when request_text_en = '' then 'Explore our collection of unique illustrations, choose the design that speaks to you, and bring it to life through a beautifully embroidered piece made just for you.' else request_text_en end,
+  form_heading_ru = case when form_heading_ru = '' then 'Выберите свой дизайн' else form_heading_ru end,
+  form_heading_en = case when form_heading_en = '' then 'Choose your design' else form_heading_en end
+where kind = 'illustrations';
+
+-- Site content (Admin → Content). "seed || saved": values already saved in the
+-- admin win; missing or empty ones get the starting content.
+update settings
+set value = '{"aboutRu":"NICHE родился из любви к продуманным деталям, индивидуальному самовыражению и красоте вещей, созданных осознанно. Это больше, чем бренд одежды — это пространство, где творчество встречается с мастерством, а повседневные вещи становятся личными.\nЗа NICHE стоит идея сделать моду более индивидуальной — где каждая вышитая деталь рассказывает историю, отражает чувство или несёт собственный смысл.\nСоздан для тех, кто ценит сдержанные высказывания больше громких трендов, NICHE празднует индивидуальность через неподвластные времени вещи, осмысленный дизайн и искусство делать вещь по-настоящему своей.\nЭто не просто то, что вы носите. Это отражение того, кто вы есть.","aboutEn":"NICHE was born from a love for thoughtful details, individual expression, and the beauty of things made with intention. More than a clothing brand, it is a space where creativity meets craftsmanship, and everyday essentials become something personal.\nBehind NICHE is a vision of making fashion feel more individual — where every embroidered detail tells a story, reflects a feeling, or carries a meaning of its own.\nCreated for those who appreciate subtle statements over loud trends, NICHE celebrates individuality through timeless pieces, meaningful designs, and the art of making something truly yours.\nNot just what you wear. A reflection of who you are.","aboutImage":"/about.png","email":"hello@niche.com","instagramUrl":"https://instagram.com","sizeTables":[{"title":{"ru":"","en":""},"columns":[{"ru":"Размер","en":"Size"},{"ru":"Грудь (см)","en":"Chest (cm)"},{"ru":"Длина (см)","en":"Length (cm)"},{"ru":"Плечи (см)","en":"Shoulder (cm)"},{"ru":"Рукав (см)","en":"Sleeve (cm)"}],"rows":[["S","46","66","44","20"],["M","50","69","47","21"],["L","54","72","50","22"],["XL","58","75","53","23"],["2XL","62","78","56","24"],["3XL","66","81","59","25"]]}],"sizeIntro":{"ru":"Все замеры сняты в разложенном виде, в сантиметрах, и могут немного отличаться в зависимости от изделия. Если вы между размерами, рекомендуем брать размер больше для свободной посадки.","en":"All measurements are taken flat, in centimetres, and may vary slightly depending on the piece. If you''re between sizes, we recommend sizing up for a relaxed fit."},"sizeNote":{"ru":"Нужна помощь с выбором? Напишите нам, и мы поможем подобрать размер.","en":"Need help choosing? Reach out and we''ll help you find your fit."},"home":{"heroLeft":"/top1.jpg","heroRight":"/top2.jpg","news":["/middle_1.jpg","/middle_2.jpg","/middle_3.jpg","/middle_4.jpg","/middle_5.jpg"]},"footer":{"image":"/bottom_1.jpg","heading":{"ru":"Найдите свою вещь. Сделайте её своей.","en":"Find your piece. Make it yours."},"text":{"ru":"Выбирайте готовое или воплотите свою идею.\nСделайте вещь по-настоящему своей.","en":"Explore our designs or bring your own idea to life.\nMake it personal, make it yours."}},"contacts":{"title":{"ru":"Давайте знакомиться","en":"Let''s get in touch"},"subtitle":{"ru":"По вопросам, индивидуальным заказам\nи всему остальному","en":"For enquiries, custom designs\nand everything in between"},"customText":{"ru":"Есть идея?\nРасскажите нам о ней, и мы воплотим её в жизнь.","en":"Have something in mind?\nTell us about your idea and let''s bring it to life."}},"custom":{"heroTitle":{"ru":"Создайте свой Niche","en":"Customize your Niche"},"heroDescription":{"ru":"Есть идея дизайна? Принесите её в NICHE. Загрузите свою иллюстрацию, скетч или вдохновение и превратите идею в вещь, которую можно носить.\nОт личного символа до дизайна с особым смыслом — мы верим, что лучшие вещи рассказывают историю.","en":"Have a design in mind? Bring it to NICHE. Upload your illustration, sketch, or inspiration and turn your idea into something you can wear.\nFrom a personal symbol to a design that holds a special meaning, we believe the best pieces tell your story."},"requestText":{"ru":"Выберите изделие, поделитесь своим дизайном и расскажите, каким вы видите итоговое изделие. Мы рассмотрим вашу заявку и свяжемся с вами, чтобы обсудить детали воплощения идеи в жизнь. Ваша идея. Ваш дизайн. Ваш NICHE.","en":"Choose your garment, share your design, and tell us how you envision the final piece. We''ll review your request and get in touch to discuss the details of bringing your idea to life. Your idea. Your design. Your NICHE."},"formHeading":{"ru":"Воплотите свою идею в реальность","en":"Make your idea a reality"},"heroImage":"/collection7.png","tileTitle":{"ru":"Создать свой Niche","en":"Customize your Niche"},"tileImage":"/collection8.jpg"},"catalogDefaults":{"description":{"ru":"Откройте для себя коллекцию вышитых изделий, где вечная классика сочетается с продуманным мастерством. Каждая вещь объединяет простоту, индивидуальность и внимание к деталям.\nНайдите вещь, которая скажет о вас.","en":"Discover our collection of embroidered pieces, where timeless essentials meet thoughtful craftsmanship. Each piece brings together simplicity, individuality, and attention to detail.\nFind the piece that speaks to you."},"requestText":{"ru":"Изучите коллекцию,\nвыберите понравившееся и сделайте это своим.","en":"Explore the collection,\nchoose your favourites, and make them yours."},"formHeading":{"ru":"Найдите свою вещь","en":"Find your piece"}},"productDefaults":{"title":{"ru":"Вышитая футболка","en":"Embroidered tank t-shirt"},"description":{"ru":"Минималистичная футболка с деликатной вышивкой. Создана для повседневной носки, с отличительной деталью, которая делает её по-настоящему вашей.","en":"A minimalist tank top featuring delicate embroidery. Designed for everyday wear, with a distinctive detail that makes it uniquely yours."}}}'::jsonb || coalesce(
+  (select jsonb_object_agg(k, v) from jsonb_each(value) as e(k, v) where v <> '""'::jsonb),
+  '{}'::jsonb
+)
+where key = 'content';
+
+update settings
+set value = '{"categoryPlaceholder": "/top2.jpg"}'::jsonb || coalesce(
+  (select jsonb_object_agg(k, v) from jsonb_each(value) as e(k, v) where v <> '""'::jsonb),
+  '{}'::jsonb
+)
+where key = 'content';

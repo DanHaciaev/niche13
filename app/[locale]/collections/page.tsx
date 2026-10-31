@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CategoryGrid } from "@/components/site/CategoryGrid";
 import { CollectionsListing } from "@/components/site/CollectionsListing";
 import { getCategories, getCollections } from "@/lib/data/catalog";
+import { getSiteContent } from "@/lib/data/content";
 
 export async function generateMetadata({
   params,
@@ -23,7 +24,10 @@ export default async function CollectionsPage({
   setRequestLocale(locale);
 
   const categories = await getCategories(locale);
-  if (categories.length > 0) return <CategoryGrid categories={categories} />;
+  if (categories.length > 0) {
+    const { categoryPlaceholder } = await getSiteContent(locale);
+    return <CategoryGrid categories={categories} placeholderImage={categoryPlaceholder} />;
+  }
 
   // No categories set up yet: show every collection, as the page did before.
   return <CollectionsListing collections={await getCollections(locale)} />;

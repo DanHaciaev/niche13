@@ -5,6 +5,8 @@ import type { Product as GridProduct } from "./ProductGrid";
 import { FilterableProducts, type FilterLabels } from "./FilterableProducts";
 import { OrderRequestForm } from "./OrderRequestForm";
 import { formatPrice, type Product } from "@/lib/data/catalog";
+import { withBreaks } from "@/lib/data/content";
+import { renderBreaks } from "@/lib/rich-text";
 
 /* Building blocks of a product catalog page, shared by regular collections
    and by categories without collections (e.g. Bags). */
@@ -17,7 +19,7 @@ export function CatalogHero({
 }: {
   title: string;
   description: ReactNode;
-  image: string;
+  image: string | null;
   alt: string;
 }) {
   return (
@@ -31,16 +33,18 @@ export function CatalogHero({
         </div>
       </div>
 
-      <div className="relative aspect-3/4 w-[55%] shrink-0 overflow-hidden md:w-[38%] lg:w-[32%]">
-        <Image
-          src={image}
-          alt={alt}
-          fill
-          sizes="(min-width: 1024px) 32vw, (min-width: 769px) 38vw, 55vw"
-          priority
-          className="object-cover"
-        />
-      </div>
+      {image && (
+        <div className="relative aspect-3/4 w-[55%] shrink-0 overflow-hidden md:w-[38%] lg:w-[32%]">
+          <Image
+            src={image}
+            alt={alt}
+            fill
+            sizes="(min-width: 1024px) 32vw, (min-width: 769px) 38vw, 55vw"
+            priority
+            className="object-cover"
+          />
+        </div>
+      )}
     </section>
   );
 }
@@ -52,7 +56,7 @@ export async function catalogGrid(products: Product[]): Promise<{ items: GridPro
 
   const items = products.map((p) => ({
     code: p.code,
-    image: p.images[0] ?? "/clothes.jpg",
+    image: p.images[0] ?? null,
     price: formatPrice(p.price, p.currency),
     priceValue: p.price ?? undefined,
     ...(p.discountPrice !== null && {
@@ -83,15 +87,20 @@ export async function catalogGrid(products: Product[]): Promise<{ items: GridPro
 
 /** Filterable product grid followed by the order-request form.
  * `basePath` is where product pages live; `requestSlug` tags requests sent
- * from the form with the collection or category they came from. */
+ * from the form with the collection or category they came from. The texts
+ * come from the database (the collection, or the site-wide defaults). */
 export async function CatalogListing({
   products,
   basePath,
   requestSlug,
+  requestText,
+  formHeading,
 }: {
   products: Product[];
   basePath: string;
   requestSlug: string;
+  requestText: string;
+  formHeading: string;
 }) {
   const t = await getTranslations("collections");
   const tForm = await getTranslations("collections.detail.form");
@@ -107,13 +116,11 @@ export async function CatalogListing({
       </div>
 
       <p className="px-5 py-12 text-right text-[13px]! font-medium! leading-relaxed text-ink-faint min md:px-8 md:py-20 md:text-right lg:px-12 lg:py-34 ml-auto max-w-340">
-        {t("detail.exploreLine1")}
-        <br />
-        {t("detail.exploreLine2")}
+        {renderBreaks(withBreaks(requestText))}
       </p>
 
       <div id="order-request">
-        <OrderRequestForm t={tForm} heading={t("detail.findPiece")} collectionSlug={requestSlug} />
+        <OrderRequestForm t={tForm} heading={formHeading} collectionSlug={requestSlug} />
       </div>
     </>
   );

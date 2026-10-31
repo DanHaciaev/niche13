@@ -66,18 +66,3 @@ export const SIZE_TEMPLATES: Record<"tops" | "bottoms" | "empty", SizeTable> = {
     rows: [["", ""]],
   },
 };
-
-/** The table the site has always shown, as the starting point. Old saves
- * stored fixed {size, chest, …} rows — those are converted into it. */
-export function legacySizeTables(
-  rows?: { size: string; chest: string; length: string; shoulder: string; sleeve: string }[],
-): SizeTable[] {
-  const base = SIZE_TEMPLATES.tops;
-  return [
-    {
-      ...base,
-      title: col("", ""),
-      rows: rows?.length ? rows.map((r) => [r.size, r.chest, r.length, r.shoulder, r.sleeve]) : base.rows,
-    },
-  ];
-}

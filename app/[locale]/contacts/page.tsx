@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { getSiteContent } from "@/lib/data/content";
+import { getSiteContent, withBreaks } from "@/lib/data/content";
+import { renderBreaks } from "@/lib/rich-text";
 
 export async function generateMetadata({
   params,
@@ -9,8 +10,8 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "pages.contacts" });
-  return { title: t("title") };
+  const { contacts } = await getSiteContent(locale);
+  return { title: contacts.title };
 }
 
 export default async function ContactsPage({
@@ -52,8 +53,7 @@ export default async function ContactsPage({
       label: t("customOrders"),
       content: (
         <div className="text-sm leading-relaxed text-ink-faint">
-          <p>{t("customOrdersLine1")}</p>
-          <p>{t("customOrdersLine2")}</p>
+          <p>{renderBreaks(withBreaks(content.contacts.customText))}</p>
           <Link href="/custom" className="text-ink underline-offset-2 transition-colors hover:text-ink-soft hover:underline">
             {t("customOrdersCta")}
           </Link>
@@ -65,10 +65,10 @@ export default async function ContactsPage({
   return (
     <div className="pb-20 pt-10 md:pt-14 lg:pt-20">
       <h1 className="px-5 text-[40px] font-medium uppercase text-ink md:px-8 lg:px-12 lg:text-[48px]">
-        {t("title")}
+        {content.contacts.title}
       </h1>
       <p className="label-tag md:ml-10 px-5 text-base! text-black md:px-8 md:text-[20px]! lg:px-12">
-        {t("subtitle")}
+        {renderBreaks(withBreaks(content.contacts.subtitle))}
       </p>
 
       <div className="mt-16 flex flex-col md:mt-20">

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { NewsCarousel } from "@/components/site/NewsCarousel";
+import { getSiteContent } from "@/lib/data/content";
 import { localeAlternates } from "@/lib/seo/alternates";
 import { siteUrl } from "@/lib/site-url";
 
@@ -15,14 +16,6 @@ export async function generateMetadata({
   return { alternates: localeAlternates("", locale) };
 }
 
-const newsImages = [
-  "/middle_1.jpg",
-  "/middle_2.jpg",
-  "/middle_3.jpg",
-  "/middle_4.jpg",
-  "/middle_5.jpg",
-];
-
 export default async function HomePage({
   params,
 }: {
@@ -32,6 +25,12 @@ export default async function HomePage({
   setRequestLocale(locale);
 
   const t = await getTranslations("home");
+  const { home } = await getSiteContent(locale);
+  // Photos come from Admin → Content; an empty slot simply isn't shown.
+  const heroPhotos = [
+    { src: home.heroLeft, alt: "Niche", desktopOnly: true },
+    { src: home.heroRight, alt: "Niche", desktopOnly: false },
+  ].filter((p): p is { src: string; alt: string; desktopOnly: boolean } => Boolean(p.src));
 
   return (
     <>
@@ -51,12 +50,9 @@ export default async function HomePage({
             screen (together 94.3% of the width), growing no further past 1440px. */}
       <section className="py-33 md:pt-10 md:pb-15 lg:pt-4 lg:pb-18">
         <div className="mx-auto grid w-[93.87vw] grid-cols-1 md:w-[94.3vw] md:max-w-[1358px] md:grid-cols-2 md:gap-[min(2.11vw,30px)]">
-          {[
-            { src: "/top1.jpg", alt: "Niche — original illustration", desktopOnly: true },
-            { src: "/top2.jpg", alt: "Niche — lookbook", desktopOnly: false },
-          ].map((photo) => (
+          {heroPhotos.map((photo) => (
             <div
-              key={photo.src}
+              key={photo.desktopOnly ? "left" : "right"}
               className={`relative aspect-352/398 overflow-hidden md:aspect-590/688 ${photo.desktopOnly ? "hidden md:block" : ""}`}
             >
               <Image
@@ -77,12 +73,13 @@ export default async function HomePage({
       {/* News */}
       <div className="px-5 md:px-8 lg:px-12">
         <div className="flex items-center gap-6">
-          <span className="label-tag shrink-0 text-ink">{t("news")}</span>
+          {/* Same type as the header links. */}
+          <span className="shrink-0 text-[11px] font-medium uppercase leading-none text-ink">{t("news")}</span>
           <span className="h-px flex-1 bg-black/40" />
         </div>
       </div>
 
-      <NewsCarousel images={newsImages} label={t("news")} />
+      {home.news.length > 0 && <NewsCarousel images={home.news} label={t("news")} />}
     </>
   );
 }

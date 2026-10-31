@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 import type { Collection } from "@/lib/data/catalog";
+import { getSiteContent } from "@/lib/data/content";
 import { CollectionsList, type CollectionRow } from "./CollectionsList";
 
 /** Logo screen followed by the zigzag list of collections, ending with the
@@ -16,7 +17,7 @@ export async function CollectionsListing({
   title?: string;
   emptyText?: string;
 }) {
-  const t = await getTranslations("collections");
+  const { custom } = await getSiteContent(await getLocale());
 
   const rows: CollectionRow[] = [
     ...collections.map((c) => ({
@@ -25,16 +26,15 @@ export async function CollectionsListing({
       title: c.title,
       reverse: c.layout === "right",
       feature: c.layout === "feature",
-      placeholderLabel: c.slug,
+      placeholderLabel: "",
       image: c.coverImage ?? undefined,
     })),
     {
       href: "/custom",
-      eyebrow: t("customizeLine1"),
-      title: t("customizeLine2"),
+      title: custom.tileTitle,
       reverse: true,
-      placeholderLabel: "custom.jpg",
-      image: "/collection9.jpg",
+      placeholderLabel: "",
+      image: custom.tileImage ?? undefined,
     },
   ];
 

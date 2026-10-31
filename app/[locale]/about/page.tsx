@@ -39,18 +39,20 @@ export default async function AboutPage({
 
       <div className="px-5 pb-24 pt-16 md:px-8 md:pt-20 lg:px-12 lg:pt-24">
         <div className="flex flex-col justify-center gap-10 lg:flex-row md:items-start md:gap-12 lg:gap-16">
-          <div className="relative aspect-345/420 w-full overflow-hidden md:w-[42%] lg:w-[30%]">
-            <Image
-              src="/about.png"
-              alt={t("title")}
-              fill
-              sizes="(min-width: 1024px) 34vw, (min-width: 640px) 42vw, 100vw"
-              className="object-cover grayscale"
-            />
-          </div>
+          {content.aboutImage && (
+            <div className="relative aspect-345/420 w-full overflow-hidden md:w-[42%] lg:w-[30%]">
+              <Image
+                src={content.aboutImage}
+                alt={t("title")}
+                fill
+                sizes="(min-width: 1024px) 34vw, (min-width: 640px) 42vw, 100vw"
+                className="object-cover grayscale"
+              />
+            </div>
+          )}
 
           <div className="flex flex-col leading-relaxed text-white/80 md:flex-1 text-[18px] lg:max-w-200">
-            <p>{renderBreaks(content.aboutText ?? t("text"))}</p>
+            <p>{renderBreaks(content.aboutText)}</p>
           </div>
         </div>
       </div>

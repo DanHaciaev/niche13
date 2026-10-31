@@ -20,7 +20,7 @@ export default async function SizeGuidePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("sizeGuide");
-  const { sizeTables } = await getSiteContent(locale);
+  const { sizeTables, sizeIntro, sizeNote } = await getSiteContent(locale);
 
   return (
     <div className="px-5 pb-28 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-20">
@@ -28,7 +28,7 @@ export default async function SizeGuidePage({
         {t("title")}
       </h1>
       <p className="mt-4 max-w-lg text-sm leading-relaxed text-ink-soft">
-        {t("intro")}
+        {sizeIntro}
       </p>
 
       <div className="mt-16 flex flex-col gap-16 md:mt-20 md:gap-20">
@@ -74,7 +74,7 @@ export default async function SizeGuidePage({
         ))}
       </div>
 
-      <p className="mt-10 text-sm text-ink-faint">{t("note")}</p>
+      <p className="mt-10 text-sm text-ink-faint">{sizeNote}</p>
     </div>
   );
 }

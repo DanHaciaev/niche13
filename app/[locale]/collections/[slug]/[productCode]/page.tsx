@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getCollection, getProduct } from "@/lib/data/catalog";
+import { getSiteContent } from "@/lib/data/content";
 import { ProductDetail } from "@/components/site/ProductDetail";
 
 export async function generateStaticParams({ params }: { params: { locale: string; slug: string } }) {
@@ -17,10 +18,10 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string; productCode: string }>;
 }): Promise<Metadata> {
   const { locale, slug, productCode } = await params;
-  const t = await getTranslations({ locale, namespace: "collections.detail.product" });
   const data = await getProduct(slug, productCode, locale);
   if (!data) return {};
-  return { title: `NICHE / ${productCode} — ${data.product.title || t("title")}` };
+  const { productDefaults } = await getSiteContent(locale);
+  return { title: `NICHE / ${productCode} — ${data.product.title || productDefaults.title}` };
 }
 
 export default async function ProductPage({
@@ -42,15 +43,17 @@ export default async function ProductPage({
     return (
       <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-7 lg:gap-16">
-          <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[30%]">
-            <Image
-              src={product.images[0] ?? "/collection9.jpg"}
-              alt={`${tIllustration("illustrationLabel")} / ${productCode}`}
-              fill
-              sizes="(min-width: 1024px) 36vw, (min-width: 640px) 42vw, 100vw"
-              priority
-              className="object-cover"
-            />
+          <div className="relative aspect-3/4 w-full overflow-hidden bg-cream-deep md:w-[42%] lg:w-[30%]">
+            {product.images[0] && (
+              <Image
+                src={product.images[0]}
+                alt={`${tIllustration("illustrationLabel")} / ${productCode}`}
+                fill
+                sizes="(min-width: 1024px) 36vw, (min-width: 640px) 42vw, 100vw"
+                priority
+                className="object-cover"
+              />
+            )}
           </div>
 
           <div className="flex-1">
@@ -65,7 +68,7 @@ export default async function ProductPage({
               {tIllustrationProduct("description")}
             </span>
             <p className="mt-2 max-w-full font-medium! text-[13px]! leading-relaxed text-ink-soft md:text-[15px]! lg:text-[18px]!">
-              {product.description || tIllustrationProduct("descriptionText")}
+              {product.description}
             </p>
 
             <div className="mt-10 lg:mt-20">
@@ -84,20 +87,22 @@ export default async function ProductPage({
 
   if (collection.kind === "one_of_one") {
     const tOneOfOneProduct = await getTranslations("collections.oneOfOnePage.product");
-    const descriptionLines = (product.description || tOneOfOneProduct("descriptionText")).split("\n");
+    const descriptionLines = product.description.split("\n").filter(Boolean);
 
     return (
       <div className="px-5 pb-16 pt-10 md:px-8 md:pt-14 lg:px-12 lg:pt-16">
         <div className="flex flex-col items-center gap-10 md:flex-row md:gap-7 lg:gap-16">
-          <div className="relative aspect-3/4 w-full overflow-hidden md:w-[42%] lg:w-[30%]">
-            <Image
-              src={product.images[0] ?? "/clothes.jpg"}
-              alt={`NICHE / ${productCode}`}
-              fill
-              sizes="(min-width: 1024px) 36vw, (min-width: 640px) 42vw, 100vw"
-              priority
-              className="object-cover"
-            />
+          <div className="relative aspect-3/4 w-full overflow-hidden bg-cream-deep md:w-[42%] lg:w-[30%]">
+            {product.images[0] && (
+              <Image
+                src={product.images[0]}
+                alt={`NICHE / ${productCode}`}
+                fill
+                sizes="(min-width: 1024px) 36vw, (min-width: 640px) 42vw, 100vw"
+                priority
+                className="object-cover"
+              />
+            )}
           </div>
 
           <div className="flex-1">

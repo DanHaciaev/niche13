@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CatalogHero, CatalogListing } from "@/components/site/CatalogView";
 import { CollectionGrid } from "@/components/site/CollectionGrid";
 import { getCategories, getCategory } from "@/lib/data/catalog";
+import { getSiteContent, withBreaks } from "@/lib/data/content";
 import { renderBreaks } from "@/lib/rich-text";
 
 export async function generateStaticParams({ params }: { params: { locale: string } }) {
@@ -35,16 +36,23 @@ export default async function CategoryPage({
   const { category, collections, products } = data;
 
   if (!category.hasCollections) {
-    const t = await getTranslations("collections");
+    // A plain catalog uses the site-wide catalog texts from Admin → Content.
+    const { catalogDefaults } = await getSiteContent(locale);
     return (
       <>
         <CatalogHero
           title={category.title}
-          description={renderBreaks(t("detail.description"))}
-          image={category.image ?? "/collection1.png"}
+          description={renderBreaks(withBreaks(catalogDefaults.description))}
+          image={category.image}
           alt={category.title}
         />
-        <CatalogListing products={products} basePath={`/category/${slug}`} requestSlug={slug} />
+        <CatalogListing
+          products={products}
+          basePath={`/category/${slug}`}
+          requestSlug={slug}
+          requestText={catalogDefaults.requestText}
+          formHeading={catalogDefaults.formHeading}
+        />
       </>
     );
   }
