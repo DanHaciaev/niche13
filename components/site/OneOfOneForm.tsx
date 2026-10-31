@@ -4,7 +4,8 @@ type FormT = (key: string) => string;
 
 const ACCENT = "#981C1C";
 
-const labelClass = "label-tag font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]! text-ink";
+// Every label uses the accent colour, like "Additional requests".
+const labelClass = "label-tag font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]! text-[#981C1C]";
 const lineInputClass =
   "border-b border-ink/40 bg-transparent pb-2 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none";
 
@@ -50,7 +51,7 @@ function TextField({
  *   Instagram, the requests box and the button (right-aligned) on the right;
  * - phone: one column; NICHE numbers and Instagram labels on the right, the
  *   requests label and the button centred.
- * Labels are black; only "Additional requests" and the button use the accent. */
+ * All labels and the button use the accent colour. */
 export function OneOfOneForm({
   t,
   heading,
@@ -100,7 +101,7 @@ export function OneOfOneForm({
           />
 
           <label className="flex flex-col gap-3">
-            <span className="label-tag text-center font-medium! md:text-left text-[10px]! md:text-[11px]! lg:text-[12px]!" style={{ color: ACCENT }}>
+            <span className={`${labelClass} text-center md:text-left`}>
               {t("additional")}
             </span>
             <textarea
