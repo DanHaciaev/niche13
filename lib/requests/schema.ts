@@ -10,13 +10,17 @@ export type RequestStatus = (typeof REQUEST_STATUSES)[number];
 export const KIND_FIELDS: Record<RequestKind, readonly string[]> = {
   collection: ["instagram", "codes", "size_qty", "colour"],
   custom: ["instagram", "garment", "size_colour", "quantity"],
-  one_of_one: ["niche_numbers"],
+  one_of_one: ["instagram", "niche_numbers"],
   illustrations: ["instagram", "illustration_codes", "garment", "size_colour", "quantity"],
 };
 
-/** Fields the form marks with "*" — rejected when empty. */
-export const REQUIRED_FIELDS: Partial<Record<RequestKind, readonly string[]>> = {
-  one_of_one: ["instagram", "niche_numbers"],
+/** Fields the form marks with "*" — rejected when empty. Every field is
+ * required except Instagram (and the free-text comment). */
+export const REQUIRED_FIELDS: Record<RequestKind, readonly string[]> = {
+  collection: KIND_FIELDS.collection.filter((f) => f !== "instagram"),
+  custom: KIND_FIELDS.custom.filter((f) => f !== "instagram"),
+  one_of_one: KIND_FIELDS.one_of_one.filter((f) => f !== "instagram"),
+  illustrations: KIND_FIELDS.illustrations.filter((f) => f !== "instagram"),
 };
 
 export const FIELD_LABELS: Record<string, string> = {
@@ -40,26 +44,13 @@ const text = (max: number) =>
     .nullable()
     .optional();
 
-export const contactSchema = z
-  .object({
-    name: z.string().trim().min(1).max(120),
-    email: z
-      .string()
-      .trim()
-      .max(200)
-      .transform((v) => v || null)
-      .pipe(z.email().nullable()),
-    phone: z
-      .string()
-      .trim()
-      .max(40)
-      .transform((v) => v || null)
-      .pipe(z.string().regex(/^[+()\d\s.-]{5,40}$/).nullable()),
-    country: text(80),
-    comment: text(3000),
-  })
-  // A request nobody can answer is useless: require at least one way back.
-  .refine((v) => v.email || v.phone, { path: ["email"] });
+export const contactSchema = z.object({
+  name: z.string().trim().min(1).max(120),
+  email: z.string().trim().max(200).pipe(z.email()),
+  phone: z.string().trim().regex(/^[+()\d\s.-]{5,40}$/),
+  country: z.string().trim().min(1).max(80),
+  comment: text(3000),
+});
 
 export const itemSchema = z.object({
   code: z.string().trim().regex(/^[A-Za-z0-9-]{1,20}$/),

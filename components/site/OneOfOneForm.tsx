@@ -4,7 +4,7 @@ type FormT = (key: string) => string;
 
 const ACCENT = "#981C1C";
 
-const labelClass = "label-tag font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]! text-ink";
+const labelClass = "label-tag font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]! text-ink";
 const lineInputClass =
   "border-b border-ink/40 bg-transparent pb-2 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none";
 
@@ -28,7 +28,10 @@ function TextField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className={`${labelClass} ${labelAlign}`}>{label}</span>
+      <span className={`${labelClass} ${labelAlign}`}>
+        {label}
+        {required && "*"}
+      </span>
       <input
         type={type}
         name={name}
@@ -70,9 +73,9 @@ export function OneOfOneForm({
       >
         <div className="flex flex-col gap-8">
           <TextField label={t("fullName")} placeholder={t("fullNamePlaceholder")} name="name" required autoComplete="name" />
-          <TextField label={t("email")} placeholder={t("emailPlaceholder")} name="email" type="email" autoComplete="email" />
-          <TextField label={t("phone")} placeholder={t("phonePlaceholder")} name="phone" type="tel" autoComplete="tel" />
-          <TextField label={t("country")} placeholder={t("countryPlaceholder")} name="country" autoComplete="country-name" />
+          <TextField label={t("email")} placeholder={t("emailPlaceholder")} name="email" type="email" required autoComplete="email" />
+          <TextField label={t("phone")} placeholder={t("phonePlaceholder")} name="phone" type="tel" required autoComplete="tel" />
+          <TextField label={t("country")} placeholder={t("countryPlaceholder")} name="country" required autoComplete="country-name" />
         </div>
 
         <div className="flex flex-col gap-10 md:gap-8">
@@ -84,7 +87,7 @@ export function OneOfOneForm({
               required
               maxLength={2000}
               placeholder={t("nicheNumbersPlaceholder")}
-              className={`resize-none leading-relaxed ${lineInputClass}`}
+              className={`resize-none leading-relaxed ${lineInputClass} pb-3!`}
             />
           </label>
 
@@ -97,7 +100,7 @@ export function OneOfOneForm({
           />
 
           <label className="flex flex-col gap-3">
-            <span className="label-tag text-center font-medium! md:text-left text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]!" style={{ color: ACCENT }}>
+            <span className="label-tag text-center font-medium! md:text-left text-[10px]! md:text-[11px]! lg:text-[12px]!" style={{ color: ACCENT }}>
               {t("additional")}
             </span>
             <textarea
@@ -105,17 +108,17 @@ export function OneOfOneForm({
               name="comment"
               maxLength={3000}
               placeholder={t("additionalPlaceholder")}
-              className="h-32 resize-none border border-ink/60 bg-transparent p-3 text-[8px]! md:text-[10px]! lg:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none md:h-28"
+              className="h-36 resize-none border border-ink/60 bg-transparent p-4 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! text-ink placeholder:text-ink-faint focus:border-ink focus:outline-none md:h-28"
             />
           </label>
 
           <div className="mx-auto mt-4 flex w-[78%] flex-col gap-3 md:mx-0 md:ml-auto md:w-60">
             <SubmitButton
               label={t("submit")}
-              className="label-tag w-full py-3.5 text-center text-[11px]! text-cream transition-opacity hover:opacity-90 md:text-[12px]!"
+              className="label-tag w-full py-4 text-center text-[12px]! text-cream transition-opacity hover:opacity-90 md:text-[13px]!"
               style={{ backgroundColor: ACCENT }}
             />
-            <p className="text-center text-[11px]! leading-relaxed text-ink-faint">{t("submitHelper")}</p>
+            <p className="text-center text-[11px]! leading-relaxed text-ink-faint md:text-[12px]!">{t("submitHelper")}</p>
             <FormMessage />
           </div>
         </div>

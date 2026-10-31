@@ -13,8 +13,10 @@ export function OrderSizeQtyField({
   name,
   placeholder,
   className,
+  required = false,
 }: {
   name: string;
+  required?: boolean;
   placeholder: string;
   className: string;
 }) {
@@ -34,6 +36,7 @@ export function OrderSizeQtyField({
     <textarea
       rows={2}
       name={name}
+      required={required}
       maxLength={2000}
       placeholder={placeholder}
       value={value}

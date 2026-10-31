@@ -41,12 +41,13 @@ export function OrderCodesField({
 
   return (
     <label className="flex flex-col gap-3">
-      <span className="label-tag text-black font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]! ml-auto md:ml-0">
-        {label}
+      <span className="label-tag text-black font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]! ml-auto md:ml-0">
+        {label}*
       </span>
       <textarea
         rows={2}
         name={name}
+        required
         maxLength={2000}
         placeholder={placeholder}
         value={codes}

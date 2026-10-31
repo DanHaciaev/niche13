@@ -19,8 +19,10 @@ export function OrderColourField({
   name,
   placeholder,
   className,
+  required = false,
 }: {
   name: string;
+  required?: boolean;
   placeholder: string;
   className: string;
 }) {
@@ -40,6 +42,7 @@ export function OrderColourField({
     <textarea
       rows={2}
       name={name}
+      required={required}
       maxLength={2000}
       placeholder={placeholder}
       value={value}

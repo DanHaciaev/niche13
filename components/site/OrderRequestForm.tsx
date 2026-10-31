@@ -6,7 +6,7 @@ import { FormMessage, RequestForm, SubmitButton } from "./RequestForm";
 
 type FormT = (key: string) => string;
 
-const labelClass = "label-tag font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! lg:text-[12px]! text-black";
+const labelClass = "label-tag font-medium! text-[10px]! md:text-[11px]! lg:text-[12px]! text-black";
 const lineFieldClass =
   "mt-3 w-full resize-none border-b border-black bg-transparent pb-3 font-medium! text-[8px]! md:text-[10px]! lg:text-[11px]! leading-relaxed text-ink-faint placeholder:text-ink-faint focus:border-ink focus:outline-none";
 
@@ -27,7 +27,10 @@ function TextField({
 }) {
   return (
     <label className="flex flex-col gap-3">
-      <span className={labelClass}>{label}</span>
+      <span className={labelClass}>
+        {label}
+        {required && "*"}
+      </span>
       <input
         type={type}
         name={name}
@@ -70,9 +73,9 @@ export function OrderRequestForm({
       >
         <div className="flex flex-col gap-8 [grid-area:A]">
           <TextField label={t("fullName")} placeholder={t("fullNamePlaceholder")} name="name" required autoComplete="name" />
-          <TextField label={t("email")} placeholder={t("emailPlaceholder")} name="email" type="email" autoComplete="email" />
-          <TextField label={t("phone")} placeholder={t("phonePlaceholder")} name="phone" type="tel" autoComplete="tel" />
-          <TextField label={t("country")} placeholder={t("countryPlaceholder")} name="country" autoComplete="country-name" />
+          <TextField label={t("email")} placeholder={t("emailPlaceholder")} name="email" type="email" required autoComplete="email" />
+          <TextField label={t("phone")} placeholder={t("phonePlaceholder")} name="phone" type="tel" required autoComplete="tel" />
+          <TextField label={t("country")} placeholder={t("countryPlaceholder")} name="country" required autoComplete="country-name" />
           <TextField label={t("instagram")} placeholder={t("instagramPlaceholder")} name="instagram" autoComplete="off" />
         </div>
 
@@ -80,7 +83,7 @@ export function OrderRequestForm({
           <OrderCodesField name="codes" label={t("codes")} placeholder={t("codesPlaceholder")} />
           <div>
             <div className="flex flex-row-reverse items-center justify-between md:flex-row">
-              <span className={labelClass}>{t("sizeQty")}</span>
+              <span className={labelClass}>{t("sizeQty")}*</span>
               <Link
                 href="/size-guide"
                 className="label-tag text-[10px]! text-black underline-offset-2 hover:text-ink hover:underline md:text-[11px]! lg:text-[12px]!"
@@ -88,11 +91,11 @@ export function OrderRequestForm({
                 {t("sizeGuide")}
               </Link>
             </div>
-            <OrderSizeQtyField name="size_qty" placeholder={t("sizeQtyPlaceholder")} className={lineFieldClass} />
+            <OrderSizeQtyField name="size_qty" required placeholder={t("sizeQtyPlaceholder")} className={lineFieldClass} />
           </div>
           <div className="flex flex-col">
-            <span className={`${labelClass} self-end md:self-start`}>{t("colour")}</span>
-            <OrderColourField name="colour" placeholder={t("colourPlaceholder")} className={lineFieldClass} />
+            <span className={`${labelClass} self-end md:self-start`}>{t("colour")}*</span>
+            <OrderColourField name="colour" required placeholder={t("colourPlaceholder")} className={lineFieldClass} />
           </div>
         </div>
 

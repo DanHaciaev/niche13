@@ -53,8 +53,8 @@ export function DesignUploadField({ prompt, formats }: { prompt: string; formats
           strokeLinejoin="round"
         />
       </svg>
-      <span className="label-tag text-[11px]! text-ink md:text-xs!">{fileName ?? prompt}</span>
-      <span className={`text-xs ${tooBig ? "text-[#981C1C]" : "text-ink-faint"}`}>
+      <span className="label-tag text-[10px]! text-ink md:text-[11px]! lg:text-[12px]!">{fileName ?? prompt}</span>
+      <span className={`text-[8px]! md:text-[10px]! lg:text-[11px]! ${tooBig ? "text-[#981C1C]" : "text-ink-faint"}`}>
         {tooBig ? `${formats} · ≤ 10 MB` : formats}
       </span>
     </label>

@@ -68,8 +68,10 @@ export async function submitRequest(_prev: RequestState, formData: FormData): Pr
     comment: str(formData, "comment"),
   });
   if (!contact.success) {
-    const issue = contact.error.issues[0];
-    return fail(issue?.path[0] === "name" ? "validation" : "contact");
+    // An empty field means "fill in the * fields"; a filled but malformed
+    // email or phone means "check your contact details".
+    const empty = ["name", "email", "phone", "country"].some((key) => !str(formData, key).trim());
+    return fail(empty ? "validation" : "contact");
   }
 
   const fields: Record<string, string> = {};
@@ -78,7 +80,7 @@ export async function submitRequest(_prev: RequestState, formData: FormData): Pr
     if (value.length > 2000) return fail("validation");
     if (value) fields[key] = value;
   }
-  if (REQUIRED_FIELDS[kind]?.some((key) => !fields[key])) return fail("validation");
+  if (REQUIRED_FIELDS[kind].some((key) => !fields[key])) return fail("validation");
 
   let items: RequestItem[] = [];
   if (kind === "collection") {
@@ -145,7 +147,7 @@ export async function submitRequest(_prev: RequestState, formData: FormData): Pr
       name: contact.data.name,
       email: contact.data.email,
       phone: contact.data.phone,
-      country: contact.data.country ?? null,
+      country: contact.data.country,
       comment: contact.data.comment ?? null,
       items,
       fields,
@@ -170,7 +172,7 @@ export async function submitRequest(_prev: RequestState, formData: FormData): Pr
       name: contact.data.name,
       email: contact.data.email,
       phone: contact.data.phone,
-      country: contact.data.country ?? null,
+      country: contact.data.country,
       items,
       fields,
       comment: contact.data.comment ?? null,
