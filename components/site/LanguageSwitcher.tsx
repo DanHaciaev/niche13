@@ -48,7 +48,9 @@ export default function LanguageSwitcher() {
   }
 
   return (
-    <div ref={ref} className="relative">
+    // flex: the button sits on the nav's centre line instead of the baseline
+    // of an inherited 1.5 line-height, which pushed it below the links.
+    <div ref={ref} className="relative flex">
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
